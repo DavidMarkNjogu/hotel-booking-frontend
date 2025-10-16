@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment - LuxeStay Hotel</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/components.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar scrolled">
+        <div class="container">
+            <div class="navbar-content">
+                <div class="navbar-brand">
+                    <a href="/index.html">LuxeStay Hotel</a>
+                </div>
+                <div class="navbar-menu" id="navbar-menu">
+                    <a href="/index.html" class="navbar-link">Home</a>
+                    <a href="/public/rooms.html" class="navbar-link">Rooms</a>
+                    <a href="/index.html#about" class="navbar-link">About</a>
+                    <a href="/index.html#contact" class="navbar-link">Contact</a>
+                    <a href="/public/login.html" class="navbar-link">Login</a>
+                </div>
+                <div class="navbar-toggle" id="navbar-toggle">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Payment Container -->
+    <div class="container" style="padding-top: 100px; max-width: 600px;">
+        <!-- Page Header -->
+        <h1>Payment Information</h1>
+        <p class="page-subtitle">Enter your payment details to complete the booking</p>
+
+        <div class="alert alert-info">
+            <i class="fas fa-info-circle"></i>
+            This is a demo environment. No real charges will be processed.
+        </div>
+
+        <!-- Payment Form -->
+        <form id="payment-form" onsubmit="handlePaymentSubmit(event)" style="margin-top: 30px;">
+            <!-- Cardholder Information -->
+            <div class="form-section">
+                <div class="form-group">
+                    <label for="cardholder-name" class="form-label">Cardholder Name *</label>
+                    <input type="text" id="cardholder-name" class="form-input" placeholder="John Doe" required minlength="3">
+                </div>
+            </div>
+
+            <!-- Card Details Section -->
+            <div class="form-section">
+                <h3>Card Details</h3>
+
+                <div class="form-group">
+                    <label for="payment-card-number" class="form-label">Card Number *</label>
+                    <div class="input-with-icon">
+                        <input type="text" id="payment-card-number" class="form-input" placeholder="1234 5678 9012 3456" maxlength="19" required>
+                        <i id="card-brand-icon" class="fas fa-credit-card"></i>
+                    </div>
+                    <small class="form-error" id="card-error" style="display: none;"></small>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="payment-expiry" class="form-label">Expiry Date *</label>
+                        <input type="text" id="payment-expiry" class="form-input" placeholder="MM/YY" maxlength="5" required>
+                        <small class="form-error" id="expiry-error" style="display: none;"></small>
+                    </div>
+                    <div class="form-group">
+                        <label for="payment-cvv" class="form-label">CVV *</label>
+                        <div class="input-with-tooltip">
+                            <input type="text" id="payment-cvv" class="form-input" placeholder="123" maxlength="3" inputmode="numeric" required>
+                            <i class="fas fa-question-circle tooltip-icon" title="3 digits on back of card"></i>
+                        </div>
+                        <small class="form-error" id="cvv-error" style="display: none;"></small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Billing Address -->
+            <div class="form-section">
+                <h3>Billing Address</h3>
+
+                <div class="form-check" style="margin-bottom: 15px;">
+                    <input type="checkbox" id="same-as-booking" checked>
+                    <label for="same-as-booking">Same as booking address</label>
+                </div>
+
+                <div id="billing-address-fields" style="display: none;">
+                    <div class="form-group">
+                        <label for="billing-address1" class="form-label">Address Line 1 *</label>
+                        <input type="text" id="billing-address1" class="form-input">
+                    </div>
+                    <div class="form-group">
+                        <label for="billing-address2" class="form-label">Address Line 2</label>
+                        <input type="text" id="billing-address2" class="form-input">
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="billing-city" class="form-label">City *</label>
+                            <input type="text" id="billing-city" class="form-input">
+                        </div>
+                        <div class="form-group">
+                            <label for="billing-postal" class="form-label">Postal Code *</label>
+                            <input type="text" id="billing-postal" class="form-input">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="billing-country" class="form-label">Country *</label>
+                        <select id="billing-country" class="form-select">
+                            <option value="">Select Country</option>
+                            <option value="US">United States</option>
+                            <option value="CA">Canada</option>
+                            <option value="UK">United Kingdom</option>
+                            <option value="AU">Australia</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Save Card Option -->
+            <div class="form-section">
+                <div class="form-check">
+                    <input type="checkbox" id="save-card">
+                    <label for="save-card">Save card for future bookings (optional)</label>
+                </div>
+                <small class="form-hint">Card details are never stored in plain text</small>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" id="submit-payment-btn" class="button button-primary button-big" style="width: 100%; margin-top: 30px;">
+                Process Payment
+            </button>
+        </form>
+
+        <!-- Security Notice -->
+        <div class="security-notice">
+            <i class="fas fa-lock"></i>
+            Your payment information is encrypted and secure
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <?php include '../includes/footer.php'; ?>
+
+    <!-- JavaScript -->
+    <script src="../assets/js/main.js"></script>
+    <script src="../assets/js/booking.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const cardNumberInput = document.getElementById('payment-card-number');
+            const expiryInput = document.getElementById('payment-expiry');
+            const cvvInput = document.getElementById('payment-cvv');
+            const sameAsBookingCheckbox = document.getElementById('same-as-booking');
+            const billingFields = document.getElementById('billing-address-fields');
+
+            // Card number formatting
+            cardNumberInput.addEventListener('input', function(e) {
+                let value = e.target.value.replace(/\s/g, '');
+                let formattedValue = value.match(/.{1,4}/g)?.join(' ') || value;
+                e.target.value = formattedValue;
+
+                // Detect card brand
+                const firstDigit = value.charAt(0);
+                const firstTwoDigits = value.substring(0, 2);
+
+                if (firstDigit === '4') {
+                    document.getElementById('card-brand-icon').className = 'fab fa-cc-visa';
+                } else if (firstDigit === '5') {
+                    document.getElementById('card-brand-icon').className = 'fab fa-cc-mastercard';
+                } else if (firstTwoDigits === '34' || firstTwoDigits === '37') {
+                    document.getElementById('card-brand-icon').className = 'fab fa-cc-amex';
+                    cvvInput.maxLength = 4;
+                } else if (firstDigit === '6') {
+                    document.getElementById('card-brand-icon').className = 'fab fa-cc-discover';
+                } else {
+                    document.getElementById('card-brand-icon').className = 'fas fa-credit-card';
+                }
+
+                // Clear error
+                hideError('card-error');
+            });
+
+            // Card number validation on blur
+            cardNumberInput.addEventListener('blur', function() {
+                const cardNumber = this.value.replace(/\s/g, '');
+
+                if (cardNumber.length > 0 && cardNumber.length < 13) {
+                    showError('card-error', 'Card number must be at least 13 digits');
+                    this.classList.add('error');
+                } else if (cardNumber.length >= 13) {
+                    // Luhn algorithm validation
+                    if (typeof validateCreditCard === 'function') {
+                        if (!validateCreditCard(cardNumber)) {
+                            showError('card-error', 'Invalid card number');
+                            this.classList.add('error');
+                        } else {
+                            this.classList.remove('error');
+                            this.classList.add('success');
+                        }
+                    } else {
+                        this.classList.remove('error');
+                        this.classList.add('success');
+                    }
+                }
+            });
+
+            // Expiry date formatting
+            expiryInput.addEventListener('input', function(e) {
+                let value = e.target.value.replace(/\D/g, '');
+                if (value.length >= 2) {
+                    value = value.substring(0, 2) + '/' + value.substring(2, 4);
+                }
+                e.target.value = value;
+                hideError('expiry-error');
+            });
+
+            // Expiry date validation on blur
+            expiryInput.addEventListener('blur', function() {
+                const expiry = this.value;
+
+                if (expiry.length === 5) {
+                    const [month, year] = expiry.split('/');
+                    const monthNum = parseInt(month);
+                    const yearNum = parseInt('20' + year);
+
+                    // Validate month
+                    if (monthNum < 1 || monthNum > 12) {
+                        showError('expiry-error', 'Invalid month');
+                        this.classList.add('error');
+                        return;
+                    }
+
+                    // Validate year (not in past)
+                    const now = new Date();
+                    const currentYear = now.getFullYear();
+                    const currentMonth = now.getMonth() + 1;
+
+                    if (yearNum < currentYear || (yearNum === currentYear && monthNum < currentMonth)) {
+                        showError('expiry-error', 'Card has expired');
+                        this.classList.add('error');
+                        return;
+                    }
+
+                    this.classList.remove('error');
+                    this.classList.add('success');
+                }
+            });
+
+            // CVV - numbers only
+            cvvInput.addEventListener('input', function(e) {
+                e.target.value = e.target.value.replace(/\D/g, '');
+                hideError('cvv-error');
+            });
+
+            // CVV validation on blur
+            cvvInput.addEventListener('blur', function() {
+                const cvv = this.value;
+                const expectedLength = cvvInput.maxLength;
+
+                if (cvv.length > 0 && cvv.length < expectedLength) {
+                    showError('cvv-error', 'CVV must be ' + expectedLength + ' digits');
+                    this.classList.add('error');
+                } else if (cvv.length === expectedLength) {
+                    this.classList.remove('error');
+                    this.classList.add('success');
+                }
+            });
+
+            // Same as booking address checkbox
+            sameAsBookingCheckbox.addEventListener('change', function() {
+                if (this.checked) {
+                    billingFields.style.display = 'none';
+                    // If booking data exists, populate from there
+                    const bookingData = sessionStorage.getItem('bookingData');
+                    if (bookingData) {
+                        // Auto-fill from booking data (simulated)
+                    }
+                } else {
+                    billingFields.style.display = 'block';
+                }
+            });
+
+            // Mobile menu toggle
+            const navbarToggle = document.getElementById('navbar-toggle');
+            const navbarMenu = document.getElementById('navbar-menu');
+            if (navbarToggle) {
+                navbarToggle.addEventListener('click', function() {
+                    navbarMenu.classList.toggle('active');
+                });
+            }
+
+            function showError(elementId, message) {
+                const errorElement = document.getElementById(elementId);
+                errorElement.textContent = message;
+                errorElement.style.display = 'block';
+            }
+
+            function hideError(elementId) {
+                const errorElement = document.getElementById(elementId);
+                errorElement.style.display = 'none';
+            }
+        });
+
+        function handlePaymentSubmit(event) {
+            event.preventDefault();
+
+            const cardholderName = document.getElementById('cardholder-name').value.trim();
+            const cardNumber = document.getElementById('payment-card-number').value.replace(/\s/g, '');
+            const expiry = document.getElementById('payment-expiry').value;
+            const cvv = document.getElementById('payment-cvv').value;
+            const submitBtn = document.getElementById('submit-payment-btn');
+
+            // Validation
+            if (!cardholderName || cardholderName.length < 3) {
+                alert('Please enter cardholder name');
+                document.getElementById('cardholder-name').focus();
+                return false;
+            }
+
+            if (!cardNumber || cardNumber.length < 13) {
+                alert('Please enter a valid card number');
+                document.getElementById('payment-card-number').focus();
+                return false;
+            }
+
+            if (!expiry || expiry.length !== 5) {
+                alert('Please enter expiry date (MM/YY)');
+                document.getElementById('payment-expiry').focus();
+                return false;
+            }
+
+            if (!cvv || cvv.length < 3) {
+                alert('Please enter CVV');
+                document.getElementById('payment-cvv').focus();
+                return false;
+            }
+
+            // Disable button and show loading
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+
+            if (typeof showLoading === 'function') {
+                showLoading('Processing payment...');
+            }
+
+            // Simulate payment processing
+            setTimeout(() => {
+                // 5% failure rate
+                const shouldFail = Math.random() < 0.05;
+
+                if (shouldFail) {
+                    if (typeof hideLoading === 'function') hideLoading();
+                    if (typeof showToast === 'function') {
+                        showToast('Payment failed. Please try again.', 'error');
+                    } else {
+                        alert('Payment failed. Please try again.');
+                    }
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Process Payment';
+                    return;
+                }
+
+                // Store payment confirmation
+                const paymentData = {
+                    cardLast4: cardNumber.slice(-4),
+                    cardBrand: getCardBrand(cardNumber),
+                    timestamp: new Date().toISOString()
+                };
+
+                sessionStorage.setItem('paymentConfirmation', JSON.stringify(paymentData));
+
+                if (typeof hideLoading === 'function') hideLoading();
+                if (typeof showToast === 'function') {
+                    showToast('Payment successful!', 'success');
+                }
+
+                // Redirect to confirmation
+                setTimeout(() => {
+                    window.location.href = '/public/confirmation.html';
+                }, 500);
+            }, 3000);
+
+            return false;
+        }
+
+        function getCardBrand(cardNumber) {
+            const firstDigit = cardNumber.charAt(0);
+            const firstTwo = cardNumber.substring(0, 2);
+
+            if (firstDigit === '4') return 'Visa';
+            if (firstDigit === '5') return 'Mastercard';
+            if (firstTwo === '34' || firstTwo === '37') return 'American Express';
+            if (firstDigit === '6') return 'Discover';
+            return 'Unknown';
+        }
+    </script>
+</body>
+</html>
