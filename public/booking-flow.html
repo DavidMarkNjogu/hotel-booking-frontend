@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking - LuxeStay Hotel</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/components.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar scrolled">
+        <div class="container">
+            <div class="navbar-content">
+                <div class="navbar-brand">
+                    <a href="/index.html">LuxeStay Hotel</a>
+                </div>
+                <div class="navbar-menu" id="navbar-menu">
+                    <a href="/index.html" class="navbar-link">Home</a>
+                    <a href="/public/rooms.html" class="navbar-link">Rooms</a>
+                    <a href="/index.html#about" class="navbar-link">About</a>
+                    <a href="/index.html#contact" class="navbar-link">Contact</a>
+                    <a href="/public/login.html" class="navbar-link">Login</a>
+                </div>
+                <div class="navbar-toggle" id="navbar-toggle">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Progress Section -->
+    <div class="container" style="padding-top: 100px;">
+        <!-- Progress Bar -->
+        <div class="progress">
+            <div class="progress-bar" id="progress-bar" style="width: 25%;"></div>
+        </div>
+
+        <!-- Step Indicators -->
+        <div class="step-indicators">
+            <div class="step-indicator active" data-step="1">
+                <span class="step-number">1</span>
+                <span class="step-label">Dates</span>
+            </div>
+            <div class="step-indicator" data-step="2">
+                <span class="step-number">2</span>
+                <span class="step-label">Info</span>
+            </div>
+            <div class="step-indicator" data-step="3">
+                <span class="step-number">3</span>
+                <span class="step-label">Payment</span>
+            </div>
+            <div class="step-indicator" data-step="4">
+                <span class="step-number">4</span>
+                <span class="step-label">Review</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Booking Form and Summary -->
+    <div class="container" style="margin-top: 30px;">
+        <div class="booking-flow-layout">
+            <!-- Left Column - Step Forms -->
+            <div class="booking-steps">
+                <!-- Step 1: Dates & Room Selection -->
+                <div id="step-1" class="booking-step active">
+                    <h2>Select Dates and Room</h2>
+
+                    <!-- Room Selection -->
+                    <div class="form-section">
+                        <label class="form-label">Choose Room Type</label>
+                        <div class="room-selection-grid">
+                            <div class="room-option">
+                                <input type="radio" name="room" value="1" id="room-1" data-price="299" data-name="Deluxe Suite">
+                                <label for="room-1" class="room-option-label">
+                                    <div class="room-option-image">
+                                        <img src="../assets/images/room-1.jpg" alt="Deluxe Suite">
+                                    </div>
+                                    <div class="room-option-info">
+                                        <h4>Deluxe Suite</h4>
+                                        <p>King Bed • 2 Guests</p>
+                                        <span class="room-option-price">$299/night</span>
+                                    </div>
+                                </label>
+                            </div>
+
+                            <div class="room-option">
+                                <input type="radio" name="room" value="2" id="room-2" data-price="199" data-name="Executive Room">
+                                <label for="room-2" class="room-option-label">
+                                    <div class="room-option-image">
+                                        <img src="../assets/images/room-2.jpg" alt="Executive Room">
+                                    </div>
+                                    <div class="room-option-info">
+                                        <h4>Executive Room</h4>
+                                        <p>Queen Bed • 2 Guests</p>
+                                        <span class="room-option-price">$199/night</span>
+                                    </div>
+                                </label>
+                            </div>
+
+                            <div class="room-option">
+                                <input type="radio" name="room" value="3" id="room-3" data-price="599" data-name="Presidential Suite">
+                                <label for="room-3" class="room-option-label">
+                                    <div class="room-option-image">
+                                        <img src="../assets/images/room-3.jpg" alt="Presidential Suite">
+                                    </div>
+                                    <div class="room-option-info">
+                                        <h4>Presidential Suite</h4>
+                                        <p>King Bed • 4 Guests</p>
+                                        <span class="room-option-price">$599/night</span>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Date Selection -->
+                    <div class="form-section">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="booking-checkin" class="form-label">Check-in Date</label>
+                                <input type="date" id="booking-checkin" class="form-input" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="booking-checkout" class="form-label">Check-out Date</label>
+                                <input type="date" id="booking-checkout" class="form-input" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Guest Selection -->
+                    <div class="form-section">
+                        <div class="form-group">
+                            <label for="booking-guests" class="form-label">Number of Guests</label>
+                            <select id="booking-guests" class="form-select">
+                                <option value="1">1 Guest</option>
+                                <option value="2" selected>2 Guests</option>
+                                <option value="3">3 Guests</option>
+                                <option value="4">4 Guests</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 2: Guest Information -->
+                <div id="step-2" class="booking-step">
+                    <h2>Guest Information</h2>
+
+                    <div class="form-section">
+                        <h3>Personal Details</h3>
+                        <div class="form-group">
+                            <label for="guest-name" class="form-label">Full Name *</label>
+                            <input type="text" id="guest-name" class="form-input" required>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="guest-email" class="form-label">Email *</label>
+                                <input type="email" id="guest-email" class="form-input" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="guest-phone" class="form-label">Phone *</label>
+                                <input type="tel" id="guest-phone" class="form-input" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h3>Address</h3>
+                        <div class="form-group">
+                            <label for="address1" class="form-label">Address Line 1 *</label>
+                            <input type="text" id="address1" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="address2" class="form-label">Address Line 2</label>
+                            <input type="text" id="address2" class="form-input">
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="city" class="form-label">City *</label>
+                                <input type="text" id="city" class="form-input" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="postal" class="form-label">Postal Code *</label>
+                                <input type="text" id="postal" class="form-input" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="country" class="form-label">Country *</label>
+                            <select id="country" class="form-select" required>
+                                <option value="">Select Country</option>
+                                <option value="US">United States</option>
+                                <option value="CA">Canada</option>
+                                <option value="UK">United Kingdom</option>
+                                <option value="AU">Australia</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h3>Special Requests (Optional)</h3>
+                        <div class="form-group">
+                            <textarea id="requests" class="form-textarea" placeholder="Any special requirements..." maxlength="500"></textarea>
+                            <small class="form-hint"><span id="requests-count">0</span>/500 characters</small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 3: Payment Details -->
+                <div id="step-3" class="booking-step">
+                    <h2>Payment Information</h2>
+
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle"></i>
+                        This is a demo - no real charges will be made
+                    </div>
+
+                    <div class="form-section">
+                        <div class="form-group">
+                            <label for="card-name" class="form-label">Cardholder Name *</label>
+                            <input type="text" id="card-name" class="form-input" placeholder="Name on card" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="card-number" class="form-label">Card Number *</label>
+                            <div class="input-with-icon">
+                                <input type="text" id="card-number" class="form-input" placeholder="1234 5678 9012 3456" maxlength="19" required>
+                                <i id="card-brand-icon" class="fas fa-credit-card"></i>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="card-expiry" class="form-label">Expiry Date *</label>
+                                <input type="text" id="card-expiry" class="form-input" placeholder="MM/YY" maxlength="5" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="card-cvv" class="form-label">CVV *</label>
+                                <input type="text" id="card-cvv" class="form-input" placeholder="123" maxlength="3" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <div class="form-check">
+                            <input type="checkbox" id="same-address" checked>
+                            <label for="same-address">Billing address same as guest address</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 4: Review & Confirm -->
+                <div id="step-4" class="booking-step">
+                    <h2>Review Your Booking</h2>
+
+                    <div class="review-section">
+                        <div class="review-header">
+                            <h3>Room Details</h3>
+                            <button class="button button-text" onclick="goToStep(1)">Edit</button>
+                        </div>
+                        <div class="review-content">
+                            <p><strong>Room:</strong> <span id="review-room">-</span></p>
+                            <p><strong>Check-in:</strong> <span id="review-checkin">-</span></p>
+                            <p><strong>Check-out:</strong> <span id="review-checkout">-</span></p>
+                            <p><strong>Guests:</strong> <span id="review-guests">-</span></p>
+                        </div>
+                    </div>
+
+                    <div class="review-section">
+                        <div class="review-header">
+                            <h3>Guest Information</h3>
+                            <button class="button button-text" onclick="goToStep(2)">Edit</button>
+                        </div>
+                        <div class="review-content">
+                            <p><strong>Name:</strong> <span id="review-name">-</span></p>
+                            <p><strong>Email:</strong> <span id="review-email">-</span></p>
+                            <p><strong>Phone:</strong> <span id="review-phone">-</span></p>
+                            <p><strong>Address:</strong> <span id="review-address">-</span></p>
+                        </div>
+                    </div>
+
+                    <div class="review-section">
+                        <div class="review-header">
+                            <h3>Payment Method</h3>
+                            <button class="button button-text" onclick="goToStep(3)">Edit</button>
+                        </div>
+                        <div class="review-content">
+                            <p><strong>Card:</strong> <span id="review-card">-</span></p>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <div class="form-check">
+                            <input type="checkbox" id="terms-checkbox" required>
+                            <label for="terms-checkbox">I agree to the <a href="#" class="link">terms and conditions</a></label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Navigation Buttons -->
+                <div class="booking-navigation">
+                    <button type="button" id="prev-step-btn" class="button button-secondary" onclick="prevStep()">Previous</button>
+                    <button type="button" id="next-step-btn" class="button button-primary" onclick="nextStep()">Next Step</button>
+                    <button type="button" id="submit-booking-btn" class="button button-primary" onclick="submitBooking()" style="display: none;">Confirm Booking</button>
+                </div>
+            </div>
+
+            <!-- Right Column - Booking Summary -->
+            <div class="booking-summary-wrapper">
+                <div class="booking-card">
+                    <h3>Booking Summary</h3>
+
+                    <div class="summary-item">
+                        <span class="summary-label">Room:</span>
+                        <span id="summary-room-name">-</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-label">Check-in:</span>
+                        <span id="summary-checkin">-</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-label">Check-out:</span>
+                        <span id="summary-checkout">-</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-label">Guests:</span>
+                        <span id="summary-guest-count">-</span>
+                    </div>
+
+                    <div class="summary-divider"></div>
+
+                    <div class="summary-item">
+                        <span class="summary-label">Rate per night:</span>
+                        <span id="summary-rate-display">$0</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-label">Number of nights:</span>
+                        <span id="summary-night-count">0</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-label">Subtotal:</span>
+                        <span id="summary-subtotal-amount">$0.00</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-label">Tax (10%):</span>
+                        <span id="summary-tax-amount">$0.00</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-label">Service Fee:</span>
+                        <span id="summary-service-fee">$25.00</span>
+                    </div>
+
+                    <div class="summary-divider"></div>
+
+                    <div class="summary-item summary-total">
+                        <span class="summary-label">Total:</span>
+                        <span id="summary-total-amount">$0.00</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <?php include '../includes/footer.php'; ?>
+
+    <!-- JavaScript -->
+    <script src="../assets/js/main.js"></script>
+    <script src="../assets/js/booking.js"></script>
+    <script>
+        let currentStep = 1;
+        const totalSteps = 4;
+        let bookingData = {};
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load booking progress from sessionStorage
+            loadBookingProgress();
+
+            // Set up date inputs
+            const checkinInput = document.getElementById('booking-checkin');
+            const checkoutInput = document.getElementById('booking-checkout');
+            const today = new Date().toISOString().split('T')[0];
+
+            checkinInput.setAttribute('min', today);
+
+            checkinInput.addEventListener('change', function() {
+                const checkinDate = new Date(this.value);
+                checkinDate.setDate(checkinDate.getDate() + 1);
+                const minCheckout = checkinDate.toISOString().split('T')[0];
+                checkoutInput.setAttribute('min', minCheckout);
+
+                if (checkoutInput.value && checkoutInput.value < minCheckout) {
+                    checkoutInput.value = minCheckout;
+                }
+                updateSummary();
+            });
+
+            checkoutInput.addEventListener('change', updateSummary);
+            document.getElementById('booking-guests').addEventListener('change', updateSummary);
+
+            // Room selection listeners
+            document.querySelectorAll('input[name="room"]').forEach(radio => {
+                radio.addEventListener('change', updateSummary);
+            });
+
+            // Card number formatting
+            const cardNumberInput = document.getElementById('card-number');
+            cardNumberInput.addEventListener('input', function(e) {
+                let value = e.target.value.replace(/\s/g, '');
+                let formattedValue = value.match(/.{1,4}/g)?.join(' ') || value;
+                e.target.value = formattedValue;
+
+                // Detect card brand
+                if (value.startsWith('4')) {
+                    document.getElementById('card-brand-icon').className = 'fab fa-cc-visa';
+                } else if (value.startsWith('5')) {
+                    document.getElementById('card-brand-icon').className = 'fab fa-cc-mastercard';
+                } else if (value.startsWith('3')) {
+                    document.getElementById('card-brand-icon').className = 'fab fa-cc-amex';
+                } else {
+                    document.getElementById('card-brand-icon').className = 'fas fa-credit-card';
+                }
+            });
+
+            // Expiry date formatting
+            const expiryInput = document.getElementById('card-expiry');
+            expiryInput.addEventListener('input', function(e) {
+                let value = e.target.value.replace(/\D/g, '');
+                if (value.length >= 2) {
+                    value = value.substring(0, 2) + '/' + value.substring(2, 4);
+                }
+                e.target.value = value;
+            });
+
+            // CVV - numbers only
+            const cvvInput = document.getElementById('card-cvv');
+            cvvInput.addEventListener('input', function(e) {
+                e.target.value = e.target.value.replace(/\D/g, '');
+            });
+
+            // Character counter for requests
+            const requestsTextarea = document.getElementById('requests');
+            const requestsCount = document.getElementById('requests-count');
+            requestsTextarea.addEventListener('input', function() {
+                requestsCount.textContent = this.value.length;
+            });
+
+            // Mobile menu toggle
+            const navbarToggle = document.getElementById('navbar-toggle');
+            const navbarMenu = document.getElementById('navbar-menu');
+            if (navbarToggle) {
+                navbarToggle.addEventListener('click', function() {
+                    navbarMenu.classList.toggle('active');
+                });
+            }
+        });
+
+        function updateSummary() {
+            const selectedRoom = document.querySelector('input[name="room"]:checked');
+            const checkin = document.getElementById('booking-checkin').value;
+            const checkout = document.getElementById('booking-checkout').value;
+            const guests = document.getElementById('booking-guests').value;
+
+            if (selectedRoom) {
+                const roomName = selectedRoom.getAttribute('data-name');
+                const roomPrice = parseInt(selectedRoom.getAttribute('data-price'));
+
+                document.getElementById('summary-room-name').textContent = roomName;
+                document.getElementById('summary-rate-display').textContent = '$' + roomPrice;
+
+                if (checkin && checkout) {
+                    const date1 = new Date(checkin);
+                    const date2 = new Date(checkout);
+                    const nights = Math.ceil((date2 - date1) / (1000 * 60 * 60 * 24));
+
+                    if (nights > 0) {
+                        const subtotal = nights * roomPrice;
+                        const tax = subtotal * 0.10;
+                        const serviceFee = 25;
+                        const total = subtotal + tax + serviceFee;
+
+                        document.getElementById('summary-night-count').textContent = nights;
+                        document.getElementById('summary-subtotal-amount').textContent = '$' + subtotal.toFixed(2);
+                        document.getElementById('summary-tax-amount').textContent = '$' + tax.toFixed(2);
+                        document.getElementById('summary-total-amount').textContent = '$' + total.toFixed(2);
+                    }
+                }
+            }
+
+            if (checkin) document.getElementById('summary-checkin').textContent = checkin;
+            if (checkout) document.getElementById('summary-checkout').textContent = checkout;
+            if (guests) document.getElementById('summary-guest-count').textContent = guests + (guests == 1 ? ' Guest' : ' Guests');
+        }
+
+        function nextStep() {
+            if (validateStep(currentStep)) {
+                saveStepData(currentStep);
+                currentStep++;
+                showStep(currentStep);
+                updateProgress();
+            }
+        }
+
+        function prevStep() {
+            currentStep--;
+            showStep(currentStep);
+            updateProgress();
+        }
+
+        function goToStep(step) {
+            currentStep = step;
+            showStep(currentStep);
+            updateProgress();
+        }
+
+        function showStep(step) {
+            document.querySelectorAll('.booking-step').forEach(s => s.classList.remove('active'));
+            document.getElementById('step-' + step).classList.add('active');
+        }
+
+        function updateProgress() {
+            const progress = (currentStep / totalSteps) * 100;
+            document.getElementById('progress-bar').style.width = progress + '%';
+
+            // Update step indicators
+            document.querySelectorAll('.step-indicator').forEach((indicator, index) => {
+                const stepNum = index + 1;
+                if (stepNum < currentStep) {
+                    indicator.classList.add('completed');
+                    indicator.classList.remove('active');
+                } else if (stepNum === currentStep) {
+                    indicator.classList.add('active');
+                    indicator.classList.remove('completed');
+                } else {
+                    indicator.classList.remove('active', 'completed');
+                }
+            });
+
+            // Update navigation buttons
+            document.getElementById('prev-step-btn').style.display = currentStep === 1 ? 'none' : 'inline-block';
+            document.getElementById('next-step-btn').style.display = currentStep === 4 ? 'none' : 'inline-block';
+            document.getElementById('submit-booking-btn').style.display = currentStep === 4 ? 'inline-block' : 'none';
+        }
+
+        function validateStep(step) {
+            if (step === 1) {
+                const room = document.querySelector('input[name="room"]:checked');
+                const checkin = document.getElementById('booking-checkin').value;
+                const checkout = document.getElementById('booking-checkout').value;
+
+                if (!room) {
+                    alert('Please select a room');
+                    return false;
+                }
+                if (!checkin || !checkout) {
+                    alert('Please select check-in and check-out dates');
+                    return false;
+                }
+                if (new Date(checkout) <= new Date(checkin)) {
+                    alert('Check-out must be after check-in');
+                    return false;
+                }
+                return true;
+            } else if (step === 2) {
+                const name = document.getElementById('guest-name').value.trim();
+                const email = document.getElementById('guest-email').value.trim();
+                const phone = document.getElementById('guest-phone').value.trim();
+                const address1 = document.getElementById('address1').value.trim();
+                const city = document.getElementById('city').value.trim();
+                const postal = document.getElementById('postal').value.trim();
+                const country = document.getElementById('country').value;
+
+                if (!name || name.length < 3) {
+                    alert('Please enter a valid name');
+                    return false;
+                }
+                if (!email || !email.includes('@')) {
+                    alert('Please enter a valid email');
+                    return false;
+                }
+                if (!phone) {
+                    alert('Please enter a phone number');
+                    return false;
+                }
+                if (!address1 || !city || !postal) {
+                    alert('Please fill in all required address fields');
+                    return false;
+                }
+                if (!country || country === '') {
+                    alert('Please select a country');
+                    return false;
+                }
+                return true;
+            } else if (step === 3) {
+                const cardName = document.getElementById('card-name').value.trim();
+                const cardNumber = document.getElementById('card-number').value.replace(/\s/g, '');
+                const expiry = document.getElementById('card-expiry').value;
+                const cvv = document.getElementById('card-cvv').value;
+
+                if (!cardName || cardName.length < 3) {
+                    alert('Please enter cardholder name');
+                    return false;
+                }
+                if (!cardNumber || cardNumber.length < 13) {
+                    alert('Please enter a valid card number');
+                    return false;
+                }
+                if (!expiry || expiry.length !== 5) {
+                    alert('Please enter expiry date (MM/YY)');
+                    return false;
+                }
+                if (!cvv || cvv.length < 3) {
+                    alert('Please enter CVV');
+                    return false;
+                }
+
+                // Populate review section
+                populateReview();
+                return true;
+            }
+            return true;
+        }
+
+        function saveStepData(step) {
+            const data = {};
+
+            if (step === 1) {
+                const room = document.querySelector('input[name="room"]:checked');
+                data.roomId = room.value;
+                data.roomName = room.getAttribute('data-name');
+                data.roomPrice = room.getAttribute('data-price');
+                data.checkIn = document.getElementById('booking-checkin').value;
+                data.checkOut = document.getElementById('booking-checkout').value;
+                data.guests = document.getElementById('booking-guests').value;
+            } else if (step === 2) {
+                data.guestName = document.getElementById('guest-name').value;
+                data.guestEmail = document.getElementById('guest-email').value;
+                data.guestPhone = document.getElementById('guest-phone').value;
+                data.address1 = document.getElementById('address1').value;
+                data.address2 = document.getElementById('address2').value;
+                data.city = document.getElementById('city').value;
+                data.postal = document.getElementById('postal').value;
+                data.country = document.getElementById('country').value;
+                data.requests = document.getElementById('requests').value;
+            } else if (step === 3) {
+                data.cardName = document.getElementById('card-name').value;
+                data.cardNumber = document.getElementById('card-number').value;
+                data.cardExpiry = document.getElementById('card-expiry').value;
+            }
+
+            Object.assign(bookingData, data);
+            sessionStorage.setItem('bookingProgress', JSON.stringify(bookingData));
+        }
+
+        function loadBookingProgress() {
+            const saved = sessionStorage.getItem('bookingProgress');
+            if (saved) {
+                bookingData = JSON.parse(saved);
+                // Restore form values
+                if (bookingData.roomId) {
+                    document.getElementById('room-' + bookingData.roomId).checked = true;
+                }
+                if (bookingData.checkIn) document.getElementById('booking-checkin').value = bookingData.checkIn;
+                if (bookingData.checkOut) document.getElementById('booking-checkout').value = bookingData.checkOut;
+                if (bookingData.guests) document.getElementById('booking-guests').value = bookingData.guests;
+
+                updateSummary();
+            }
+
+            // Load from room-detail if available
+            const roomBooking = sessionStorage.getItem('bookingData');
+            if (roomBooking && !saved) {
+                const data = JSON.parse(roomBooking);
+                if (data.roomId) {
+                    document.getElementById('room-' + data.roomId).checked = true;
+                }
+                if (data.checkIn) document.getElementById('booking-checkin').value = data.checkIn;
+                if (data.checkOut) document.getElementById('booking-checkout').value = data.checkOut;
+                if (data.guests) document.getElementById('booking-guests').value = data.guests;
+                updateSummary();
+            }
+        }
+
+        function populateReview() {
+            document.getElementById('review-room').textContent = bookingData.roomName;
+            document.getElementById('review-checkin').textContent = bookingData.checkIn;
+            document.getElementById('review-checkout').textContent = bookingData.checkOut;
+            document.getElementById('review-guests').textContent = bookingData.guests + ' Guest(s)';
+            document.getElementById('review-name').textContent = bookingData.guestName;
+            document.getElementById('review-email').textContent = bookingData.guestEmail;
+            document.getElementById('review-phone').textContent = bookingData.guestPhone;
+
+            const address = [bookingData.address1, bookingData.address2, bookingData.city, bookingData.postal, bookingData.country].filter(Boolean).join(', ');
+            document.getElementById('review-address').textContent = address;
+
+            const cardLast4 = bookingData.cardNumber.replace(/\s/g, '').slice(-4);
+            document.getElementById('review-card').textContent = '•••• •••• •••• ' + cardLast4;
+        }
+
+        function submitBooking() {
+            const termsChecked = document.getElementById('terms-checkbox').checked;
+
+            if (!termsChecked) {
+                alert('Please agree to terms and conditions');
+                return;
+            }
+
+            // Show loading
+            if (typeof showLoading === 'function') {
+                showLoading('Processing your booking...');
+            }
+
+            // Simulate API call
+            setTimeout(() => {
+                // Generate confirmation number
+                const year = new Date().getFullYear();
+                const random = Math.floor(1000000 + Math.random() * 9000000);
+                const confirmationNumber = 'LX-' + year + '-' + random;
+
+                // Calculate totals
+                const nights = Math.ceil((new Date(bookingData.checkOut) - new Date(bookingData.checkIn)) / (1000 * 60 * 60 * 24));
+                const subtotal = nights * parseInt(bookingData.roomPrice);
+                const tax = subtotal * 0.10;
+                const serviceFee = 25;
+                const total = subtotal + tax + serviceFee;
+
+                // Save to sessionStorage
+                const confirmedBooking = {
+                    ...bookingData,
+                    confirmationNumber: confirmationNumber,
+                    nights: nights,
+                    subtotal: subtotal,
+                    tax: tax,
+                    serviceFee: serviceFee,
+                    total: total,
+                    bookingDate: new Date().toISOString()
+                };
+
+                sessionStorage.setItem('confirmedBooking', JSON.stringify(confirmedBooking));
+                sessionStorage.removeItem('bookingProgress');
+
+                if (typeof hideLoading === 'function') {
+                    hideLoading();
+                }
+
+                if (typeof showToast === 'function') {
+                    showToast('Booking confirmed!', 'success');
+                }
+
+                // Redirect to confirmation page
+                setTimeout(() => {
+                    window.location.href = '/public/confirmation.html';
+                }, 500);
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
