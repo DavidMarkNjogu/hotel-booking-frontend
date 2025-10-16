@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - LuxeStay Hotel</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/components.css">
+    <link rel="stylesheet" href="../assets/css/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+    <!-- Admin Layout with Sidebar -->
+    <?php include '../includes/admin-sidebar.php'; ?>
+
+    <!-- Main Content Area -->
+    <div class="admin-main">
+        <!-- Page Header -->
+        <div class="admin-header">
+            <div>
+                <h1>Dashboard</h1>
+                <div class="breadcrumb">
+                    <span>Home</span>
+                    <span class="breadcrumb-separator">/</span>
+                    <span>Dashboard</span>
+                </div>
+            </div>
+            <div class="admin-header-right">
+                <span id="current-date"></span>
+                <div class="notification-badge">
+                    <i class="fas fa-bell"></i>
+                    <span class="badge-count">3</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stats Grid -->
+        <div class="dashboard-grid">
+            <!-- Stat Card 1: Total Bookings -->
+            <div class="stat-card">
+                <div class="stat-card-header">
+                    <span class="stat-card-title">Total Bookings</span>
+                    <div class="stat-card-icon green">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                </div>
+                <div class="stat-card-value" id="total-bookings">1,247</div>
+                <div class="stat-card-footer">
+                    <span class="stat-card-trend up">
+                        <i class="fas fa-arrow-up"></i> +12%
+                    </span>
+                    <span>vs last month</span>
+                </div>
+            </div>
+
+            <!-- Stat Card 2: Revenue -->
+            <div class="stat-card">
+                <div class="stat-card-header">
+                    <span class="stat-card-title">Revenue</span>
+                    <div class="stat-card-icon blue">
+                        <i class="fas fa-dollar-sign"></i>
+                    </div>
+                </div>
+                <div class="stat-card-value" id="total-revenue">$89,432</div>
+                <div class="stat-card-footer">
+                    <span class="stat-card-trend up">
+                        <i class="fas fa-arrow-up"></i> +8%
+                    </span>
+                    <span>vs last month</span>
+                </div>
+            </div>
+
+            <!-- Stat Card 3: Occupancy Rate -->
+            <div class="stat-card">
+                <div class="stat-card-header">
+                    <span class="stat-card-title">Occupancy</span>
+                    <div class="stat-card-icon orange">
+                        <i class="fas fa-bed"></i>
+                    </div>
+                </div>
+                <div class="stat-card-value" id="occupancy-rate">78%</div>
+                <div class="stat-card-footer">
+                    <span class="stat-card-trend up">
+                        <i class="fas fa-arrow-up"></i> +5%
+                    </span>
+                    <span>vs last week</span>
+                </div>
+            </div>
+
+            <!-- Stat Card 4: New Customers -->
+            <div class="stat-card">
+                <div class="stat-card-header">
+                    <span class="stat-card-title">New Customers</span>
+                    <div class="stat-card-icon red">
+                        <i class="fas fa-users"></i>
+                    </div>
+                </div>
+                <div class="stat-card-value" id="new-customers">243</div>
+                <div class="stat-card-footer">
+                    <span class="stat-card-trend down">
+                        <i class="fas fa-arrow-down"></i> -3%
+                    </span>
+                    <span>vs last month</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts Section -->
+        <div class="dashboard-chart-section">
+            <!-- Chart Card 1: Booking Trends -->
+            <div class="chart-card">
+                <div class="chart-card-header">
+                    <h3 class="chart-card-title">Booking Trends</h3>
+                    <select class="chart-select" id="booking-trends-range">
+                        <option value="7days">Last 7 Days</option>
+                        <option value="1month">Last Month</option>
+                        <option value="1year">Last Year</option>
+                    </select>
+                </div>
+                <div class="chart-container">
+                    <canvas id="booking-trends-chart"></canvas>
+                </div>
+            </div>
+
+            <!-- Chart Card 2: Room Status -->
+            <div class="chart-card">
+                <div class="chart-card-header">
+                    <h3 class="chart-card-title">Room Status</h3>
+                </div>
+                <div class="chart-container">
+                    <canvas id="room-status-chart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Bookings Table -->
+        <div class="data-table-section" style="margin-top: 30px;">
+            <div class="data-table-header">
+                <h3 class="data-table-title">Recent Bookings</h3>
+                <a href="/admin/employee-dashboard.html" class="button button-secondary">View All</a>
+            </div>
+            <div class="table-wrapper">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Booking ID</th>
+                            <th>Customer</th>
+                            <th>Room</th>
+                            <th>Check-in</th>
+                            <th>Check-out</th>
+                            <th>Status</th>
+                            <th>Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody id="recent-bookings-tbody">
+                        <tr>
+                            <td>#BK-001</td>
+                            <td>John Doe</td>
+                            <td>Deluxe Suite</td>
+                            <td>2025-11-15</td>
+                            <td>2025-11-18</td>
+                            <td><span class="badge badge-success">Confirmed</span></td>
+                            <td>$899</td>
+                        </tr>
+                        <tr>
+                            <td>#BK-002</td>
+                            <td>Jane Smith</td>
+                            <td>Executive Room</td>
+                            <td>2025-11-16</td>
+                            <td>2025-11-19</td>
+                            <td><span class="badge badge-warning">Pending</span></td>
+                            <td>$597</td>
+                        </tr>
+                        <tr>
+                            <td>#BK-003</td>
+                            <td>Bob Johnson</td>
+                            <td>Presidential Suite</td>
+                            <td>2025-11-17</td>
+                            <td>2025-11-20</td>
+                            <td><span class="badge badge-success">Confirmed</span></td>
+                            <td>$1,797</td>
+                        </tr>
+                        <tr>
+                            <td>#BK-004</td>
+                            <td>Alice Williams</td>
+                            <td>Standard Room</td>
+                            <td>2025-11-18</td>
+                            <td>2025-11-21</td>
+                            <td><span class="badge badge-success">Confirmed</span></td>
+                            <td>$447</td>
+                        </tr>
+                        <tr>
+                            <td>#BK-005</td>
+                            <td>Charlie Brown</td>
+                            <td>Family Suite</td>
+                            <td>2025-11-19</td>
+                            <td>2025-11-22</td>
+                            <td><span class="badge badge-danger">Cancelled</span></td>
+                            <td>$1,197</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="quick-actions" style="margin-top: 30px;">
+            <button class="button button-secondary">
+                <i class="fas fa-plus"></i> New Booking
+            </button>
+            <button class="button button-secondary">
+                <i class="fas fa-door-open"></i> Add Room
+            </button>
+            <button class="button button-secondary">
+                <i class="fas fa-chart-bar"></i> View Reports
+            </button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <?php include '../includes/admin-footer.php'; ?>
+
+    <!-- JavaScript -->
+    <script src="../assets/js/main.js"></script>
+    <script src="../assets/js/admin.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Display current date
+            const dateElement = document.getElementById('current-date');
+            const today = new Date();
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            dateElement.textContent = today.toLocaleDateString('en-US', options);
+
+            // Initialize charts
+            initCharts();
+
+            // Animate stat values
+            animateStatValues();
+        });
+
+        function initCharts() {
+            // Booking Trends Chart
+            const bookingTrendsCtx = document.getElementById('booking-trends-chart');
+            if (bookingTrendsCtx) {
+                const bookingTrendsChart = new Chart(bookingTrendsCtx, {
+                    type: 'line',
+                    data: {
+                        labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                        datasets: [{
+                            label: 'Bookings',
+                            data: [12, 19, 15, 25, 22, 30, 28],
+                            borderColor: 'rgb(46, 125, 50)',
+                            backgroundColor: 'rgba(46, 125, 50, 0.1)',
+                            fill: true,
+                            tension: 0.4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                display: false
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+
+                // Handle time range change
+                document.getElementById('booking-trends-range').addEventListener('change', function() {
+                    // Update chart data based on selected range
+                    const range = this.value;
+                    let newData, newLabels;
+
+                    if (range === '7days') {
+                        newLabels = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+                        newData = [12, 19, 15, 25, 22, 30, 28];
+                    } else if (range === '1month') {
+                        newLabels = ['Week 1', 'Week 2', 'Week 3', 'Week 4'];
+                        newData = [85, 92, 78, 95];
+                    } else {
+                        newLabels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+                        newData = [120, 135, 145, 160, 155, 170, 180, 175, 165, 185, 190, 195];
+                    }
+
+                    bookingTrendsChart.data.labels = newLabels;
+                    bookingTrendsChart.data.datasets[0].data = newData;
+                    bookingTrendsChart.update();
+                });
+            }
+
+            // Room Status Chart
+            const roomStatusCtx = document.getElementById('room-status-chart');
+            if (roomStatusCtx) {
+                new Chart(roomStatusCtx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Occupied', 'Available', 'Maintenance', 'Reserved'],
+                        datasets: [{
+                            data: [45, 23, 5, 12],
+                            backgroundColor: [
+                                'rgb(46, 125, 50)',
+                                'rgb(52, 152, 219)',
+                                'rgb(230, 126, 34)',
+                                'rgb(241, 196, 15)'
+                            ],
+                            borderWidth: 2,
+                            borderColor: '#fff'
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'bottom'
+                            }
+                        },
+                        cutout: '60%'
+                    }
+                });
+            }
+        }
+
+        function animateStatValues() {
+            const duration = 1000;
+
+            animateValue('total-bookings', 0, 1247, duration);
+            animateValue('new-customers', 0, 243, duration);
+
+            // Revenue with $ and comma
+            const revenueElement = document.getElementById('total-revenue');
+            animateValue('total-revenue', 0, 89432, duration, (val) => {
+                revenueElement.textContent = '$' + val.toLocaleString();
+            });
+
+            // Occupancy with %
+            const occupancyElement = document.getElementById('occupancy-rate');
+            animateValue('occupancy-rate', 0, 78, duration, (val) => {
+                occupancyElement.textContent = val + '%';
+            });
+        }
+
+        function animateValue(id, start, end, duration, customFormatter) {
+            const element = document.getElementById(id);
+            const range = end - start;
+            const startTime = performance.now();
+
+            function update(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                const current = Math.floor(start + range * progress);
+
+                if (customFormatter) {
+                    customFormatter(current);
+                } else {
+                    element.textContent = current.toLocaleString();
+                }
+
+                if (progress < 1) {
+                    requestAnimationFrame(update);
+                }
+            }
+
+            requestAnimationFrame(update);
+        }
+    </script>
+</body>
+</html>
