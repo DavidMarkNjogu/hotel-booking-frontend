@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Management - LuxeStay Hotel Admin</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/components.css">
+    <link rel="stylesheet" href="../assets/css/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Admin Layout with Sidebar -->
+    <?php include '../includes/admin-sidebar.php'; ?>
+
+    <!-- Main Content Area -->
+    <div class="admin-main">
+        <!-- Page Header -->
+        <div class="admin-header">
+            <div>
+                <h1>Management Dashboard</h1>
+                <div class="breadcrumb">
+                    <span>Home</span>
+                    <span class="breadcrumb-separator">/</span>
+                    <span>Management</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabs Navigation -->
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="rooms-tab">Rooms</button>
+            <button class="tab-btn" data-tab="bookings-tab">Bookings</button>
+            <button class="tab-btn" data-tab="customers-tab">Customers</button>
+        </div>
+
+        <!-- Tab Content 1: Rooms Management -->
+        <div id="rooms-tab" class="tab-content active">
+            <div class="data-table-section">
+                <div class="data-table-header">
+                    <h3 class="data-table-title">Manage Rooms</h3>
+                    <div class="data-table-header-right">
+                        <div class="data-table-search">
+                            <i class="fas fa-search"></i>
+                            <input type="text" id="rooms-search" class="data-table-search-input" placeholder="Search rooms...">
+                        </div>
+                        <button class="button button-primary data-table-add-btn" onclick="openCrudModal('room', 'add')">
+                            <i class="fas fa-plus"></i> Add Room
+                        </button>
+                    </div>
+                </div>
+
+                <div class="table-wrapper">
+                    <table class="table" id="rooms-table">
+                        <thead>
+                            <tr>
+                                <th><input type="checkbox" onclick="toggleSelectAll(this, 'rooms')"></th>
+                                <th>Room Number</th>
+                                <th>Type</th>
+                                <th>Bed Type</th>
+                                <th>Capacity</th>
+                                <th>Price</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="rooms-tbody">
+                            <tr>
+                                <td><input type="checkbox" class="row-checkbox"></td>
+                                <td>101</td>
+                                <td>Deluxe Suite</td>
+                                <td>King</td>
+                                <td>2</td>
+                                <td>$299</td>
+                                <td><span class="badge badge-success">Available</span></td>
+                                <td>
+                                    <button class="button button-sm button-secondary" onclick="editRoom(1)"><i class="fas fa-edit"></i></button>
+                                    <button class="button button-sm button-danger" onclick="deleteRoom(1)"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox" class="row-checkbox"></td>
+                                <td>102</td>
+                                <td>Executive Room</td>
+                                <td>Queen</td>
+                                <td>2</td>
+                                <td>$199</td>
+                                <td><span class="badge badge-warning">Maintenance</span></td>
+                                <td>
+                                    <button class="button button-sm button-secondary" onclick="editRoom(2)"><i class="fas fa-edit"></i></button>
+                                    <button class="button button-sm button-danger" onclick="deleteRoom(2)"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox" class="row-checkbox"></td>
+                                <td>201</td>
+                                <td>Presidential Suite</td>
+                                <td>King</td>
+                                <td>4</td>
+                                <td>$599</td>
+                                <td><span class="badge badge-danger">Occupied</span></td>
+                                <td>
+                                    <button class="button button-sm button-secondary" onclick="editRoom(3)"><i class="fas fa-edit"></i></button>
+                                    <button class="button button-sm button-danger" onclick="deleteRoom(3)"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="pagination" id="rooms-pagination">
+                    <button class="pagination-btn" disabled>Previous</button>
+                    <button class="pagination-btn active">1</button>
+                    <button class="pagination-btn">2</button>
+                    <button class="pagination-btn">3</button>
+                    <button class="pagination-btn">Next</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab Content 2: Bookings Management -->
+        <div id="bookings-tab" class="tab-content">
+            <div class="data-table-section">
+                <div class="data-table-header">
+                    <h3 class="data-table-title">Manage Bookings</h3>
+                    <div class="data-table-header-right">
+                        <select class="form-select" id="bookings-status-filter">
+                            <option value="all">All Status</option>
+                            <option value="confirmed">Confirmed</option>
+                            <option value="pending">Pending</option>
+                            <option value="cancelled">Cancelled</option>
+                            <option value="completed">Completed</option>
+                        </select>
+                        <div class="data-table-search">
+                            <i class="fas fa-search"></i>
+                            <input type="text" id="bookings-search" class="data-table-search-input" placeholder="Search bookings...">
+                        </div>
+                        <button class="button button-primary data-table-add-btn" onclick="openCrudModal('booking', 'add')">
+                            <i class="fas fa-plus"></i> New Booking
+                        </button>
+                    </div>
+                </div>
+
+                <div class="table-wrapper">
+                    <table class="table" id="bookings-table">
+                        <thead>
+                            <tr>
+                                <th><input type="checkbox" onclick="toggleSelectAll(this, 'bookings')"></th>
+                                <th>Booking ID</th>
+                                <th>Customer</th>
+                                <th>Room</th>
+                                <th>Check-in</th>
+                                <th>Check-out</th>
+                                <th>Status</th>
+                                <th>Amount</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="bookings-tbody">
+                            <tr>
+                                <td><input type="checkbox" class="row-checkbox"></td>
+                                <td>#BK-001</td>
+                                <td>John Doe</td>
+                                <td>Deluxe Suite</td>
+                                <td>2025-11-15</td>
+                                <td>2025-11-18</td>
+                                <td><span class="badge badge-success">Confirmed</span></td>
+                                <td>$899</td>
+                                <td>
+                                    <button class="button button-sm button-secondary" onclick="editBooking(1)"><i class="fas fa-edit"></i></button>
+                                    <button class="button button-sm button-danger" onclick="deleteBooking(1)"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox" class="row-checkbox"></td>
+                                <td>#BK-002</td>
+                                <td>Jane Smith</td>
+                                <td>Executive Room</td>
+                                <td>2025-11-16</td>
+                                <td>2025-11-19</td>
+                                <td><span class="badge badge-warning">Pending</span></td>
+                                <td>$597</td>
+                                <td>
+                                    <button class="button button-sm button-secondary" onclick="editBooking(2)"><i class="fas fa-edit"></i></button>
+                                    <button class="button button-sm button-danger" onclick="deleteBooking(2)"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="pagination" id="bookings-pagination">
+                    <button class="pagination-btn" disabled>Previous</button>
+                    <button class="pagination-btn active">1</button>
+                    <button class="pagination-btn">2</button>
+                    <button class="pagination-btn">Next</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab Content 3: Customers Management -->
+        <div id="customers-tab" class="tab-content">
+            <div class="data-table-section">
+                <div class="data-table-header">
+                    <h3 class="data-table-title">Manage Customers</h3>
+                    <div class="data-table-header-right">
+                        <div class="data-table-search">
+                            <i class="fas fa-search"></i>
+                            <input type="text" id="customers-search" class="data-table-search-input" placeholder="Search customers...">
+                        </div>
+                        <button class="button button-primary data-table-add-btn" onclick="openCrudModal('customer', 'add')">
+                            <i class="fas fa-plus"></i> Add Customer
+                        </button>
+                    </div>
+                </div>
+
+                <div class="table-wrapper">
+                    <table class="table" id="customers-table">
+                        <thead>
+                            <tr>
+                                <th><input type="checkbox" onclick="toggleSelectAll(this, 'customers')"></th>
+                                <th>Customer ID</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Total Bookings</th>
+                                <th>Total Spent</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="customers-tbody">
+                            <tr>
+                                <td><input type="checkbox" class="row-checkbox"></td>
+                                <td>#CUST-001</td>
+                                <td>John Doe</td>
+                                <td>john@example.com</td>
+                                <td>+1 234 567 8900</td>
+                                <td>3</td>
+                                <td>$2,697</td>
+                                <td>
+                                    <button class="button button-sm button-secondary" onclick="editCustomer(1)"><i class="fas fa-edit"></i></button>
+                                    <button class="button button-sm button-danger" onclick="deleteCustomer(1)"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox" class="row-checkbox"></td>
+                                <td>#CUST-002</td>
+                                <td>Jane Smith</td>
+                                <td>jane@example.com</td>
+                                <td>+1 234 567 8901</td>
+                                <td>2</td>
+                                <td>$1,194</td>
+                                <td>
+                                    <button class="button button-sm button-secondary" onclick="editCustomer(2)"><i class="fas fa-edit"></i></button>
+                                    <button class="button button-sm button-danger" onclick="deleteCustomer(2)"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="pagination" id="customers-pagination">
+                    <button class="pagination-btn" disabled>Previous</button>
+                    <button class="pagination-btn active">1</button>
+                    <button class="pagination-btn">2</button>
+                    <button class="pagination-btn">Next</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bulk Actions Bar -->
+        <div id="bulk-actions-bar" class="bulk-actions-bar" style="display: none;">
+            <div class="bulk-actions-content">
+                <span id="selected-count">0 items selected</span>
+                <div class="bulk-actions-buttons">
+                    <select class="form-select" id="bulk-action-select">
+                        <option value="">Choose action...</option>
+                        <option value="delete">Delete Selected</option>
+                        <option value="export">Export Selected</option>
+                    </select>
+                    <button class="button button-secondary" onclick="executeBulkAction()">Apply</button>
+                    <button class="button button-text" onclick="clearSelection()">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Room Modal -->
+    <div id="room-modal" class="modal-overlay">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 id="room-modal-title">Add Room</h3>
+                <button class="modal-close" onclick="closeCrudModal('room')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="room-form" class="crud-form">
+                    <div class="form-group">
+                        <label class="form-label">Room Number *</label>
+                        <input type="text" name="room_number" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Room Type *</label>
+                        <select name="room_type" class="form-select" required>
+                            <option value="single">Single</option>
+                            <option value="double">Double</option>
+                            <option value="suite">Suite</option>
+                            <option value="deluxe">Deluxe</option>
+                            <option value="presidential">Presidential</option>
+                        </select>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Bed Type</label>
+                            <select name="bed_type" class="form-select">
+                                <option value="single">Single</option>
+                                <option value="double">Double</option>
+                                <option value="queen">Queen</option>
+                                <option value="king">King</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Capacity</label>
+                            <input type="number" name="capacity" class="form-input" min="1" max="10">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Price per Night *</label>
+                        <input type="number" name="price" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Status</label>
+                        <select name="status" class="form-select">
+                            <option value="available">Available</option>
+                            <option value="occupied">Occupied</option>
+                            <option value="maintenance">Maintenance</option>
+                            <option value="reserved">Reserved</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer crud-form-actions">
+                <button class="button button-secondary" onclick="closeCrudModal('room')">Cancel</button>
+                <button class="button button-primary" onclick="saveCrudForm('room')">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <?php include '../includes/admin-footer.php'; ?>
+
+    <!-- JavaScript -->
+    <script src="../assets/js/main.js"></script>
+    <script src="../assets/js/admin.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Tab switching
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const tabId = this.getAttribute('data-tab');
+                    switchTab(tabId);
+                });
+            });
+
+            // Checkbox listeners for bulk actions
+            document.querySelectorAll('.row-checkbox').forEach(checkbox => {
+                checkbox.addEventListener('change', updateBulkActions);
+            });
+
+            // Search functionality
+            document.getElementById('rooms-search')?.addEventListener('input', debounce(function() {
+                filterTable('rooms-tbody', this.value);
+            }, 300));
+
+            document.getElementById('bookings-search')?.addEventListener('input', debounce(function() {
+                filterTable('bookings-tbody', this.value);
+            }, 300));
+
+            document.getElementById('customers-search')?.addEventListener('input', debounce(function() {
+                filterTable('customers-tbody', this.value);
+            }, 300));
+        });
+
+        function switchTab(tabId) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            // Show selected tab
+            document.getElementById(tabId).classList.add('active');
+
+            // Update tab buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.getAttribute('data-tab') === tabId) {
+                    btn.classList.add('active');
+                }
+            });
+        }
+
+        function toggleSelectAll(checkbox, tableType) {
+            const tableBody = document.getElementById(tableType + '-tbody');
+            const checkboxes = tableBody.querySelectorAll('.row-checkbox');
+            checkboxes.forEach(cb => cb.checked = checkbox.checked);
+            updateBulkActions();
+        }
+
+        function updateBulkActions() {
+            const checked = document.querySelectorAll('.row-checkbox:checked').length;
+            const bulkBar = document.getElementById('bulk-actions-bar');
+            const countSpan = document.getElementById('selected-count');
+
+            if (checked > 0) {
+                bulkBar.style.display = 'block';
+                countSpan.textContent = checked + ' item' + (checked > 1 ? 's' : '') + ' selected';
+            } else {
+                bulkBar.style.display = 'none';
+            }
+        }
+
+        function clearSelection() {
+            document.querySelectorAll('.row-checkbox').forEach(cb => cb.checked = false);
+            updateBulkActions();
+        }
+
+        function executeBulkAction() {
+            const action = document.getElementById('bulk-action-select').value;
+            const checked = document.querySelectorAll('.row-checkbox:checked');
+
+            if (!action) {
+                alert('Please select an action');
+                return;
+            }
+
+            if (action === 'delete') {
+                if (confirm('Delete ' + checked.length + ' items?')) {
+                    // Simulate deletion
+                    checked.forEach(cb => {
+                        cb.closest('tr').remove();
+                    });
+                    clearSelection();
+                    if (typeof showToast === 'function') {
+                        showToast('Items deleted successfully', 'success');
+                    }
+                }
+            } else if (action === 'export') {
+                alert('Export functionality would trigger here');
+            }
+        }
+
+        function openCrudModal(type, action, data = null) {
+            const modal = document.getElementById(type + '-modal');
+            if (!modal) {
+                alert('Modal not implemented for: ' + type);
+                return;
+            }
+
+            const title = document.getElementById(type + '-modal-title');
+            title.textContent = action === 'add' ? 'Add ' + capitalize(type) : 'Edit ' + capitalize(type);
+
+            if (action === 'edit' && data) {
+                // Populate form with data
+                const form = document.getElementById(type + '-form');
+                Object.keys(data).forEach(key => {
+                    const input = form.querySelector('[name="' + key + '"]');
+                    if (input) input.value = data[key];
+                });
+            } else {
+                document.getElementById(type + '-form').reset();
+            }
+
+            modal.classList.add('active');
+        }
+
+        function closeCrudModal(type) {
+            const modal = document.getElementById(type + '-modal');
+            modal.classList.remove('active');
+        }
+
+        function saveCrudForm(type) {
+            const form = document.getElementById(type + '-form');
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                return;
+            }
+
+            // Simulate save
+            if (typeof showToast === 'function') {
+                showToast(capitalize(type) + ' saved successfully', 'success');
+            } else {
+                alert(capitalize(type) + ' saved successfully');
+            }
+
+            closeCrudModal(type);
+        }
+
+        function editRoom(id) {
+            openCrudModal('room', 'edit', { room_number: '101', room_type: 'deluxe', price: 299 });
+        }
+
+        function deleteRoom(id) {
+            if (confirm('Delete this room?')) {
+                if (typeof showToast === 'function') {
+                    showToast('Room deleted successfully', 'success');
+                }
+            }
+        }
+
+        function editBooking(id) {
+            alert('Edit booking functionality would open modal for booking ' + id);
+        }
+
+        function deleteBooking(id) {
+            if (confirm('Delete this booking?')) {
+                if (typeof showToast === 'function') {
+                    showToast('Booking deleted successfully', 'success');
+                }
+            }
+        }
+
+        function editCustomer(id) {
+            alert('Edit customer functionality would open modal for customer ' + id);
+        }
+
+        function deleteCustomer(id) {
+            if (confirm('Delete this customer?')) {
+                if (typeof showToast === 'function') {
+                    showToast('Customer deleted successfully', 'success');
+                }
+            }
+        }
+
+        function filterTable(tbodyId, query) {
+            const tbody = document.getElementById(tbodyId);
+            const rows = tbody.querySelectorAll('tr');
+            query = query.toLowerCase();
+
+            rows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                row.style.display = text.includes(query) ? '' : 'none';
+            });
+        }
+
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+
+        function capitalize(str) {
+            return str.charAt(0).toUpperCase() + str.slice(1);
+        }
+    </script>
+</body>
+</html>
