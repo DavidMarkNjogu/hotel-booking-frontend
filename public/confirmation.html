@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Confirmed - LuxeStay Hotel</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/components.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar scrolled">
+        <div class="container">
+            <div class="navbar-content">
+                <div class="navbar-brand">
+                    <a href="/index.html">LuxeStay Hotel</a>
+                </div>
+                <div class="navbar-menu" id="navbar-menu">
+                    <a href="/index.html" class="navbar-link">Home</a>
+                    <a href="/public/rooms.html" class="navbar-link">Rooms</a>
+                    <a href="/index.html#about" class="navbar-link">About</a>
+                    <a href="/index.html#contact" class="navbar-link">Contact</a>
+                    <a href="/public/login.html" class="navbar-link">Login</a>
+                </div>
+                <div class="navbar-toggle" id="navbar-toggle">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Confirmation Container -->
+    <div class="container" style="padding-top: 100px;">
+        <div class="confirmation-wrapper">
+            <!-- Success Icon -->
+            <div class="confirmation-icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+
+            <!-- Success Heading -->
+            <h1 class="confirmation-heading">Booking Confirmed!</h1>
+            <p class="confirmation-message">Your reservation has been successfully created. We've sent a confirmation email to your registered address.</p>
+
+            <!-- Confirmation Number Section -->
+            <div class="confirmation-number-box">
+                <p class="confirmation-number-label">Confirmation Number</p>
+                <h2 id="confirmation-number" class="confirmation-number">-</h2>
+                <button class="button button-secondary" onclick="copyConfirmationNumber()">
+                    <i class="fas fa-copy"></i> Copy
+                </button>
+            </div>
+
+            <!-- Booking Details Card -->
+            <div class="booking-card" style="max-width: 600px; margin: 30px auto 0;">
+                <div class="card-header">
+                    <h3>Booking Details</h3>
+                </div>
+                <div class="card-body">
+                    <div class="detail-row">
+                        <span class="detail-label">Room Type:</span>
+                        <span class="detail-value" id="detail-room">-</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Check-in:</span>
+                        <span class="detail-value" id="detail-checkin">-</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Check-out:</span>
+                        <span class="detail-value" id="detail-checkout">-</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Guests:</span>
+                        <span class="detail-value" id="detail-guests">-</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Number of Nights:</span>
+                        <span class="detail-value" id="detail-nights">-</span>
+                    </div>
+
+                    <div class="detail-divider"></div>
+
+                    <div class="detail-row">
+                        <span class="detail-label">Subtotal:</span>
+                        <span class="detail-value" id="detail-subtotal">-</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Tax (10%):</span>
+                        <span class="detail-value" id="detail-tax">-</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Service Fee:</span>
+                        <span class="detail-value" id="detail-service-fee">-</span>
+                    </div>
+                    <div class="detail-row detail-total">
+                        <span class="detail-label">Total Paid:</span>
+                        <span class="detail-value" id="detail-total">-</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Guest Information Card -->
+            <div class="booking-card" style="max-width: 600px; margin: 20px auto 0;">
+                <div class="card-header">
+                    <h3>Guest Information</h3>
+                </div>
+                <div class="card-body">
+                    <div class="detail-row">
+                        <span class="detail-label">Name:</span>
+                        <span class="detail-value" id="guest-info-name">-</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Email:</span>
+                        <span class="detail-value" id="guest-info-email">-</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Phone:</span>
+                        <span class="detail-value" id="guest-info-phone">-</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Address:</span>
+                        <span class="detail-value" id="guest-info-address">-</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="confirmation-actions">
+                <button class="button button-primary" onclick="downloadReceiptPDF()">
+                    <i class="fas fa-file-pdf"></i> Download Receipt
+                </button>
+                <button class="button button-secondary" onclick="downloadICSFile()">
+                    <i class="fas fa-calendar-plus"></i> Add to Calendar
+                </button>
+                <a href="/public/profile.html#bookings" class="button button-secondary">
+                    <i class="fas fa-list"></i> View My Bookings
+                </a>
+            </div>
+
+            <!-- What's Next Section -->
+            <div class="whats-next" style="max-width: 600px; margin: 50px auto 0;">
+                <h3>What's Next?</h3>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-icon">1</div>
+                        <div class="timeline-content">
+                            <h4>Confirmation Email</h4>
+                            <p>Check your email for booking confirmation and details</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-icon">2</div>
+                        <div class="timeline-content">
+                            <h4>Prepare for Check-in</h4>
+                            <p>Bring your confirmation number and valid ID</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-icon">3</div>
+                        <div class="timeline-content">
+                            <h4>Enjoy Your Stay</h4>
+                            <p>Check-in starts at 3:00 PM on your arrival date</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <?php include '../includes/footer.php'; ?>
+
+    <!-- JavaScript -->
+    <script src="../assets/js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Retrieve booking data
+            const bookingDataStr = sessionStorage.getItem('confirmedBooking');
+
+            if (!bookingDataStr) {
+                // No booking data, redirect to rooms page
+                if (typeof showToast === 'function') {
+                    showToast('No booking found', 'error');
+                }
+                setTimeout(() => {
+                    window.location.href = '/public/rooms.html';
+                }, 2000);
+                return;
+            }
+
+            const bookingData = JSON.parse(bookingDataStr);
+
+            // Display confirmation number
+            document.getElementById('confirmation-number').textContent = bookingData.confirmationNumber;
+
+            // Format date function
+            function formatDate(dateString) {
+                const date = new Date(dateString);
+                const options = { year: 'numeric', month: 'long', day: 'numeric' };
+                return date.toLocaleDateString('en-US', options);
+            }
+
+            // Format currency function
+            function formatCurrency(amount) {
+                return '$' + parseFloat(amount).toFixed(2);
+            }
+
+            // Populate booking details
+            document.getElementById('detail-room').textContent = bookingData.roomName;
+            document.getElementById('detail-checkin').textContent = formatDate(bookingData.checkIn);
+            document.getElementById('detail-checkout').textContent = formatDate(bookingData.checkOut);
+            document.getElementById('detail-guests').textContent = bookingData.guests + (bookingData.guests == 1 ? ' Adult' : ' Adults');
+            document.getElementById('detail-nights').textContent = bookingData.nights + (bookingData.nights == 1 ? ' night' : ' nights');
+            document.getElementById('detail-subtotal').textContent = formatCurrency(bookingData.subtotal);
+            document.getElementById('detail-tax').textContent = formatCurrency(bookingData.tax);
+            document.getElementById('detail-service-fee').textContent = formatCurrency(bookingData.serviceFee);
+            document.getElementById('detail-total').textContent = formatCurrency(bookingData.total);
+
+            // Populate guest information
+            document.getElementById('guest-info-name').textContent = bookingData.guestName;
+            document.getElementById('guest-info-email').textContent = bookingData.guestEmail;
+            document.getElementById('guest-info-phone').textContent = bookingData.guestPhone;
+
+            const address = [
+                bookingData.address1,
+                bookingData.address2,
+                bookingData.city,
+                bookingData.postal,
+                bookingData.country
+            ].filter(Boolean).join(', ');
+            document.getElementById('guest-info-address').textContent = address;
+
+            // Show email sent notification
+            setTimeout(() => {
+                if (typeof showToast === 'function') {
+                    showToast('Confirmation email sent!', 'success');
+                }
+            }, 1000);
+
+            // Mobile menu toggle
+            const navbarToggle = document.getElementById('navbar-toggle');
+            const navbarMenu = document.getElementById('navbar-menu');
+            if (navbarToggle) {
+                navbarToggle.addEventListener('click', function() {
+                    navbarMenu.classList.toggle('active');
+                });
+            }
+        });
+
+        function copyConfirmationNumber() {
+            const confirmationNumber = document.getElementById('confirmation-number').textContent;
+
+            // Try to use Clipboard API
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(confirmationNumber).then(() => {
+                    if (typeof showToast === 'function') {
+                        showToast('Confirmation number copied!', 'success');
+                    } else {
+                        alert('Confirmation number copied!');
+                    }
+                }).catch(err => {
+                    fallbackCopy(confirmationNumber);
+                });
+            } else {
+                fallbackCopy(confirmationNumber);
+            }
+        }
+
+        function fallbackCopy(text) {
+            const textArea = document.createElement('textarea');
+            textArea.value = text;
+            textArea.style.position = 'fixed';
+            textArea.style.left = '-999999px';
+            document.body.appendChild(textArea);
+            textArea.select();
+            try {
+                document.execCommand('copy');
+                if (typeof showToast === 'function') {
+                    showToast('Confirmation number copied!', 'success');
+                } else {
+                    alert('Confirmation number copied!');
+                }
+            } catch (err) {
+                alert('Please copy manually: ' + text);
+            }
+            document.body.removeChild(textArea);
+        }
+
+        function downloadReceiptPDF() {
+            const bookingDataStr = sessionStorage.getItem('confirmedBooking');
+            if (!bookingDataStr) {
+                alert('Booking data not found');
+                return;
+            }
+
+            const bookingData = JSON.parse(bookingDataStr);
+
+            // Check if jsPDF is loaded
+            if (typeof window.jspdf === 'undefined') {
+                alert('PDF library not loaded. Please try again.');
+                return;
+            }
+
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+
+            // Add content to PDF
+            doc.setFontSize(20);
+            doc.text('LuxeStay Hotel', 105, 20, { align: 'center' });
+
+            doc.setFontSize(16);
+            doc.text('Booking Confirmation', 105, 30, { align: 'center' });
+
+            doc.setFontSize(12);
+            doc.text('Confirmation Number: ' + bookingData.confirmationNumber, 20, 45);
+
+            doc.setFontSize(14);
+            doc.text('Booking Details', 20, 60);
+
+            doc.setFontSize(11);
+            doc.text('Room: ' + bookingData.roomName, 20, 70);
+            doc.text('Check-in: ' + bookingData.checkIn, 20, 77);
+            doc.text('Check-out: ' + bookingData.checkOut, 20, 84);
+            doc.text('Guests: ' + bookingData.guests, 20, 91);
+            doc.text('Nights: ' + bookingData.nights, 20, 98);
+
+            doc.setFontSize(14);
+            doc.text('Guest Information', 20, 113);
+
+            doc.setFontSize(11);
+            doc.text('Name: ' + bookingData.guestName, 20, 123);
+            doc.text('Email: ' + bookingData.guestEmail, 20, 130);
+            doc.text('Phone: ' + bookingData.guestPhone, 20, 137);
+
+            doc.setFontSize(14);
+            doc.text('Payment Summary', 20, 152);
+
+            doc.setFontSize(11);
+            doc.text('Subtotal: $' + bookingData.subtotal.toFixed(2), 20, 162);
+            doc.text('Tax: $' + bookingData.tax.toFixed(2), 20, 169);
+            doc.text('Service Fee: $' + bookingData.serviceFee.toFixed(2), 20, 176);
+            doc.text('Total: $' + bookingData.total.toFixed(2), 20, 183);
+
+            doc.setFontSize(10);
+            doc.text('Thank you for choosing LuxeStay Hotel!', 105, 200, { align: 'center' });
+            doc.text('For inquiries, contact us at info@luxestay.com', 105, 207, { align: 'center' });
+
+            // Save PDF
+            doc.save('LuxeStay-Booking-' + bookingData.confirmationNumber + '.pdf');
+
+            if (typeof showToast === 'function') {
+                showToast('Receipt downloaded', 'success');
+            }
+        }
+
+        function downloadICSFile() {
+            const bookingDataStr = sessionStorage.getItem('confirmedBooking');
+            if (!bookingDataStr) {
+                alert('Booking data not found');
+                return;
+            }
+
+            const bookingData = JSON.parse(bookingDataStr);
+
+            // Format dates for ICS (YYYYMMDD)
+            const formatICSDate = (dateString) => {
+                return dateString.replace(/-/g, '');
+            };
+
+            const icsContent = [
+                'BEGIN:VCALENDAR',
+                'VERSION:2.0',
+                'PRODID:-//LuxeStay Hotel//Booking//EN',
+                'BEGIN:VEVENT',
+                'DTSTART:' + formatICSDate(bookingData.checkIn),
+                'DTEND:' + formatICSDate(bookingData.checkOut),
+                'SUMMARY:LuxeStay Hotel - ' + bookingData.roomName,
+                'DESCRIPTION:Booking confirmation ' + bookingData.confirmationNumber,
+                'LOCATION:LuxeStay Hotel\\, 123 Luxury Avenue\\, City',
+                'STATUS:CONFIRMED',
+                'END:VEVENT',
+                'END:VCALENDAR'
+            ].join('\r\n');
+
+            // Create blob and download
+            const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
+            const link = document.createElement('a');
+            link.href = window.URL.createObjectURL(blob);
+            link.download = 'LuxeStay-Booking.ics';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+
+            if (typeof showToast === 'function') {
+                showToast('Added to calendar', 'success');
+            }
+        }
+    </script>
+</body>
+</html>
