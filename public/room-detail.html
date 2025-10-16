@@ -1,0 +1,740 @@
+<?php
+$pageTitle = 'Room Details';
+$navbarClass = 'scrolled';
+$currentPage = 'rooms';
+include '../includes/header.php';
+?>
+
+<style>
+    .breadcrumb {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 1.5rem 2rem;
+        max-width: 1440px;
+        margin: 0 auto;
+        font-size: 0.9375rem;
+    }
+
+    .breadcrumb a {
+        color: var(--36);
+        text-decoration: none;
+    }
+
+    .breadcrumb a:hover {
+        color: var(--50);
+        text-decoration: underline;
+    }
+
+    .breadcrumb .active {
+        color: var(--50);
+        font-weight: 500;
+    }
+
+    .breadcrumb-separator {
+        color: var(--text-secondary);
+    }
+
+    .room-detail-container {
+        max-width: 1440px;
+        margin: 0 auto;
+        padding: 2rem;
+        display: grid;
+        grid-template-columns: 70% 30%;
+        gap: 2rem;
+    }
+
+    .room-gallery {
+        margin-bottom: 2rem;
+    }
+
+    .main-image {
+        width: 100%;
+        height: 500px;
+        border-radius: var(--b-radius-20);
+        overflow: hidden;
+        margin-bottom: 1rem;
+        cursor: pointer;
+    }
+
+    .main-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+    }
+
+    .main-image:hover img {
+        transform: scale(1.05);
+    }
+
+    .thumbnail-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+    }
+
+    .thumbnail {
+        height: 150px;
+        border-radius: var(--b-radius-10);
+        overflow: hidden;
+        cursor: pointer;
+        border: 2px solid transparent;
+        transition: border-color 0.3s ease;
+    }
+
+    .thumbnail:hover, .thumbnail.active {
+        border-color: var(--50);
+    }
+
+    .thumbnail img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .room-info {
+        margin-bottom: 2rem;
+    }
+
+    .room-title {
+        font-size: var(--h21, 48px);
+        color: var(--heading-color);
+        margin-bottom: 1rem;
+    }
+
+    .room-rating {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .stars {
+        color: #ffc107;
+    }
+
+    .review-count {
+        color: var(--text-secondary);
+    }
+
+    .quick-specs {
+        display: flex;
+        gap: 2rem;
+        margin-bottom: 2rem;
+        flex-wrap: wrap;
+    }
+
+    .spec-item {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: var(--text-paragraph);
+    }
+
+    .spec-item i {
+        color: var(--50);
+        font-size: 1.25rem;
+    }
+
+    .section-heading {
+        font-size: var(--h3, 24px);
+        color: var(--heading-color);
+        margin-bottom: 1rem;
+    }
+
+    .description-text {
+        color: var(--text-paragraph);
+        line-height: 1.8;
+        max-width: 80ch;
+    }
+
+    .amenities-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1rem;
+        margin-bottom: 2rem;
+    }
+
+    .amenity-item {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.75rem;
+        background: hsl(87, 100%, 97%);
+        border-radius: var(--b-radius-10);
+    }
+
+    .amenity-item i {
+        color: var(--50);
+    }
+
+    .policies-list {
+        list-style: none;
+        padding: 0;
+    }
+
+    .policy-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 1rem;
+        padding: 1rem 0;
+        border-bottom: 1px solid hsl(87, 100%, 90%);
+    }
+
+    .policy-item:last-child {
+        border-bottom: none;
+    }
+
+    .policy-item i {
+        color: var(--50);
+        margin-top: 0.25rem;
+    }
+
+    .booking-card {
+        background: white;
+        border: 1px solid hsl(87, 100%, 81%);
+        border-radius: var(--b-radius-20);
+        padding: 1.5rem;
+        box-shadow: var(--shadow-medium);
+        position: sticky;
+        top: 100px;
+        height: fit-content;
+    }
+
+    .price-display {
+        margin-bottom: 1.5rem;
+    }
+
+    .price-amount {
+        font-size: 2rem;
+        font-weight: 700;
+        color: var(--36);
+    }
+
+    .price-period {
+        font-size: 0.875rem;
+        color: var(--text-secondary);
+    }
+
+    .booking-form .form-group {
+        margin-bottom: 1rem;
+    }
+
+    .price-breakdown {
+        margin: 1.5rem 0;
+        padding: 1rem 0;
+        border-top: 1px solid hsl(87, 100%, 90%);
+        border-bottom: 1px solid hsl(87, 100%, 90%);
+    }
+
+    .price-row {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 0.75rem;
+        color: var(--text-secondary);
+    }
+
+    .price-row.total {
+        font-weight: 700;
+        font-size: 1.25rem;
+        color: var(--10);
+        margin-top: 1rem;
+        padding-top: 1rem;
+        border-top: 2px solid hsl(87, 100%, 81%);
+    }
+
+    .disclaimer {
+        font-size: 0.75rem;
+        color: var(--text-muted);
+        text-align: center;
+        margin-top: 1rem;
+    }
+
+    .lightbox-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.9);
+        z-index: 10000;
+        display: none;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .lightbox-overlay.active {
+        display: flex;
+    }
+
+    .lightbox-content {
+        max-width: 90vw;
+        max-height: 90vh;
+        position: relative;
+    }
+
+    .lightbox-content img {
+        max-width: 100%;
+        max-height: 90vh;
+        object-fit: contain;
+    }
+
+    .lightbox-close {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        background: white;
+        border: none;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        cursor: pointer;
+        font-size: 1.5rem;
+        z-index: 10001;
+    }
+
+    .lightbox-nav {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: white;
+        border: none;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        cursor: pointer;
+        font-size: 1.5rem;
+    }
+
+    .lightbox-prev {
+        left: 20px;
+    }
+
+    .lightbox-next {
+        right: 20px;
+    }
+
+    @media screen and (max-width: 1024px) {
+        .room-detail-container {
+            grid-template-columns: 65% 35%;
+        }
+
+        .amenities-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    @media screen and (max-width: 768px) {
+        .room-detail-container {
+            grid-template-columns: 1fr;
+        }
+
+        .booking-card {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            top: auto;
+            border-radius: var(--b-radius-20) var(--b-radius-20) 0 0;
+            z-index: 1000;
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+
+        .main-image {
+            height: 300px;
+        }
+
+        .thumbnail-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .amenities-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .quick-specs {
+            gap: 1rem;
+        }
+    }
+</style>
+
+<!-- Breadcrumb -->
+<nav class="breadcrumb">
+    <a href="/">Home</a>
+    <span class="breadcrumb-separator"><i class="fas fa-chevron-right"></i></span>
+    <a href="/public/rooms.html">Rooms</a>
+    <span class="breadcrumb-separator"><i class="fas fa-chevron-right"></i></span>
+    <span class="active" id="room-breadcrumb">Loading...</span>
+</nav>
+
+<!-- Room Detail Container -->
+<div class="room-detail-container">
+    <!-- Left Column -->
+    <div class="left-column">
+        <!-- Image Gallery -->
+        <div class="room-gallery">
+            <div class="main-image" id="main-image">
+                <img src="https://via.placeholder.com/800x500?text=Room+Image" alt="Room" id="main-image-img">
+            </div>
+            <div class="thumbnail-grid" id="thumbnail-grid">
+                <!-- Thumbnails will be loaded here -->
+            </div>
+        </div>
+
+        <!-- Room Information -->
+        <div class="room-info">
+            <h1 class="room-title" id="room-title">Loading...</h1>
+
+            <div class="room-rating">
+                <span class="stars">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                </span>
+                <span id="rating-value">5.0</span>
+                <span class="review-count" id="review-count">(0 reviews)</span>
+            </div>
+
+            <div class="quick-specs" id="quick-specs">
+                <!-- Specs will be loaded here -->
+            </div>
+        </div>
+
+        <!-- Description -->
+        <div class="room-description">
+            <h3 class="section-heading">About This Room</h3>
+            <p class="description-text" id="room-description">Loading...</p>
+        </div>
+
+        <!-- Amenities -->
+        <div class="room-amenities" style="margin-top: 2rem;">
+            <h3 class="section-heading">Amenities</h3>
+            <div class="amenities-grid" id="amenities-grid">
+                <!-- Amenities will be loaded here -->
+            </div>
+        </div>
+
+        <!-- Policies -->
+        <div class="room-policies" style="margin-top: 2rem;">
+            <h3 class="section-heading">Policies</h3>
+            <ul class="policies-list" id="policies-list">
+                <!-- Policies will be loaded here -->
+            </ul>
+        </div>
+    </div>
+
+    <!-- Right Column - Booking Card -->
+    <div class="right-column">
+        <div class="booking-card">
+            <div class="price-display">
+                <span class="price-amount" id="price-display">$0</span>
+                <span class="price-period">per night</span>
+            </div>
+
+            <form class="booking-form" id="booking-form">
+                <input type="hidden" name="room_id" id="room-id">
+                <input type="hidden" data-room-price id="room-price">
+
+                <div class="form-group">
+                    <label>Check In</label>
+                    <input type="date" name="check_in" class="form-input" id="check-in" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Check Out</label>
+                    <input type="date" name="check_out" class="form-input" id="check-out" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Guests</label>
+                    <select name="guests" class="form-input" id="guests" required>
+                        <option value="1">1 Guest</option>
+                        <option value="2">2 Guests</option>
+                        <option value="3">3 Guests</option>
+                        <option value="4">4 Guests</option>
+                        <option value="5">5 Guests</option>
+                        <option value="6">6 Guests</option>
+                    </select>
+                </div>
+
+                <div class="price-breakdown">
+                    <div class="price-row">
+                        <span data-subtotal></span>
+                        <span data-subtotal></span>
+                    </div>
+                    <div class="price-row">
+                        <span>Service fee</span>
+                        <span data-service-fee>$30.00</span>
+                    </div>
+                    <div class="price-row">
+                        <span>Taxes (10%)</span>
+                        <span data-tax>$0.00</span>
+                    </div>
+                    <div class="price-row total">
+                        <span>Total</span>
+                        <span data-total>$0.00</span>
+                    </div>
+                </div>
+
+                <button type="submit" class="button-primary" style="width: 100%;">
+                    Reserve Now
+                </button>
+
+                <p class="disclaimer">You won't be charged yet</p>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Lightbox -->
+<div class="lightbox-overlay" id="lightbox">
+    <button class="lightbox-close" onclick="closeLightbox()">
+        <i class="fas fa-times"></i>
+    </button>
+    <button class="lightbox-nav lightbox-prev" onclick="previousImage()">
+        <i class="fas fa-chevron-left"></i>
+    </button>
+    <div class="lightbox-content">
+        <img src="" alt="Room" id="lightbox-image">
+    </div>
+    <button class="lightbox-nav lightbox-next" onclick="nextImage()">
+        <i class="fas fa-chevron-right"></i>
+    </button>
+</div>
+
+<script>
+    // Mock room data (replace with API call)
+    const mockRoomData = {
+        id: 1,
+        room_number: "101",
+        room_type: "Deluxe Suite",
+        bed_type: "King",
+        bed_count: 1,
+        max_occupancy: 2,
+        room_size: 45,
+        view_type: "City View",
+        price_per_night: 199,
+        description: "Elegant suite with modern amenities and stunning city views. This spacious accommodation features premium furnishings, a comfortable king-size bed, and a luxurious bathroom with rainfall shower. Perfect for business travelers and couples seeking comfort and style.",
+        images: [
+            "https://via.placeholder.com/800x500?text=Main+View",
+            "https://via.placeholder.com/800x500?text=Bathroom",
+            "https://via.placeholder.com/800x500?text=City+View",
+            "https://via.placeholder.com/800x500?text=Bed",
+            "https://via.placeholder.com/800x500?text=Sitting+Area"
+        ],
+        amenities: ["Wi-Fi", "Air Conditioning", "Mini Bar", "TV", "Safe", "Coffee Maker", "Bathrobe", "Slippers", "Hair Dryer", "Iron"],
+        policies: {
+            check_in_time: "3:00 PM",
+            check_out_time: "12:00 PM",
+            cancellation_policy: "Free cancellation up to 24 hours before check-in",
+            deposit_required: true,
+            smoking_allowed: false
+        },
+        rating: 4.8,
+        review_count: 48,
+        status: "available"
+    };
+
+    let currentImageIndex = 0;
+    let roomData = null;
+
+    // Load room data
+    async function loadRoomData() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const roomId = urlParams.get('id');
+
+        if (!roomId) {
+            LuxeStay.showToast('Room not found', 'error');
+            setTimeout(() => window.location.href = '/public/rooms.html', 2000);
+            return;
+        }
+
+        // In production, fetch from API
+        // const data = await LuxeStay.apiRequest(`/api/rooms/${roomId}`);
+        // roomData = data.room;
+
+        // For now, use mock data
+        roomData = mockRoomData;
+        renderRoomDetails();
+    }
+
+    function renderRoomDetails() {
+        // Title and breadcrumb
+        document.getElementById('room-title').textContent = roomData.room_type;
+        document.getElementById('room-breadcrumb').textContent = roomData.room_type;
+
+        // Rating
+        document.getElementById('rating-value').textContent = roomData.rating;
+        document.getElementById('review-count').textContent = `(${roomData.review_count} reviews)`;
+
+        // Quick specs
+        const specs = document.getElementById('quick-specs');
+        specs.innerHTML = `
+            <div class="spec-item">
+                <i class="fas fa-bed"></i>
+                <span>${roomData.bed_type} Bed</span>
+            </div>
+            <div class="spec-item">
+                <i class="fas fa-users"></i>
+                <span>${roomData.max_occupancy} Guests</span>
+            </div>
+            <div class="spec-item">
+                <i class="fas fa-ruler-combined"></i>
+                <span>${roomData.room_size} sqm</span>
+            </div>
+            <div class="spec-item">
+                <i class="fas fa-eye"></i>
+                <span>${roomData.view_type}</span>
+            </div>
+        `;
+
+        // Description
+        document.getElementById('room-description').textContent = roomData.description;
+
+        // Images
+        renderImages();
+
+        // Amenities
+        const amenitiesGrid = document.getElementById('amenities-grid');
+        amenitiesGrid.innerHTML = roomData.amenities.map(amenity => `
+            <div class="amenity-item">
+                <i class="fas fa-check"></i>
+                <span>${amenity}</span>
+            </div>
+        `).join('');
+
+        // Policies
+        const policiesList = document.getElementById('policies-list');
+        policiesList.innerHTML = `
+            <li class="policy-item">
+                <i class="fas fa-clock"></i>
+                <div>
+                    <strong>Check-in:</strong> ${roomData.policies.check_in_time}<br>
+                    <strong>Check-out:</strong> ${roomData.policies.check_out_time}
+                </div>
+            </li>
+            <li class="policy-item">
+                <i class="fas fa-undo"></i>
+                <div>
+                    <strong>Cancellation:</strong> ${roomData.policies.cancellation_policy}
+                </div>
+            </li>
+            <li class="policy-item">
+                <i class="fas fa-credit-card"></i>
+                <div>
+                    <strong>Deposit:</strong> ${roomData.policies.deposit_required ? 'Credit card required for reservation' : 'No deposit required'}
+                </div>
+            </li>
+            <li class="policy-item">
+                <i class="fas fa-smoking-ban"></i>
+                <div>
+                    <strong>Smoking:</strong> ${roomData.policies.smoking_allowed ? 'Smoking allowed' : 'Non-smoking room'}
+                </div>
+            </li>
+        `;
+
+        // Price
+        document.getElementById('price-display').textContent = LuxeStay.formatCurrency(roomData.price_per_night);
+        document.getElementById('room-id').value = roomData.id;
+        document.getElementById('room-price').setAttribute('data-room-price', roomData.price_per_night);
+    }
+
+    function renderImages() {
+        const mainImg = document.getElementById('main-image-img');
+        mainImg.src = roomData.images[0];
+
+        const thumbnailGrid = document.getElementById('thumbnail-grid');
+        thumbnailGrid.innerHTML = roomData.images.map((img, index) => `
+            <div class="thumbnail ${index === 0 ? 'active' : ''}" onclick="changeImage(${index})">
+                <img src="${img}" alt="Room view ${index + 1}">
+            </div>
+        `).join('');
+    }
+
+    function changeImage(index) {
+        currentImageIndex = index;
+        const mainImg = document.getElementById('main-image-img');
+        mainImg.style.opacity = '0';
+
+        setTimeout(() => {
+            mainImg.src = roomData.images[index];
+            mainImg.style.opacity = '1';
+        }, 300);
+
+        // Update active thumbnail
+        document.querySelectorAll('.thumbnail').forEach((thumb, i) => {
+            thumb.classList.toggle('active', i === index);
+        });
+    }
+
+    // Lightbox functions
+    document.getElementById('main-image').addEventListener('click', () => {
+        openLightbox(currentImageIndex);
+    });
+
+    function openLightbox(index) {
+        currentImageIndex = index;
+        document.getElementById('lightbox-image').src = roomData.images[index];
+        document.getElementById('lightbox').classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+        document.getElementById('lightbox').classList.remove('active');
+        document.body.style.overflow = '';
+    }
+
+    function previousImage() {
+        currentImageIndex = (currentImageIndex - 1 + roomData.images.length) % roomData.images.length;
+        document.getElementById('lightbox-image').src = roomData.images[currentImageIndex];
+    }
+
+    function nextImage() {
+        currentImageIndex = (currentImageIndex + 1) % roomData.images.length;
+        document.getElementById('lightbox-image').src = roomData.images[currentImageIndex];
+    }
+
+    // Close lightbox on ESC
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeLightbox();
+        if (e.key === 'ArrowLeft') previousImage();
+        if (e.key === 'ArrowRight') nextImage();
+    });
+
+    // Booking form submission
+    document.getElementById('booking-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const formData = {
+            room_id: document.getElementById('room-id').value,
+            check_in: document.getElementById('check-in').value,
+            check_out: document.getElementById('check-out').value,
+            guests: document.getElementById('guests').value
+        };
+
+        // Validate dates
+        const dateError = BookingUtils.validateDates(formData.check_in, formData.check_out);
+        if (dateError) {
+            LuxeStay.showToast(dateError, 'error');
+            return;
+        }
+
+        // Save to session storage
+        BookingUtils.saveBookingData({
+            ...formData,
+            room: roomData
+        });
+
+        // Navigate to booking flow
+        window.location.href = `/public/booking-flow.html?room_id=${formData.room_id}&checkin=${formData.check_in}&checkout=${formData.check_out}&guests=${formData.guests}`;
+    });
+
+    // Load room data on page load
+    loadRoomData();
+</script>
+
+<?php include '../includes/footer.php'; ?>

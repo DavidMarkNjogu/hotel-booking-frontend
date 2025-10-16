@@ -1,0 +1,675 @@
+<?php
+$pageTitle = 'Login';
+$navbarClass = 'scrolled'; // Start with solid navbar
+$currentPage = 'login';
+include '../includes/header.php';
+?>
+
+<style>
+    /* Login Page Specific Styles */
+    .login-container {
+        min-height: calc(100vh - 80px - 200px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem 1rem;
+        background: linear-gradient(135deg, hsl(87, 100%, 97%) 0%, hsl(87, 100%, 95%) 100%);
+    }
+
+    .auth-card {
+        background: white;
+        border-radius: var(--b-radius-20, 20px);
+        box-shadow: var(--shadow-heavy, 0 10px 30px rgba(0, 0, 0, 0.1));
+        max-width: 450px;
+        width: 100%;
+        overflow: hidden;
+    }
+
+    .tab-navigation {
+        display: flex;
+        border-bottom: 2px solid hsl(87, 100%, 81%);
+    }
+
+    .tab-btn {
+        flex: 1;
+        padding: 1rem;
+        background: transparent;
+        border: none;
+        font-size: 1rem;
+        font-weight: 600;
+        color: var(--text-secondary, #666);
+        cursor: pointer;
+        transition: all 0.3s ease;
+        border-bottom: 3px solid transparent;
+    }
+
+    .tab-btn.active {
+        color: var(--50, hsl(87, 100%, 50%));
+        background: hsl(87, 100%, 97%);
+        border-bottom-color: var(--50);
+    }
+
+    .form-container {
+        padding: 2rem;
+    }
+
+    .form-header {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+    .form-header h2 {
+        color: var(--heading-color);
+        margin-bottom: 0.5rem;
+        font-size: var(--h3, 24px);
+    }
+
+    .form-header p {
+        color: var(--text-secondary);
+        font-size: 0.9375rem;
+    }
+
+    .tab-content {
+        display: none;
+        animation: fadeIn 0.3s ease;
+    }
+
+    .tab-content.active {
+        display: block;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .input-icon-wrapper {
+        position: relative;
+        margin-bottom: 1.25rem;
+    }
+
+    .input-icon-wrapper i {
+        position: absolute;
+        left: 1rem;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--36);
+        pointer-events: none;
+    }
+
+    .input-icon-wrapper input {
+        padding-left: 2.75rem;
+        padding-right: 2.75rem;
+    }
+
+    .password-toggle {
+        position: absolute;
+        right: 1rem;
+        top: 50%;
+        transform: translateY(-50%);
+        background: none;
+        border: none;
+        color: var(--36);
+        cursor: pointer;
+        font-size: 1rem;
+        padding: 0.25rem;
+    }
+
+    .password-toggle:hover {
+        color: var(--50);
+    }
+
+    .remember-forgot {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.5rem;
+        font-size: 0.875rem;
+    }
+
+    .forgot-password {
+        color: var(--36);
+        text-decoration: none;
+        transition: color 0.3s ease;
+    }
+
+    .forgot-password:hover {
+        color: var(--50);
+        text-decoration: underline;
+    }
+
+    .social-login {
+        margin-top: 1.5rem;
+    }
+
+    .social-btn {
+        width: 100%;
+        padding: 0.875rem;
+        border: 1px solid var(--border-color);
+        border-radius: var(--b-radius-10);
+        background: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.75rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-bottom: 0.75rem;
+    }
+
+    .social-btn:hover {
+        background: hsl(87, 100%, 97%);
+        border-color: var(--50);
+    }
+
+    .social-btn i {
+        font-size: 1.25rem;
+    }
+
+    .social-btn.google i {
+        color: #DB4437;
+    }
+
+    .social-btn.facebook {
+        background: #1877F2;
+        color: white;
+        border-color: #1877F2;
+    }
+
+    .social-btn.facebook:hover {
+        background: #166FE5;
+    }
+
+    .password-strength-indicator {
+        margin-top: 0.5rem;
+    }
+
+    .password-strength-bar {
+        height: 4px;
+        background: #e0e0e0;
+        border-radius: 10px;
+        overflow: hidden;
+        margin-bottom: 0.25rem;
+    }
+
+    .password-strength-fill {
+        height: 100%;
+        transition: width 0.3s ease, background-color 0.3s ease;
+    }
+
+    .password-strength-fill.weak {
+        width: 33%;
+        background: #dc3545;
+    }
+
+    .password-strength-fill.medium {
+        width: 66%;
+        background: #ffc107;
+    }
+
+    .password-strength-fill.strong {
+        width: 100%;
+        background: #28a745;
+    }
+
+    .password-strength-text {
+        font-size: 0.75rem;
+    }
+
+    .password-strength-text.weak {
+        color: #dc3545;
+    }
+
+    .password-strength-text.medium {
+        color: #ffc107;
+    }
+
+    .password-strength-text.strong {
+        color: #28a745;
+    }
+
+    .terms-label {
+        font-size: 0.875rem;
+    }
+
+    .terms-label a {
+        color: var(--36);
+        text-decoration: none;
+    }
+
+    .terms-label a:hover {
+        text-decoration: underline;
+    }
+
+    @media screen and (max-width: 768px) {
+        .auth-card {
+            width: 95%;
+        }
+
+        .form-container {
+            padding: 1.5rem;
+        }
+
+        .remember-forgot {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 0.5rem;
+        }
+    }
+</style>
+
+<div class="login-container">
+    <div class="auth-card">
+        <!-- Tab Navigation -->
+        <div class="tab-navigation">
+            <button class="tab-btn active" data-tab="login">Login</button>
+            <button class="tab-btn" data-tab="register">Register</button>
+        </div>
+
+        <!-- Login Form -->
+        <div class="tab-content active" id="login-tab">
+            <div class="form-container">
+                <div class="form-header">
+                    <h2>Welcome Back</h2>
+                    <p>Log in to your account</p>
+                </div>
+
+                <form id="login-form">
+                    <!-- Email Field -->
+                    <div class="input-icon-wrapper">
+                        <i class="fas fa-envelope"></i>
+                        <input
+                            type="email"
+                            name="email"
+                            class="form-input"
+                            placeholder="you@example.com"
+                            required
+                        >
+                        <div class="form-error"></div>
+                    </div>
+
+                    <!-- Password Field -->
+                    <div class="input-icon-wrapper">
+                        <i class="fas fa-lock"></i>
+                        <input
+                            type="password"
+                            name="password"
+                            class="form-input"
+                            placeholder="Enter your password"
+                            required
+                        >
+                        <button type="button" class="password-toggle">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <div class="form-error"></div>
+                    </div>
+
+                    <!-- Remember Me & Forgot Password -->
+                    <div class="remember-forgot">
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="remember-me" name="remember">
+                            <label for="remember-me">Remember me</label>
+                        </div>
+                        <a href="#" class="forgot-password" id="forgot-password-link">Forgot password?</a>
+                    </div>
+
+                    <!-- Login Button -->
+                    <button type="submit" class="button-primary" style="width: 100%;">
+                        Log In
+                    </button>
+
+                    <!-- Divider -->
+                    <div class="divider-text" style="margin: 1.5rem 0;">or</div>
+
+                    <!-- Social Login -->
+                    <div class="social-login">
+                        <button type="button" class="social-btn google">
+                            <i class="fab fa-google"></i>
+                            Continue with Google
+                        </button>
+                        <button type="button" class="social-btn facebook">
+                            <i class="fab fa-facebook-f"></i>
+                            Continue with Facebook
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Register Form -->
+        <div class="tab-content" id="register-tab">
+            <div class="form-container">
+                <div class="form-header">
+                    <h2>Create Account</h2>
+                    <p>Join LuxeStay today</p>
+                </div>
+
+                <form id="register-form">
+                    <!-- Full Name Field -->
+                    <div class="input-icon-wrapper">
+                        <i class="fas fa-user"></i>
+                        <input
+                            type="text"
+                            name="full_name"
+                            class="form-input"
+                            placeholder="John Doe"
+                            required
+                            minlength="2"
+                            maxlength="100"
+                        >
+                        <div class="form-error"></div>
+                    </div>
+
+                    <!-- Email Field -->
+                    <div class="input-icon-wrapper">
+                        <i class="fas fa-envelope"></i>
+                        <input
+                            type="email"
+                            name="email"
+                            class="form-input"
+                            placeholder="you@example.com"
+                            required
+                        >
+                        <div class="form-error"></div>
+                    </div>
+
+                    <!-- Phone Field -->
+                    <div class="input-icon-wrapper">
+                        <i class="fas fa-phone"></i>
+                        <input
+                            type="tel"
+                            name="phone"
+                            class="form-input"
+                            placeholder="+1 (555) 000-0000"
+                        >
+                        <div class="form-error"></div>
+                    </div>
+
+                    <!-- Password Field -->
+                    <div class="input-icon-wrapper">
+                        <i class="fas fa-lock"></i>
+                        <input
+                            type="password"
+                            name="password"
+                            id="register-password"
+                            class="form-input password-strength-check"
+                            placeholder="Create a password"
+                            required
+                            minlength="8"
+                        >
+                        <button type="button" class="password-toggle">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <div class="form-error"></div>
+
+                        <!-- Password Strength Indicator -->
+                        <div class="password-strength-indicator">
+                            <div class="password-strength-bar">
+                                <div class="password-strength-fill"></div>
+                            </div>
+                            <div class="password-strength-text"></div>
+                        </div>
+                    </div>
+
+                    <!-- Confirm Password Field -->
+                    <div class="input-icon-wrapper">
+                        <i class="fas fa-lock"></i>
+                        <input
+                            type="password"
+                            name="confirm_password"
+                            class="form-input"
+                            placeholder="Confirm your password"
+                            required
+                            data-match="password"
+                        >
+                        <button type="button" class="password-toggle">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <div class="form-error"></div>
+                    </div>
+
+                    <!-- Terms Checkbox -->
+                    <div class="checkbox-group" style="margin-bottom: 1.5rem;">
+                        <input type="checkbox" id="terms" name="terms" required>
+                        <label for="terms" class="terms-label">
+                            I agree to the <a href="/terms-conditions.html" target="_blank">Terms of Service</a>
+                            and <a href="/privacy-policy.html" target="_blank">Privacy Policy</a>
+                        </label>
+                    </div>
+
+                    <!-- Register Button -->
+                    <button type="submit" class="button-primary" style="width: 100%;">
+                        Create Account
+                    </button>
+
+                    <!-- Divider -->
+                    <div class="divider-text" style="margin: 1.5rem 0;">or</div>
+
+                    <!-- Social Login -->
+                    <div class="social-login">
+                        <button type="button" class="social-btn google">
+                            <i class="fab fa-google"></i>
+                            Continue with Google
+                        </button>
+                        <button type="button" class="social-btn facebook">
+                            <i class="fab fa-facebook-f"></i>
+                            Continue with Facebook
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Forgot Password Modal -->
+<div class="modal-overlay" id="forgot-password-modal">
+    <div class="modal-container">
+        <div class="modal-header">
+            <h3>Reset Password</h3>
+            <button class="modal-close" aria-label="Close">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="modal-body">
+            <p>Enter your email address and we'll send you a link to reset your password.</p>
+            <form id="forgot-password-form" style="margin-top: 1.5rem;">
+                <div class="form-group">
+                    <label for="forgot-email">Email Address</label>
+                    <input
+                        type="email"
+                        id="forgot-email"
+                        name="email"
+                        class="form-input"
+                        placeholder="you@example.com"
+                        required
+                    >
+                    <div class="form-error"></div>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button class="button-tertiary" onclick="LuxeStay.closeModal('forgot-password-modal')">Cancel</button>
+            <button class="button-primary" id="send-reset-link">Send Reset Link</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Tab Switching
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const tabName = btn.getAttribute('data-tab');
+
+            // Update active tab button
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            // Update active tab content
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            document.getElementById(`${tabName}-tab`).classList.add('active');
+        });
+    });
+
+    // Check URL for tab parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const tab = urlParams.get('tab');
+    if (tab === 'register') {
+        document.querySelector('.tab-btn[data-tab="register"]').click();
+    }
+
+    // Password Toggle
+    document.querySelectorAll('.password-toggle').forEach(toggle => {
+        toggle.addEventListener('click', () => {
+            const input = toggle.previousElementSibling;
+            const icon = toggle.querySelector('i');
+
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        });
+    });
+
+    // Password Strength Indicator
+    const registerPassword = document.getElementById('register-password');
+    if (registerPassword) {
+        registerPassword.addEventListener('input', () => {
+            const password = registerPassword.value;
+            const strength = LuxeStay.Validation.passwordStrength(password);
+
+            const fill = document.querySelector('.password-strength-fill');
+            const text = document.querySelector('.password-strength-text');
+
+            fill.className = `password-strength-fill ${strength}`;
+            text.className = `password-strength-text ${strength}`;
+            text.textContent = strength.charAt(0).toUpperCase() + strength.slice(1);
+        });
+    }
+
+    // Forgot Password Modal
+    document.getElementById('forgot-password-link')?.addEventListener('click', (e) => {
+        e.preventDefault();
+        LuxeStay.openModal('forgot-password-modal');
+    });
+
+    // Send Reset Link
+    document.getElementById('send-reset-link')?.addEventListener('click', async () => {
+        const form = document.getElementById('forgot-password-form');
+        const email = form.querySelector('input[name="email"]').value;
+
+        if (!LuxeStay.Validation.email(email)) {
+            LuxeStay.showToast('Please enter a valid email address', 'error');
+            return;
+        }
+
+        const btn = document.getElementById('send-reset-link');
+        LuxeStay.setButtonLoading(btn, true);
+
+        try {
+            await LuxeStay.apiRequest('/api/auth/forgot-password', 'POST', { email });
+            LuxeStay.showToast('Password reset link sent to your email', 'success');
+            LuxeStay.closeModal('forgot-password-modal');
+            form.reset();
+        } catch (error) {
+            LuxeStay.showToast(error.message || 'Failed to send reset link', 'error');
+        } finally {
+            LuxeStay.setButtonLoading(btn, false);
+        }
+    });
+
+    // Login Form Submission
+    document.getElementById('login-form')?.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const form = e.target;
+        if (!LuxeStay.validateForm(form)) return;
+
+        const formData = {
+            email: form.email.value,
+            password: form.password.value
+        };
+
+        const submitBtn = form.querySelector('[type="submit"]');
+        LuxeStay.setButtonLoading(submitBtn, true);
+
+        try {
+            const response = await LuxeStay.apiRequest('/api/auth/login', 'POST', formData);
+
+            if (response.success) {
+                // Store auth token and user data
+                localStorage.setItem('auth_token', response.token);
+                localStorage.setItem('user', JSON.stringify(response.user));
+
+                LuxeStay.showToast('Login successful!', 'success');
+
+                // Redirect to profile or previous page
+                const redirectUrl = urlParams.get('redirect') || '/public/profile.html';
+                setTimeout(() => {
+                    window.location.href = redirectUrl;
+                }, 1000);
+            }
+        } catch (error) {
+            LuxeStay.showToast(error.message || 'Login failed. Please check your credentials.', 'error');
+        } finally {
+            LuxeStay.setButtonLoading(submitBtn, false);
+        }
+    });
+
+    // Register Form Submission
+    document.getElementById('register-form')?.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const form = e.target;
+        if (!LuxeStay.validateForm(form)) return;
+
+        const formData = {
+            full_name: form.full_name.value,
+            email: form.email.value,
+            phone: form.phone.value,
+            password: form.password.value
+        };
+
+        const submitBtn = form.querySelector('[type="submit"]');
+        LuxeStay.setButtonLoading(submitBtn, true);
+
+        try {
+            const response = await LuxeStay.apiRequest('/api/auth/register', 'POST', formData);
+
+            if (response.success) {
+                // Store auth token and user data
+                localStorage.setItem('auth_token', response.token);
+                localStorage.setItem('user', JSON.stringify(response.user));
+
+                LuxeStay.showToast('Account created successfully!', 'success');
+
+                // Redirect to profile
+                setTimeout(() => {
+                    window.location.href = '/public/profile.html';
+                }, 1000);
+            }
+        } catch (error) {
+            LuxeStay.showToast(error.message || 'Registration failed. Please try again.', 'error');
+        } finally {
+            LuxeStay.setButtonLoading(submitBtn, false);
+        }
+    });
+
+    // Social Login Handlers
+    document.querySelectorAll('.social-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const provider = btn.classList.contains('google') ? 'google' : 'facebook';
+            LuxeStay.showToast(`${provider.charAt(0).toUpperCase() + provider.slice(1)} login not yet implemented`, 'info');
+            // In production, redirect to OAuth provider
+            // window.location.href = `/api/auth/${provider}`;
+        });
+    });
+</script>
+
+<?php include '../includes/footer.php'; ?>

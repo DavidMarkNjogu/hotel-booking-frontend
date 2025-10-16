@@ -1,0 +1,408 @@
+<?php
+$pageTitle = 'Book Your Stay';
+$navbarClass = 'scrolled';
+include '../includes/header.php';
+?>
+
+<style>
+    .booking-page-container {
+        max-width: 1400px;
+        margin: 2rem auto;
+        padding: 0 2rem;
+        display: grid;
+        grid-template-columns: 65% 35%;
+        gap: 2rem;
+    }
+
+    .booking-form-section {
+        background: white;
+        padding: 2rem;
+        border-radius: var(--b-radius-20);
+        box-shadow: var(--shadow-medium);
+    }
+
+    .section-title {
+        font-size: 1.5rem;
+        color: var(--heading-color);
+        margin-bottom: 1.5rem;
+        padding-bottom: 1rem;
+        border-bottom: 2px solid hsl(87, 100%, 81%);
+    }
+
+    .booking-section {
+        margin-bottom: 2.5rem;
+    }
+
+    .booking-section h3 {
+        font-size: 1.25rem;
+        color: var(--heading-color);
+        margin-bottom: 1rem;
+    }
+
+    @media screen and (max-width: 768px) {
+        .booking-page-container {
+            grid-template-columns: 1fr;
+        }
+
+        .booking-card {
+            position: relative;
+            top: 0;
+        }
+    }
+</style>
+
+<div class="booking-page-container">
+    <!-- Left Column - Booking Form -->
+    <div class="left-column">
+        <div class="booking-form-section">
+            <h2 class="section-title">Complete Your Booking</h2>
+
+            <form id="complete-booking-form">
+                <!-- Section 1: Room Confirmation -->
+                <div class="booking-section">
+                    <h3>Your Selection</h3>
+                    <div class="room-confirmation-card" id="room-preview">
+                        <!-- Room details will be loaded here -->
+                    </div>
+                    <a href="/public/rooms.html" style="color: var(--36); font-size: 0.9375rem;">Change room</a>
+                </div>
+
+                <!-- Section 2: Guest Information -->
+                <div class="booking-section">
+                    <h3>Guest Details</h3>
+
+                    <div class="form-group">
+                        <label class="required">Full Name</label>
+                        <input type="text" name="full_name" class="form-input" required minlength="2">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="required">Email Address</label>
+                        <input type="email" name="email" class="form-input" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="required">Phone Number</label>
+                        <input type="tel" name="phone" class="form-input" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="required">Country</label>
+                        <select name="country" class="form-input" required>
+                            <option value="">Select Country</option>
+                            <option value="US">United States</option>
+                            <option value="GB">United Kingdom</option>
+                            <option value="CA">Canada</option>
+                            <option value="AU">Australia</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Special Requests (Optional)</label>
+                        <textarea name="special_requests" class="form-input" rows="4" maxlength="500" placeholder="Any special requirements?"></textarea>
+                        <div class="character-counter" id="char-counter">0/500</div>
+                    </div>
+                </div>
+
+                <!-- Section 3: Payment Method -->
+                <div class="booking-section">
+                    <h3>Payment Details</h3>
+
+                    <div class="payment-method-selector" style="display: flex; flex-direction: column; gap: 1rem; margin-bottom: 1.5rem;">
+                        <label style="border: 2px solid hsl(87, 100%, 81%); padding: 1rem; border-radius: var(--b-radius-10); cursor: pointer; display: flex; align-items: center; gap: 1rem;">
+                            <input type="radio" name="payment_method" value="card" checked>
+                            <i class="fas fa-credit-card"></i>
+                            <span>Credit/Debit Card</span>
+                        </label>
+                        <label style="border: 2px solid hsl(87, 100%, 81%); padding: 1rem; border-radius: var(--b-radius-10); cursor: pointer; display: flex; align-items: center; gap: 1rem;">
+                            <input type="radio" name="payment_method" value="paypal">
+                            <i class="fab fa-paypal"></i>
+                            <span>PayPal</span>
+                        </label>
+                        <label style="border: 2px solid hsl(87, 100%, 81%); padding: 1rem; border-radius: var(--b-radius-10); cursor: pointer; display: flex; align-items: center; gap: 1rem;">
+                            <input type="radio" name="payment_method" value="hotel">
+                            <i class="fas fa-building"></i>
+                            <span>Pay at Hotel</span>
+                        </label>
+                    </div>
+
+                    <div id="card-payment-fields">
+                        <div class="form-group">
+                            <label class="required">Card Number</label>
+                            <input type="text" name="card_number" id="card-number" class="form-input" placeholder="1234 5678 9012 3456">
+                        </div>
+
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                            <div class="form-group">
+                                <label class="required">Expiry Date</label>
+                                <input type="text" name="expiry" id="expiry" class="form-input" placeholder="MM/YY">
+                            </div>
+                            <div class="form-group">
+                                <label class="required">CVV</label>
+                                <input type="text" name="cvv" id="cvv" class="form-input" placeholder="123" maxlength="4">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="required">Cardholder Name</label>
+                            <input type="text" name="cardholder_name" class="form-input" placeholder="John Doe">
+                        </div>
+
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="same-address" name="same_address" checked>
+                            <label for="same-address">Billing address same as contact information</label>
+                        </div>
+                    </div>
+
+                    <div id="paypal-payment" style="display: none;">
+                        <div style="padding: 2rem; background: hsl(87, 100%, 97%); border-radius: var(--b-radius-10); text-align: center;">
+                            <i class="fab fa-paypal" style="font-size: 3rem; color: #0070ba; margin-bottom: 1rem;"></i>
+                            <p>You'll be redirected to PayPal to complete your payment.</p>
+                        </div>
+                    </div>
+
+                    <div id="hotel-payment" style="display: none;">
+                        <div style="padding: 2rem; background: hsl(87, 100%, 97%); border-radius: var(--b-radius-10);">
+                            <i class="fas fa-info-circle" style="color: var(--50); margin-right: 0.5rem;"></i>
+                            <strong>Pay when you arrive at the hotel</strong>
+                            <p style="margin-top: 0.5rem;">A credit card is required to guarantee your reservation.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 4: Terms and Policies -->
+                <div class="booking-section">
+                    <h3>Confirm Booking</h3>
+
+                    <div style="padding: 1rem; background: hsl(87, 100%, 97%); border-radius: var(--b-radius-10); margin-bottom: 1rem;">
+                        <i class="fas fa-info-circle" style="color: var(--50);"></i>
+                        <strong>Cancellation Policy</strong>
+                        <p style="margin-top: 0.5rem; font-size: 0.9375rem;">Free cancellation until 24 hours before check-in. Cancellation or modification after this period will incur a charge equal to the first night's stay.</p>
+                        <a href="#" style="color: var(--36); font-size: 0.875rem;">View full cancellation policy</a>
+                    </div>
+
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="terms" required>
+                        <label for="terms">I agree to the <a href="/terms-conditions.html" target="_blank">Terms and Conditions</a> and <a href="/privacy-policy.html" target="_blank">Privacy Policy</a></label>
+                    </div>
+
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="marketing" name="marketing">
+                        <label for="marketing">Send me exclusive deals and offers via email</label>
+                    </div>
+                </div>
+
+                <button type="submit" class="button-primary" style="width: 100%; padding: 1rem; font-size: 1.125rem;">
+                    Complete Booking
+                </button>
+            </form>
+        </div>
+
+        <!-- Help Section -->
+        <div style="background: hsl(87, 100%, 95%); padding: 1.5rem; border-radius: var(--b-radius-15); margin-top: 2rem;">
+            <h4 style="margin-bottom: 1rem; color: var(--heading-color);">Need help with your booking?</h4>
+            <div style="display: flex; gap: 2rem; flex-wrap: wrap;">
+                <div>
+                    <i class="fas fa-phone" style="color: var(--50); margin-right: 0.5rem;"></i>
+                    <strong>Phone:</strong> +1 (800) 555-0199
+                </div>
+                <div>
+                    <i class="fas fa-envelope" style="color: var(--50); margin-right: 0.5rem;"></i>
+                    <strong>Email:</strong> support@luxestay.com
+                </div>
+            </div>
+            <button class="button-secondary" style="margin-top: 1rem;">Contact Support</button>
+        </div>
+    </div>
+
+    <!-- Right Column - Booking Summary -->
+    <div class="right-column">
+        <div class="booking-card">
+            <h3 style="margin-bottom: 1rem;">Booking Summary</h3>
+
+            <img src="" alt="Room" id="summary-image" style="width: 100%; height: 150px; object-fit: cover; border-radius: var(--b-radius-10); margin-bottom: 1rem;">
+
+            <div style="margin-bottom: 1rem;">
+                <strong id="summary-room-type">Room Type</strong>
+            </div>
+
+            <div style="margin-bottom: 1rem; color: var(--text-secondary); font-size: 0.9375rem;" id="summary-dates">
+                <!-- Dates will be loaded here -->
+            </div>
+
+            <div style="margin-bottom: 1rem; color: var(--text-secondary); font-size: 0.9375rem;" id="summary-guests">
+                <!-- Guests will be loaded here -->
+            </div>
+
+            <div class="price-breakdown">
+                <div class="price-row">
+                    <span data-subtotal></span>
+                    <span data-subtotal></span>
+                </div>
+                <div class="price-row">
+                    <span>Service fee</span>
+                    <span data-service-fee>$30.00</span>
+                </div>
+                <div class="price-row">
+                    <span>Taxes (10%)</span>
+                    <span data-tax>$0.00</span>
+                </div>
+                <div class="price-row total">
+                    <span>Total</span>
+                    <span data-total>$0.00</span>
+                </div>
+            </div>
+
+            <div style="margin-top: 1.5rem;">
+                <input type="text" id="promo-code" class="form-input" placeholder="Promo code" style="margin-bottom: 0.5rem;">
+                <button class="button-secondary" data-apply-promo style="width: 100%;">Apply</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    let bookingData = {};
+
+    // Load booking data
+    function loadBookingData() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const savedData = BookingUtils.loadBookingData();
+
+        bookingData = {
+            room_id: urlParams.get('room_id') || savedData?.room_id,
+            check_in: urlParams.get('checkin') || savedData?.check_in || LuxeStay.getTodayDate(),
+            check_out: urlParams.get('checkout') || savedData?.check_out || LuxeStay.getTomorrowDate(),
+            guests: parseInt(urlParams.get('guests')) || savedData?.guests || 2,
+            room: savedData?.room || {
+                room_type: "Deluxe Suite",
+                price_per_night: 199,
+                images: ["https://via.placeholder.com/200x150?text=Room"]
+            }
+        };
+
+        renderSummary();
+        renderRoomPreview();
+    }
+
+    function renderSummary() {
+        document.getElementById('summary-image').src = bookingData.room.images?.[0] || 'https://via.placeholder.com/200x150';
+        document.getElementById('summary-room-type').textContent = bookingData.room.room_type;
+        document.getElementById('summary-dates').innerHTML = `
+            <i class="fas fa-calendar"></i> ${LuxeStay.formatDate(bookingData.check_in)} - ${LuxeStay.formatDate(bookingData.check_out)}
+        `;
+        document.getElementById('summary-guests').innerHTML = `
+            <i class="fas fa-users"></i> ${bookingData.guests} ${bookingData.guests === 1 ? 'Guest' : 'Guests'}
+        `;
+
+        const calculation = BookingUtils.calculateBookingTotal(
+            bookingData.room.price_per_night,
+            bookingData.check_in,
+            bookingData.check_out
+        );
+
+        if (calculation) {
+            BookingUtils.updatePriceDisplay(calculation);
+        }
+    }
+
+    function renderRoomPreview() {
+        document.getElementById('room-preview').innerHTML = `
+            <img src="${bookingData.room.images?.[0] || 'https://via.placeholder.com/200x150'}" class="room-image-small" alt="Room" style="width: 200px; height: 150px; object-fit: cover; border-radius: var(--b-radius-10);">
+            <div style="flex: 1;">
+                <h4>${bookingData.room.room_type}</h4>
+                <div style="color: var(--text-secondary); font-size: 0.9375rem; margin-top: 0.5rem;">
+                    ${LuxeStay.formatDate(bookingData.check_in)} - ${LuxeStay.formatDate(bookingData.check_out)}<br>
+                    ${LuxeStay.calculateNights(bookingData.check_in, bookingData.check_out)} nights • ${bookingData.guests} guests
+                </div>
+            </div>
+        `;
+    }
+
+    // Payment method switcher
+    document.querySelectorAll('input[name="payment_method"]').forEach(radio => {
+        radio.addEventListener('change', (e) => {
+            document.getElementById('card-payment-fields').style.display = 'none';
+            document.getElementById('paypal-payment').style.display = 'none';
+            document.getElementById('hotel-payment').style.display = 'none';
+
+            if (e.target.value === 'card') {
+                document.getElementById('card-payment-fields').style.display = 'block';
+            } else if (e.target.value === 'paypal') {
+                document.getElementById('paypal-payment').style.display = 'block';
+            } else if (e.target.value === 'hotel') {
+                document.getElementById('hotel-payment').style.display = 'block';
+            }
+        });
+    });
+
+    // Character counter
+    document.querySelector('[name="special_requests"]')?.addEventListener('input', (e) => {
+        const counter = document.getElementById('char-counter');
+        const length = e.target.value.length;
+        counter.textContent = `${length}/500`;
+
+        if (length > 450) {
+            counter.classList.add('warning');
+        } else {
+            counter.classList.remove('warning');
+        }
+    });
+
+    // Form submission
+    document.getElementById('complete-booking-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        if (!LuxeStay.validateForm(e.target)) return;
+
+        const formData = new FormData(e.target);
+
+        const submitData = {
+            ...bookingData,
+            guest_info: {
+                full_name: formData.get('full_name'),
+                email: formData.get('email'),
+                phone: formData.get('phone'),
+                country: formData.get('country'),
+                special_requests: formData.get('special_requests')
+            },
+            payment_method: formData.get('payment_method'),
+            marketing_opt_in: formData.get('marketing') === 'on'
+        };
+
+        if (submitData.payment_method === 'card') {
+            submitData.card_token = 'tok_mock_token'; // Would come from Stripe
+            submitData.card_last_four = formData.get('card_number')?.slice(-4);
+        }
+
+        const btn = e.target.querySelector('[type="submit"]');
+        LuxeStay.setButtonLoading(btn, true);
+
+        try {
+            // Simulate API call
+            await new Promise(resolve => setTimeout(resolve, 2000));
+
+            const mockResponse = {
+                success: true,
+                booking: {
+                    id: 123,
+                    confirmation_number: 'LX-2025-0123456'
+                }
+            };
+
+            if (mockResponse.success) {
+                BookingUtils.clearBookingData();
+                window.location.href = `/public/confirmation.html?booking_id=${mockResponse.booking.id}`;
+            }
+        } catch (error) {
+            LuxeStay.showToast(error.message || 'Booking failed. Please try again.', 'error');
+        } finally {
+            LuxeStay.setButtonLoading(btn, false);
+        }
+    });
+
+    // Initialize
+    loadBookingData();
+</script>
+
+<?php include '../includes/footer.php'; ?>
