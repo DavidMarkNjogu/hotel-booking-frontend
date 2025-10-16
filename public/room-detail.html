@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deluxe Suite - LuxeStay Hotel</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/components.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar scrolled">
+        <div class="container">
+            <div class="navbar-content">
+                <div class="navbar-brand">
+                    <a href="/index.html">LuxeStay Hotel</a>
+                </div>
+                <div class="navbar-menu" id="navbar-menu">
+                    <a href="/index.html" class="navbar-link">Home</a>
+                    <a href="/public/rooms.html" class="navbar-link">Rooms</a>
+                    <a href="/index.html#about" class="navbar-link">About</a>
+                    <a href="/index.html#contact" class="navbar-link">Contact</a>
+                    <a href="/public/login.html" class="navbar-link">Login</a>
+                </div>
+                <div class="navbar-toggle" id="navbar-toggle">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Breadcrumb Navigation -->
+    <div class="container" style="padding-top: 100px;">
+        <div class="breadcrumb">
+            <a href="/index.html">Home</a>
+            <span class="breadcrumb-separator">/</span>
+            <a href="/public/rooms.html">Rooms</a>
+            <span class="breadcrumb-separator">/</span>
+            <span id="breadcrumb-room-name">Deluxe Suite</span>
+        </div>
+    </div>
+
+    <!-- Image Gallery -->
+    <div class="container" style="margin-bottom: 30px;">
+        <div class="room-gallery">
+            <div class="gallery-main">
+                <img src="../assets/images/room-1-main.jpg" alt="Deluxe Suite Main" class="gallery-image">
+            </div>
+            <div class="gallery-thumbnails">
+                <img src="../assets/images/room-1-thumb1.jpg" alt="Deluxe Suite View 1" class="gallery-image">
+                <img src="../assets/images/room-1-thumb2.jpg" alt="Deluxe Suite View 2" class="gallery-image">
+                <img src="../assets/images/room-1-thumb3.jpg" alt="Deluxe Suite View 3" class="gallery-image">
+                <img src="../assets/images/room-1-thumb4.jpg" alt="Deluxe Suite View 4" class="gallery-image">
+            </div>
+        </div>
+    </div>
+
+    <!-- Room Information and Booking Card -->
+    <div class="container">
+        <div class="room-detail-layout">
+            <!-- Left Column - Room Information -->
+            <div class="room-info">
+                <!-- Room Header -->
+                <div class="room-header">
+                    <h1 id="room-name">Deluxe Suite</h1>
+                    <span class="badge badge-success">Available</span>
+                </div>
+                <div class="room-price-display">
+                    <span class="price-large" id="room-price">$299</span>
+                    <span class="price-suffix">/ night</span>
+                </div>
+
+                <!-- Room Description -->
+                <div class="room-description">
+                    <p>Experience ultimate comfort in our spacious Deluxe Suite. Featuring modern amenities and elegant decor, this room offers a perfect blend of luxury and functionality.</p>
+                    <p>Enjoy stunning city views from your private balcony and unwind in our premium bedding after a long day.</p>
+                </div>
+
+                <!-- Amenities Section -->
+                <div class="room-section">
+                    <h3>Amenities</h3>
+                    <div class="amenities-grid">
+                        <div class="amenity-item">
+                            <i class="fas fa-wifi"></i>
+                            <span>Free WiFi</span>
+                        </div>
+                        <div class="amenity-item">
+                            <i class="fas fa-tv"></i>
+                            <span>Smart TV</span>
+                        </div>
+                        <div class="amenity-item">
+                            <i class="fas fa-snowflake"></i>
+                            <span>Air Conditioning</span>
+                        </div>
+                        <div class="amenity-item">
+                            <i class="fas fa-glass-martini"></i>
+                            <span>Mini Bar</span>
+                        </div>
+                        <div class="amenity-item">
+                            <i class="fas fa-concierge-bell"></i>
+                            <span>Room Service</span>
+                        </div>
+                        <div class="amenity-item">
+                            <i class="fas fa-lock"></i>
+                            <span>Safe Box</span>
+                        </div>
+                        <div class="amenity-item">
+                            <i class="fas fa-door-open"></i>
+                            <span>Balcony</span>
+                        </div>
+                        <div class="amenity-item">
+                            <i class="fas fa-bath"></i>
+                            <span>Bathtub</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Room Specifications -->
+                <div class="room-section">
+                    <h3>Room Specifications</h3>
+                    <ul class="room-specs">
+                        <li><strong>Bed Type:</strong> King Size Bed</li>
+                        <li><strong>Room Size:</strong> 45 m²</li>
+                        <li><strong>Max Occupancy:</strong> 2 Adults</li>
+                        <li><strong>View:</strong> City View</li>
+                        <li><strong>Floor:</strong> 5th - 8th Floor</li>
+                    </ul>
+                </div>
+
+                <!-- Policies Section -->
+                <div class="room-section">
+                    <h3>Hotel Policies</h3>
+                    <ul class="room-specs">
+                        <li><strong>Check-in:</strong> 3:00 PM</li>
+                        <li><strong>Check-out:</strong> 11:00 AM</li>
+                        <li><strong>Cancellation:</strong> Free cancellation up to 48 hours before arrival</li>
+                        <li><strong>Payment:</strong> Payment required at booking</li>
+                        <li><strong>Smoking:</strong> Non-smoking room</li>
+                        <li><strong>Pets:</strong> Not allowed in this room type</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Right Column - Booking Card -->
+            <div class="booking-card-wrapper">
+                <div class="booking-card">
+                    <h3 class="booking-card-title">
+                        <span id="booking-price">$299</span>
+                        <span class="price-suffix">/ night</span>
+                    </h3>
+
+                    <form id="quick-book-form" onsubmit="handleQuickBook(event)">
+                        <!-- Check-in Date -->
+                        <div class="form-group">
+                            <label for="check-in" class="form-label">Check-in</label>
+                            <input type="date" id="check-in" class="form-input" required>
+                        </div>
+
+                        <!-- Check-out Date -->
+                        <div class="form-group">
+                            <label for="check-out" class="form-label">Check-out</label>
+                            <input type="date" id="check-out" class="form-input" required>
+                        </div>
+
+                        <!-- Guests -->
+                        <div class="form-group">
+                            <label for="guests" class="form-label">Guests</label>
+                            <select id="guests" class="form-select">
+                                <option value="1">1 Guest</option>
+                                <option value="2" selected>2 Guests</option>
+                            </select>
+                        </div>
+
+                        <!-- Price Summary -->
+                        <div class="price-summary">
+                            <div class="price-row">
+                                <span>Subtotal</span>
+                                <span id="subtotal">$0</span>
+                            </div>
+                            <div class="price-row">
+                                <span>Tax (10%)</span>
+                                <span id="tax">$0</span>
+                            </div>
+                            <div class="price-row total-row">
+                                <span>Total</span>
+                                <span id="total">$0</span>
+                            </div>
+                        </div>
+
+                        <!-- Book Now Button -->
+                        <button type="submit" class="button button-primary button-big" style="width: 100%; margin-top: 20px;">
+                            Book Now
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <?php include '../includes/footer.php'; ?>
+
+    <!-- JavaScript -->
+    <script src="../assets/js/main.js"></script>
+    <script src="../assets/js/booking.js"></script>
+    <script>
+        // Room data (would normally come from backend)
+        const roomData = {
+            1: { name: 'Deluxe Suite', price: 299, maxGuests: 2 },
+            2: { name: 'Executive Room', price: 199, maxGuests: 2 },
+            3: { name: 'Presidential Suite', price: 599, maxGuests: 4 },
+            4: { name: 'Standard Room', price: 149, maxGuests: 2 },
+            5: { name: 'Family Suite', price: 399, maxGuests: 4 },
+            6: { name: 'Honeymoon Suite', price: 449, maxGuests: 2 }
+        };
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get room ID from URL parameter
+            const urlParams = new URLSearchParams(window.location.search);
+            const roomId = urlParams.get('id') || '1';
+            const room = roomData[roomId];
+
+            if (!room) {
+                if (typeof showToast === 'function') {
+                    showToast('Room not found', 'error');
+                }
+                setTimeout(() => {
+                    window.location.href = '/public/rooms.html';
+                }, 2000);
+                return;
+            }
+
+            // Update page with room data
+            document.getElementById('room-name').textContent = room.name;
+            document.getElementById('breadcrumb-room-name').textContent = room.name;
+            document.getElementById('room-price').textContent = '$' + room.price;
+            document.getElementById('booking-price').textContent = '$' + room.price;
+            document.title = room.name + ' - LuxeStay Hotel';
+
+            // Update guest options
+            const guestsSelect = document.getElementById('guests');
+            guestsSelect.innerHTML = '';
+            for (let i = 1; i <= room.maxGuests; i++) {
+                const option = document.createElement('option');
+                option.value = i;
+                option.textContent = i + (i === 1 ? ' Guest' : ' Guests');
+                if (i === 2 && room.maxGuests >= 2) option.selected = true;
+                guestsSelect.appendChild(option);
+            }
+
+            // Set room rate for calculations
+            if (typeof setRoomRate === 'function') {
+                setRoomRate(room.price);
+            }
+
+            // Date input setup
+            const checkinInput = document.getElementById('check-in');
+            const checkoutInput = document.getElementById('check-out');
+            const today = new Date().toISOString().split('T')[0];
+
+            checkinInput.setAttribute('min', today);
+
+            // Update checkout min date when checkin changes
+            checkinInput.addEventListener('change', function() {
+                const checkinDate = new Date(this.value);
+
+                // Check if check-in is in the past
+                if (this.value < today) {
+                    if (typeof showToast === 'function') {
+                        showToast('Check-in date cannot be in the past', 'error');
+                    }
+                    this.value = today;
+                    return;
+                }
+
+                checkinDate.setDate(checkinDate.getDate() + 1);
+                const minCheckout = checkinDate.toISOString().split('T')[0];
+                checkoutInput.setAttribute('min', minCheckout);
+
+                if (checkoutInput.value && checkoutInput.value < minCheckout) {
+                    checkoutInput.value = minCheckout;
+                }
+
+                calculateTotal();
+            });
+
+            checkoutInput.addEventListener('change', calculateTotal);
+            guestsSelect.addEventListener('change', calculateTotal);
+
+            // Calculate booking total
+            function calculateTotal() {
+                const checkin = checkinInput.value;
+                const checkout = checkoutInput.value;
+
+                if (!checkin || !checkout) {
+                    document.getElementById('subtotal').textContent = '$0';
+                    document.getElementById('tax').textContent = '$0';
+                    document.getElementById('total').textContent = '$0';
+                    return;
+                }
+
+                // Check if checkout is after checkin
+                if (new Date(checkout) <= new Date(checkin)) {
+                    if (typeof showToast === 'function') {
+                        showToast('Check-out must be after check-in', 'error');
+                    }
+                    return;
+                }
+
+                // Calculate nights
+                const date1 = new Date(checkin);
+                const date2 = new Date(checkout);
+                const diffTime = Math.abs(date2 - date1);
+                const nights = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+                if (nights === 0) {
+                    if (typeof showToast === 'function') {
+                        showToast('Minimum stay is 1 night', 'error');
+                    }
+                    return;
+                }
+
+                // Calculate prices
+                const subtotal = nights * room.price;
+                const tax = subtotal * 0.10;
+                const total = subtotal + tax;
+
+                // Format and display
+                const formatCurrency = (amount) => '$' + amount.toFixed(2);
+
+                document.getElementById('subtotal').textContent = formatCurrency(subtotal);
+                document.getElementById('tax').textContent = formatCurrency(tax);
+                document.getElementById('total').textContent = formatCurrency(total);
+            }
+        });
+
+        // Handle form submission
+        function handleQuickBook(event) {
+            event.preventDefault();
+
+            const checkin = document.getElementById('check-in').value;
+            const checkout = document.getElementById('check-out').value;
+            const guests = document.getElementById('guests').value;
+            const subtotal = document.getElementById('subtotal').textContent;
+            const tax = document.getElementById('tax').textContent;
+            const total = document.getElementById('total').textContent;
+
+            // Validation
+            if (!checkin || !checkout) {
+                if (typeof showToast === 'function') {
+                    showToast('Please select check-in and check-out dates', 'error');
+                } else {
+                    alert('Please select check-in and check-out dates');
+                }
+                return;
+            }
+
+            if (new Date(checkout) <= new Date(checkin)) {
+                if (typeof showToast === 'function') {
+                    showToast('Check-out must be after check-in', 'error');
+                } else {
+                    alert('Check-out must be after check-in');
+                }
+                return;
+            }
+
+            const today = new Date().toISOString().split('T')[0];
+            if (checkin < today) {
+                if (typeof showToast === 'function') {
+                    showToast('Check-in date cannot be in the past', 'error');
+                } else {
+                    alert('Check-in date cannot be in the past');
+                }
+                return;
+            }
+
+            // Get room data from URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const roomId = urlParams.get('id') || '1';
+            const room = roomData[roomId];
+
+            // Store booking data
+            const bookingData = {
+                roomId: roomId,
+                roomName: room.name,
+                roomPrice: room.price,
+                checkIn: checkin,
+                checkOut: checkout,
+                guests: guests,
+                subtotal: subtotal,
+                tax: tax,
+                total: total
+            };
+
+            sessionStorage.setItem('bookingData', JSON.stringify(bookingData));
+
+            // Redirect to booking flow
+            window.location.href = '/public/booking-flow.html';
+        }
+
+        // Mobile menu toggle
+        const navbarToggle = document.getElementById('navbar-toggle');
+        const navbarMenu = document.getElementById('navbar-menu');
+
+        if (navbarToggle) {
+            navbarToggle.addEventListener('click', function() {
+                navbarMenu.classList.toggle('active');
+            });
+        }
+    </script>
+</body>
+</html>
