@@ -1,0 +1,913 @@
+<?php
+$pageTitle = "Complete Payment";
+$navbarClass = "scrolled"; // Solid navbar from start
+$currentPage = "payment";
+$additionalStyles = ['/assets/css/components.css'];
+include '../includes/header.php';
+?>
+
+<!-- Payment Page -->
+<section class="payment-page">
+    <div class="container">
+        <div class="payment-wrapper">
+            <!-- Left Column: Payment Form -->
+            <div class="payment-form-section">
+                <div class="payment-header">
+                    <h2>Complete Your Payment</h2>
+                    <p class="subheading">
+                        <i class="fas fa-lock"></i>
+                        Your information is secure and encrypted
+                    </p>
+                </div>
+
+                <!-- Payment Method Selection -->
+                <div class="payment-methods">
+                    <h3>Select Payment Method</h3>
+                    <div class="payment-method-options">
+                        <label class="payment-method-card active">
+                            <input type="radio" name="payment_method" value="card" checked>
+                            <div class="method-content">
+                                <i class="fas fa-credit-card"></i>
+                                <span>Credit/Debit Card</span>
+                            </div>
+                        </label>
+                        <label class="payment-method-card">
+                            <input type="radio" name="payment_method" value="paypal">
+                            <div class="method-content">
+                                <i class="fab fa-paypal"></i>
+                                <span>PayPal</span>
+                            </div>
+                        </label>
+                        <label class="payment-method-card">
+                            <input type="radio" name="payment_method" value="apple_pay">
+                            <div class="method-content">
+                                <i class="fab fa-apple"></i>
+                                <span>Apple Pay</span>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Credit Card Form -->
+                <form id="payment-form" class="card-payment-form">
+                    <!-- Card Number -->
+                    <div class="form-group">
+                        <label for="card-number">Card Number</label>
+                        <div class="input-with-icon">
+                            <input
+                                type="text"
+                                id="card-number"
+                                name="card_number"
+                                class="form-input"
+                                placeholder="1234 5678 9012 3456"
+                                maxlength="19"
+                                required
+                            >
+                            <div class="card-brand-icon" id="card-brand"></div>
+                        </div>
+                        <div class="form-error"></div>
+                    </div>
+
+                    <!-- Expiry and CVV Row -->
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="expiry-date">Expiry Date</label>
+                            <input
+                                type="text"
+                                id="expiry-date"
+                                name="expiry_date"
+                                class="form-input"
+                                placeholder="MM/YY"
+                                maxlength="5"
+                                required
+                            >
+                            <div class="form-error"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="cvv">
+                                CVV
+                                <i class="fas fa-info-circle tooltip-trigger" data-tooltip="3-4 digit code on back of card"></i>
+                            </label>
+                            <input
+                                type="text"
+                                id="cvv"
+                                name="cvv"
+                                class="form-input"
+                                placeholder="123"
+                                maxlength="4"
+                                required
+                            >
+                            <div class="form-error"></div>
+                        </div>
+                    </div>
+
+                    <!-- Cardholder Name -->
+                    <div class="form-group">
+                        <label for="cardholder-name">Cardholder Name</label>
+                        <input
+                            type="text"
+                            id="cardholder-name"
+                            name="cardholder_name"
+                            class="form-input"
+                            placeholder="John Doe"
+                            required
+                        >
+                        <div class="form-error"></div>
+                    </div>
+
+                    <!-- Billing Address Section -->
+                    <div class="billing-address-section">
+                        <h3>Billing Address</h3>
+                        <div class="form-group checkbox-group">
+                            <label>
+                                <input type="checkbox" id="same-as-booking" checked>
+                                <span>Billing address same as booking address</span>
+                            </label>
+                        </div>
+
+                        <div id="billing-address-form" style="display: none;">
+                            <div class="form-group">
+                                <label for="address-line1">Address Line 1</label>
+                                <input
+                                    type="text"
+                                    id="address-line1"
+                                    name="address_line1"
+                                    class="form-input"
+                                >
+                            </div>
+                            <div class="form-group">
+                                <label for="address-line2">Address Line 2 (Optional)</label>
+                                <input
+                                    type="text"
+                                    id="address-line2"
+                                    name="address_line2"
+                                    class="form-input"
+                                >
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="city">City</label>
+                                    <input type="text" id="city" name="city" class="form-input">
+                                </div>
+                                <div class="form-group">
+                                    <label for="state">State/Province</label>
+                                    <input type="text" id="state" name="state" class="form-input">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="zip">ZIP/Postal Code</label>
+                                    <input type="text" id="zip" name="zip" class="form-input">
+                                </div>
+                                <div class="form-group">
+                                    <label for="country">Country</label>
+                                    <select id="country" name="country" class="form-input">
+                                        <option value="US">United States</option>
+                                        <option value="CA">Canada</option>
+                                        <option value="GB">United Kingdom</option>
+                                        <option value="AU">Australia</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Save Card Option -->
+                    <div class="form-group checkbox-group">
+                        <label>
+                            <input type="checkbox" id="save-card">
+                            <span>Save this card for future bookings</span>
+                        </label>
+                        <small class="form-help">Your card will be securely saved</small>
+                    </div>
+
+                    <!-- Payment Button -->
+                    <button type="submit" class="button-primary button-large" id="pay-button">
+                        Pay <span id="payment-amount">$689.70</span>
+                    </button>
+
+                    <!-- Security Badges -->
+                    <div class="security-badges">
+                        <div class="badge-icons">
+                            <i class="fas fa-lock"></i>
+                            <i class="fab fa-cc-visa"></i>
+                            <i class="fab fa-cc-mastercard"></i>
+                            <i class="fab fa-cc-amex"></i>
+                            <i class="fab fa-cc-discover"></i>
+                        </div>
+                        <p class="security-text">256-bit SSL encryption • PCI DSS compliant</p>
+                    </div>
+                </form>
+
+                <!-- PayPal Section (Hidden by default) -->
+                <div id="paypal-section" style="display: none;">
+                    <div id="paypal-button-container"></div>
+                    <p class="payment-help">You will be redirected to PayPal to complete your payment</p>
+                </div>
+
+                <!-- Apple Pay Section (Hidden by default) -->
+                <div id="apple-pay-section" style="display: none;">
+                    <button class="apple-pay-button" id="apple-pay-button">
+                        <i class="fab fa-apple"></i> Pay with Apple Pay
+                    </button>
+                </div>
+            </div>
+
+            <!-- Right Column: Order Summary -->
+            <div class="order-summary-section">
+                <div class="order-summary-card card">
+                    <h3>Order Summary</h3>
+
+                    <!-- Room Details -->
+                    <div class="summary-room-details">
+                        <img src="/assets/images/rooms/room-placeholder.jpg" alt="Room" class="summary-room-image" id="summary-room-image">
+                        <div class="summary-room-info">
+                            <h4 id="summary-room-type">Deluxe Suite</h4>
+                            <p class="summary-dates" id="summary-dates">Jan 15 - Jan 18, 2025</p>
+                            <p class="summary-guests" id="summary-guests">
+                                <i class="fas fa-user"></i> 2 guests
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Price Breakdown -->
+                    <div class="price-breakdown">
+                        <div class="price-row">
+                            <span id="summary-price-detail">$199 × 3 nights</span>
+                            <span id="summary-subtotal">$597.00</span>
+                        </div>
+                        <div class="price-row">
+                            <span>Service fee</span>
+                            <span id="summary-service-fee">$30.00</span>
+                        </div>
+                        <div class="price-row">
+                            <span>Taxes (10%)</span>
+                            <span id="summary-tax">$62.70</span>
+                        </div>
+                        <div class="price-row discount-row" id="discount-row" style="display: none;">
+                            <span>Discount</span>
+                            <span class="discount-amount" id="summary-discount">-$0.00</span>
+                        </div>
+                        <hr>
+                        <div class="price-row total-row">
+                            <span><strong>Total</strong></span>
+                            <span class="total-amount" id="summary-total">$689.70</span>
+                        </div>
+                    </div>
+
+                    <!-- Payment Details -->
+                    <div class="payment-details">
+                        <p class="booking-id">
+                            <small>Booking ID:</small>
+                            <strong id="booking-id">#LX-2025-0123456</strong>
+                        </p>
+                        <p class="payment-status">
+                            <span class="badge badge-warning">Pending Payment</span>
+                        </p>
+                    </div>
+
+                    <!-- Promo Code Section -->
+                    <div class="promo-code-section">
+                        <div class="promo-input-group">
+                            <input
+                                type="text"
+                                id="promo-code"
+                                class="form-input"
+                                placeholder="Enter promo code"
+                            >
+                            <button type="button" class="button-secondary" id="apply-promo">Apply</button>
+                        </div>
+                        <div class="promo-message" id="promo-message"></div>
+                    </div>
+
+                    <!-- Refund Policy -->
+                    <div class="refund-policy">
+                        <p>
+                            <i class="fas fa-info-circle"></i>
+                            Free cancellation until 24 hours before check-in
+                        </p>
+                        <a href="#" class="view-policy">View cancellation policy</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Inline Styles -->
+<style>
+.payment-page {
+    padding: 2rem 0;
+    min-height: calc(100vh - 80px - 200px);
+}
+
+.payment-wrapper {
+    display: grid;
+    grid-template-columns: 60% 40%;
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.payment-form-section {
+    background: white;
+    padding: 2rem;
+    border-radius: var(--b-radius-20);
+    box-shadow: var(--shadow-medium);
+}
+
+.payment-header {
+    margin-bottom: 2rem;
+}
+
+.payment-header h2 {
+    color: var(--heading-color);
+    margin-bottom: 0.5rem;
+}
+
+.payment-header .subheading {
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.payment-header .subheading i {
+    color: var(--50);
+}
+
+.payment-methods {
+    margin-bottom: 2rem;
+}
+
+.payment-methods h3 {
+    font-size: 1.125rem;
+    margin-bottom: 1rem;
+    color: var(--heading-color);
+}
+
+.payment-method-options {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+}
+
+.payment-method-card {
+    border: 2px solid var(--border-color);
+    border-radius: var(--b-radius-10);
+    padding: 1rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.payment-method-card input[type="radio"] {
+    display: none;
+}
+
+.payment-method-card.active {
+    border-color: var(--50);
+    background: var(--95);
+}
+
+.payment-method-card:hover {
+    border-color: var(--36);
+}
+
+.method-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.method-content i {
+    font-size: 1.5rem;
+    color: var(--50);
+}
+
+.card-payment-form {
+    display: block;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.input-with-icon {
+    position: relative;
+}
+
+.card-brand-icon {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.5rem;
+}
+
+.tooltip-trigger {
+    cursor: help;
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    margin-left: 0.25rem;
+}
+
+.billing-address-section {
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border-color);
+}
+
+.billing-address-section h3 {
+    font-size: 1.125rem;
+    margin-bottom: 1rem;
+    color: var(--heading-color);
+}
+
+.checkbox-group {
+    margin-bottom: 1rem;
+}
+
+.checkbox-group label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+}
+
+.checkbox-group input[type="checkbox"] {
+    width: 1.125rem;
+    height: 1.125rem;
+}
+
+.form-help {
+    display: block;
+    margin-top: 0.25rem;
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+}
+
+.button-large {
+    padding: 1rem 2rem;
+    font-size: 1.125rem;
+    width: 100%;
+    margin-top: 2rem;
+}
+
+.security-badges {
+    margin-top: 1.5rem;
+    text-align: center;
+}
+
+.badge-icons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.badge-icons i {
+    font-size: 1.5rem;
+    color: var(--text-secondary);
+}
+
+.security-text {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+}
+
+.order-summary-section {
+    position: sticky;
+    top: 100px;
+    height: fit-content;
+}
+
+.order-summary-card {
+    padding: 1.5rem;
+}
+
+.order-summary-card h3 {
+    font-size: 1.25rem;
+    margin-bottom: 1.5rem;
+    color: var(--heading-color);
+}
+
+.summary-room-details {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.summary-room-image {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: var(--b-radius-10);
+}
+
+.summary-room-info h4 {
+    font-size: 1rem;
+    margin-bottom: 0.25rem;
+    color: var(--heading-color);
+}
+
+.summary-dates, .summary-guests {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    margin: 0.25rem 0;
+}
+
+.price-breakdown {
+    margin: 1.5rem 0;
+}
+
+.price-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.75rem;
+    color: var(--text-secondary);
+}
+
+.price-row.total-row {
+    margin-top: 1rem;
+    font-size: 1.125rem;
+}
+
+.total-amount {
+    color: var(--50);
+    font-weight: 700;
+    font-size: 1.5rem;
+}
+
+.discount-amount {
+    color: var(--danger-color);
+}
+
+.payment-details {
+    margin: 1.5rem 0;
+    padding: 1rem;
+    background: var(--95);
+    border-radius: var(--b-radius-10);
+}
+
+.booking-id {
+    margin-bottom: 0.5rem;
+}
+
+.promo-code-section {
+    margin: 1.5rem 0;
+}
+
+.promo-input-group {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.promo-input-group .form-input {
+    flex: 1;
+}
+
+.promo-message {
+    margin-top: 0.5rem;
+    font-size: 0.875rem;
+}
+
+.promo-message.success {
+    color: var(--success-color);
+}
+
+.promo-message.error {
+    color: var(--danger-color);
+}
+
+.refund-policy {
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border-color);
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+}
+
+.refund-policy i {
+    color: var(--50);
+}
+
+.refund-policy .view-policy {
+    display: block;
+    margin-top: 0.5rem;
+    color: var(--36);
+    text-decoration: underline;
+}
+
+.payment-help {
+    text-align: center;
+    color: var(--text-secondary);
+    margin-top: 1rem;
+}
+
+.apple-pay-button {
+    width: 100%;
+    padding: 1rem;
+    background: #000;
+    color: #fff;
+    border: none;
+    border-radius: var(--b-radius-10);
+    font-size: 1.125rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+/* Responsive */
+@media (max-width: 1023px) {
+    .payment-wrapper {
+        grid-template-columns: 55% 45%;
+    }
+}
+
+@media (max-width: 767px) {
+    .payment-wrapper {
+        grid-template-columns: 1fr;
+    }
+
+    .order-summary-section {
+        position: static;
+        order: -1;
+    }
+
+    .payment-method-options {
+        grid-template-columns: 1fr;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+
+    .button-large {
+        position: sticky;
+        bottom: 0;
+        z-index: 10;
+    }
+}
+</style>
+
+<!-- Page JavaScript -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Load booking data from sessionStorage
+    loadBookingData();
+
+    // Payment method switching
+    const paymentMethodInputs = document.querySelectorAll('input[name="payment_method"]');
+    paymentMethodInputs.forEach(input => {
+        input.addEventListener('change', function() {
+            // Remove active class from all
+            document.querySelectorAll('.payment-method-card').forEach(card => {
+                card.classList.remove('active');
+            });
+
+            // Add active to selected
+            this.closest('.payment-method-card').classList.add('active');
+
+            // Show/hide payment forms
+            const selectedMethod = this.value;
+            document.getElementById('payment-form').style.display = selectedMethod === 'card' ? 'block' : 'none';
+            document.getElementById('paypal-section').style.display = selectedMethod === 'paypal' ? 'block' : 'none';
+            document.getElementById('apple-pay-section').style.display = selectedMethod === 'apple_pay' ? 'block' : 'none';
+        });
+    });
+
+    // Card number formatting and validation
+    const cardNumberInput = document.getElementById('card-number');
+    cardNumberInput.addEventListener('input', function(e) {
+        let value = e.target.value.replace(/\D/g, '');
+        let formattedValue = value.match(/.{1,4}/g)?.join(' ') || value;
+        e.target.value = formattedValue;
+
+        // Detect card brand
+        detectCardBrand(value);
+
+        // Validate with Luhn algorithm
+        if (value.length >= 13) {
+            const isValid = BookingUtils.luhnCheck(value);
+            if (!isValid) {
+                LuxeStay.showFieldError(e.target, 'Invalid card number');
+            } else {
+                LuxeStay.clearFieldError(e.target);
+            }
+        }
+    });
+
+    // Expiry date formatting
+    const expiryInput = document.getElementById('expiry-date');
+    expiryInput.addEventListener('input', function(e) {
+        let value = e.target.value.replace(/\D/g, '');
+        if (value.length >= 2) {
+            value = value.substring(0, 2) + '/' + value.substring(2, 4);
+        }
+        e.target.value = value;
+    });
+
+    expiryInput.addEventListener('blur', function(e) {
+        const value = e.target.value;
+        if (value.length === 5) {
+            const [month, year] = value.split('/');
+            const currentYear = new Date().getFullYear() % 100;
+            const currentMonth = new Date().getMonth() + 1;
+
+            if (parseInt(month) < 1 || parseInt(month) > 12) {
+                LuxeStay.showFieldError(e.target, 'Invalid month');
+            } else if (parseInt(year) < currentYear || (parseInt(year) === currentYear && parseInt(month) < currentMonth)) {
+                LuxeStay.showFieldError(e.target, 'Card has expired');
+            } else {
+                LuxeStay.clearFieldError(e.target);
+            }
+        }
+    });
+
+    // CVV validation
+    const cvvInput = document.getElementById('cvv');
+    cvvInput.addEventListener('input', function(e) {
+        e.target.value = e.target.value.replace(/\D/g, '');
+    });
+
+    // Billing address toggle
+    const sameAsBookingCheckbox = document.getElementById('same-as-booking');
+    const billingAddressForm = document.getElementById('billing-address-form');
+    sameAsBookingCheckbox.addEventListener('change', function() {
+        billingAddressForm.style.display = this.checked ? 'none' : 'block';
+    });
+
+    // Promo code application
+    document.getElementById('apply-promo').addEventListener('click', applyPromoCode);
+
+    // Payment form submission
+    document.getElementById('payment-form').addEventListener('submit', async function(e) {
+        e.preventDefault();
+
+        if (!LuxeStay.validateForm(this)) {
+            LuxeStay.showToast('Please fill in all required fields correctly', 'error');
+            return;
+        }
+
+        const button = document.getElementById('pay-button');
+        LuxeStay.setButtonLoading(button, true);
+
+        try {
+            // In real implementation, tokenize card with Stripe.js first
+            const paymentData = {
+                booking_id: getBookingId(),
+                payment_method: 'card',
+                card_token: 'tok_test_123', // This would come from Stripe.js
+                cardholder_name: document.getElementById('cardholder-name').value,
+                save_card: document.getElementById('save-card').checked,
+                amount: getTotalAmount()
+            };
+
+            if (!sameAsBookingCheckbox.checked) {
+                paymentData.billing_address = {
+                    address_line1: document.getElementById('address-line1').value,
+                    address_line2: document.getElementById('address-line2').value,
+                    city: document.getElementById('city').value,
+                    state: document.getElementById('state').value,
+                    zip: document.getElementById('zip').value,
+                    country: document.getElementById('country').value
+                };
+            }
+
+            const response = await LuxeStay.apiRequest('/api/payments', 'POST', paymentData);
+
+            if (response.success) {
+                LuxeStay.showToast('Payment successful!', 'success');
+                sessionStorage.removeItem('booking_data');
+                window.location.href = `/public/confirmation.html?booking_id=${response.booking.id}`;
+            }
+        } catch (error) {
+            LuxeStay.showToast(error.message || 'Payment failed. Please try again.', 'error');
+        } finally {
+            LuxeStay.setButtonLoading(button, false);
+        }
+    });
+});
+
+function detectCardBrand(cardNumber) {
+    const brandIcon = document.getElementById('card-brand');
+    const brand = BookingUtils.detectCardBrand(cardNumber);
+
+    const icons = {
+        'visa': '<i class="fab fa-cc-visa"></i>',
+        'mastercard': '<i class="fab fa-cc-mastercard"></i>',
+        'amex': '<i class="fab fa-cc-amex"></i>',
+        'discover': '<i class="fab fa-cc-discover"></i>',
+        'unknown': ''
+    };
+
+    brandIcon.innerHTML = icons[brand] || '';
+
+    // Update CVV max length for Amex
+    const cvvInput = document.getElementById('cvv');
+    cvvInput.maxLength = brand === 'amex' ? 4 : 3;
+}
+
+function loadBookingData() {
+    const bookingData = sessionStorage.getItem('booking_data');
+    if (bookingData) {
+        const data = JSON.parse(bookingData);
+
+        // Update summary with booking data
+        if (data.room_image) document.getElementById('summary-room-image').src = data.room_image;
+        if (data.room_type) document.getElementById('summary-room-type').textContent = data.room_type;
+        if (data.check_in && data.check_out) {
+            document.getElementById('summary-dates').textContent =
+                `${formatDate(data.check_in)} - ${formatDate(data.check_out)}`;
+        }
+        if (data.guests) document.getElementById('summary-guests').innerHTML =
+            `<i class="fas fa-user"></i> ${data.guests} guest${data.guests > 1 ? 's' : ''}`;
+
+        // Update price breakdown
+        if (data.price_breakdown) {
+            document.getElementById('summary-price-detail').textContent =
+                `$${data.price_breakdown.pricePerNight} × ${data.price_breakdown.nights} nights`;
+            document.getElementById('summary-subtotal').textContent =
+                `$${data.price_breakdown.subtotal.toFixed(2)}`;
+            document.getElementById('summary-service-fee').textContent =
+                `$${data.price_breakdown.serviceFee.toFixed(2)}`;
+            document.getElementById('summary-tax').textContent =
+                `$${data.price_breakdown.tax.toFixed(2)}`;
+            document.getElementById('summary-total').textContent =
+                `$${data.price_breakdown.total.toFixed(2)}`;
+            document.getElementById('payment-amount').textContent =
+                `$${data.price_breakdown.total.toFixed(2)}`;
+        }
+
+        if (data.booking_id || data.confirmation_number) {
+            document.getElementById('booking-id').textContent =
+                `#${data.booking_id || data.confirmation_number}`;
+        }
+    }
+}
+
+async function applyPromoCode() {
+    const promoCode = document.getElementById('promo-code').value.trim();
+    const messageDiv = document.getElementById('promo-message');
+
+    if (!promoCode) {
+        messageDiv.textContent = 'Please enter a promo code';
+        messageDiv.className = 'promo-message error';
+        return;
+    }
+
+    try {
+        const response = await LuxeStay.apiRequest('/api/promo/validate', 'POST', {
+            code: promoCode,
+            booking_id: getBookingId()
+        });
+
+        if (response.success) {
+            // Update price breakdown
+            document.getElementById('discount-row').style.display = 'flex';
+            document.getElementById('summary-discount').textContent = `-$${response.discount.toFixed(2)}`;
+            document.getElementById('summary-total').textContent = `$${response.new_total.toFixed(2)}`;
+            document.getElementById('payment-amount').textContent = `$${response.new_total.toFixed(2)}`;
+
+            messageDiv.textContent = 'Promo code applied successfully!';
+            messageDiv.className = 'promo-message success';
+
+            LuxeStay.showToast('Promo code applied!', 'success');
+        }
+    } catch (error) {
+        messageDiv.textContent = error.message || 'Invalid or expired promo code';
+        messageDiv.className = 'promo-message error';
+    }
+}
+
+function formatDate(dateString) {
+    const date = new Date(dateString);
+    const options = { month: 'short', day: 'numeric' };
+    return date.toLocaleDateString('en-US', options);
+}
+
+function getBookingId() {
+    const bookingData = sessionStorage.getItem('booking_data');
+    if (bookingData) {
+        const data = JSON.parse(bookingData);
+        return data.booking_id || data.id;
+    }
+    // Fallback to URL parameter
+    const params = new URLSearchParams(window.location.search);
+    return params.get('booking_id');
+}
+
+function getTotalAmount() {
+    const totalText = document.getElementById('summary-total').textContent;
+    return parseFloat(totalText.replace('$', '').replace(',', ''));
+}
+</script>
+
+<?php include '../includes/footer.php'; ?>

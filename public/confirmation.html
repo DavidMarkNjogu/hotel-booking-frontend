@@ -1,0 +1,859 @@
+<?php
+$pageTitle = "Booking Confirmed";
+$navbarClass = "scrolled"; // Solid navbar from start
+$currentPage = "confirmation";
+$additionalStyles = ['/assets/css/components.css'];
+include '../includes/header.php';
+?>
+
+<!-- Confirmation Page -->
+<section class="confirmation-page">
+    <!-- Success Section -->
+    <div class="success-section">
+        <div class="container">
+            <div class="success-content">
+                <div class="checkmark-icon" id="checkmark">
+                    <i class="fas fa-circle-check"></i>
+                </div>
+                <h1>Booking Confirmed!</h1>
+                <p class="success-message">Your reservation has been successfully confirmed</p>
+                <div class="confirmation-number-display">
+                    <span class="confirmation-label">Confirmation Number:</span>
+                    <div class="confirmation-number-box">
+                        <span class="confirmation-number" id="confirmation-number">LX-2025-0123456</span>
+                        <button class="copy-button" id="copy-confirmation" aria-label="Copy confirmation number">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="confirmation-content">
+            <!-- Booking Details Card -->
+            <div class="booking-details-card card">
+                <div class="details-grid">
+                    <!-- Room Information -->
+                    <div class="detail-section">
+                        <h3><i class="fas fa-bed"></i> Room Details</h3>
+                        <div class="room-info-display">
+                            <img src="/assets/images/rooms/room-placeholder.jpg" alt="Room" class="room-image" id="room-image">
+                            <div class="room-details">
+                                <h4 id="room-type">Deluxe Suite</h4>
+                                <p class="room-number">Room <span id="room-number">101</span></p>
+                                <p class="room-features" id="room-features">King Bed • 2 Guests • 45 sqm</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Stay Information -->
+                    <div class="detail-section">
+                        <h3><i class="fas fa-calendar"></i> Stay Details</h3>
+                        <div class="stay-info">
+                            <div class="info-row">
+                                <span class="info-label">Check-in:</span>
+                                <span class="info-value" id="check-in-display">Wednesday, January 15, 2025 at 3:00 PM</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">Check-out:</span>
+                                <span class="info-value" id="check-out-display">Saturday, January 18, 2025 at 12:00 PM</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">Duration:</span>
+                                <span class="info-value" id="duration">3 nights</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">Guests:</span>
+                                <span class="info-value" id="guests">2 guests</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Guest Information -->
+                    <div class="detail-section">
+                        <h3><i class="fas fa-user"></i> Guest Details</h3>
+                        <div class="guest-info">
+                            <p class="guest-name" id="guest-name">John Doe</p>
+                            <p class="guest-contact" id="guest-email">john@example.com</p>
+                            <p class="guest-contact" id="guest-phone">+1 (234) 567-8900</p>
+                            <div class="special-requests" id="special-requests-display" style="display: none;">
+                                <p class="info-label">Special Requests:</p>
+                                <p class="special-requests-text" id="special-requests-text"></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Price Summary -->
+                    <div class="detail-section">
+                        <h3><i class="fas fa-receipt"></i> Price Breakdown</h3>
+                        <div class="price-summary">
+                            <div class="price-row">
+                                <span id="price-detail">$199 × 3 nights</span>
+                                <span id="subtotal">$597.00</span>
+                            </div>
+                            <div class="price-row">
+                                <span>Service fee</span>
+                                <span id="service-fee">$30.00</span>
+                            </div>
+                            <div class="price-row">
+                                <span>Taxes</span>
+                                <span id="taxes">$62.70</span>
+                            </div>
+                            <div class="price-row discount-row" id="discount-row" style="display: none;">
+                                <span>Discount</span>
+                                <span class="discount" id="discount">-$50.00</span>
+                            </div>
+                            <hr>
+                            <div class="price-row total-row">
+                                <span><strong>Total Paid</strong></span>
+                                <span class="total-paid" id="total-paid">$689.70</span>
+                            </div>
+                            <p class="payment-method-display">
+                                <small>Payment method: <span id="payment-method">Visa ending in 1234</span></small>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="action-buttons">
+                <button class="button-primary" id="download-receipt">
+                    <i class="fas fa-download"></i> Download Receipt
+                </button>
+                <button class="button-secondary" id="add-to-calendar">
+                    <i class="fas fa-calendar-plus"></i> Add to Calendar
+                </button>
+                <button class="button-tertiary" id="print-confirmation">
+                    <i class="fas fa-print"></i> Print Confirmation
+                </button>
+            </div>
+
+            <!-- What's Next Section -->
+            <div class="whats-next-section">
+                <h2>What Happens Next?</h2>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="timeline-content">
+                            <h4>Confirmation Email Sent</h4>
+                            <p>Check your inbox for booking details and hotel information</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-icon">
+                            <i class="fas fa-calendar"></i>
+                        </div>
+                        <div class="timeline-content">
+                            <h4>24 Hours Before Check-in</h4>
+                            <p>You'll receive a reminder email with check-in instructions</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-icon">
+                            <i class="fas fa-building"></i>
+                        </div>
+                        <div class="timeline-content">
+                            <h4>Check-in Day</h4>
+                            <p>Arrive at hotel, present confirmation number or ID at front desk</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-icon">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <div class="timeline-content">
+                            <h4>After Your Stay</h4>
+                            <p>Share your experience by leaving a review</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hotel Information -->
+            <div class="hotel-info-card card">
+                <h3><i class="fas fa-hotel"></i> Hotel Information</h3>
+                <div class="hotel-details">
+                    <h4 id="hotel-name">LuxeStay Hotel Downtown</h4>
+                    <p class="hotel-address" id="hotel-address">123 Main Street, New York, NY 10001</p>
+                    <p class="hotel-phone" id="hotel-phone">+1 (800) 555-0199</p>
+                    <a href="#" class="button-secondary" id="get-directions">
+                        <i class="fas fa-map-marker-alt"></i> Get Directions
+                    </a>
+                </div>
+            </div>
+
+            <!-- Need Help Section -->
+            <div class="need-help-section">
+                <div class="need-help-content">
+                    <h3>Have questions about your booking?</h3>
+                    <div class="help-buttons">
+                        <a href="#" class="button-primary">
+                            <i class="fas fa-headset"></i> Contact Support
+                        </a>
+                        <a href="/public/profile.html?view=bookings" class="button-secondary">
+                            <i class="fas fa-cog"></i> Manage Booking
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Include jsPDF for receipt generation -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<!-- Inline Styles -->
+<style>
+.confirmation-page {
+    min-height: calc(100vh - 80px - 200px);
+}
+
+.success-section {
+    background: var(--95);
+    padding: 3rem 0;
+    text-align: center;
+}
+
+.checkmark-icon {
+    font-size: 64px;
+    color: var(--50);
+    margin-bottom: 1rem;
+    animation: scaleIn 0.5s ease-out;
+}
+
+@keyframes scaleIn {
+    0% {
+        transform: scale(0);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.success-content h1 {
+    color: var(--heading-color);
+    margin-bottom: 0.5rem;
+}
+
+.success-message {
+    color: var(--text-secondary);
+    font-size: 1.125rem;
+    margin-bottom: 2rem;
+}
+
+.confirmation-number-display {
+    display: inline-block;
+}
+
+.confirmation-label {
+    display: block;
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.5rem;
+}
+
+.confirmation-number-box {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: white;
+    border: 2px solid var(--50);
+    border-radius: var(--b-radius-10);
+    padding: 1rem 1.5rem;
+}
+
+.confirmation-number {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--heading-color);
+    font-family: monospace;
+}
+
+.copy-button {
+    background: var(--95);
+    border: 1px solid var(--36);
+    border-radius: var(--b-radius-10);
+    padding: 0.5rem 0.75rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.copy-button:hover {
+    background: var(--50);
+    color: white;
+}
+
+.confirmation-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 0;
+}
+
+.booking-details-card {
+    padding: 2rem;
+    margin-bottom: 2rem;
+}
+
+.details-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+}
+
+.detail-section {
+    padding: 1.5rem;
+    background: var(--97);
+    border-radius: var(--b-radius-15);
+}
+
+.detail-section h3 {
+    font-size: 1.125rem;
+    color: var(--heading-color);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.detail-section h3 i {
+    color: var(--50);
+}
+
+.room-info-display {
+    display: flex;
+    gap: 1rem;
+}
+
+.room-image {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: var(--b-radius-10);
+}
+
+.room-details h4 {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+    color: var(--heading-color);
+}
+
+.room-number, .room-features {
+    color: var(--text-secondary);
+    margin: 0.25rem 0;
+}
+
+.stay-info, .guest-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.info-label {
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+.info-value {
+    text-align: right;
+    color: var(--heading-color);
+}
+
+.guest-name {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--heading-color);
+    margin-bottom: 0.5rem;
+}
+
+.guest-contact {
+    color: var(--text-secondary);
+    margin: 0.25rem 0;
+}
+
+.special-requests {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border-color);
+}
+
+.special-requests-text {
+    font-style: italic;
+    color: var(--text-secondary);
+}
+
+.price-summary {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.price-row {
+    display: flex;
+    justify-content: space-between;
+    color: var(--text-secondary);
+}
+
+.price-row.total-row {
+    margin-top: 0.5rem;
+    font-size: 1.125rem;
+}
+
+.total-paid {
+    color: var(--50);
+    font-weight: 700;
+    font-size: 1.5rem;
+}
+
+.discount {
+    color: var(--danger-color);
+}
+
+.payment-method-display {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border-color);
+    color: var(--text-secondary);
+}
+
+.action-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin: 2rem 0;
+}
+
+.action-buttons button {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+}
+
+.whats-next-section {
+    margin: 3rem 0;
+    text-align: center;
+}
+
+.whats-next-section h2 {
+    color: var(--heading-color);
+    margin-bottom: 2rem;
+}
+
+.timeline {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.timeline-item {
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+    text-align: left;
+    position: relative;
+}
+
+.timeline-item:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    left: 30px;
+    top: 60px;
+    width: 2px;
+    height: calc(100% + 2rem);
+    background: var(--border-color);
+}
+
+.timeline-icon {
+    width: 60px;
+    height: 60px;
+    background: var(--50);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    flex-shrink: 0;
+}
+
+.timeline-content h4 {
+    color: var(--heading-color);
+    margin-bottom: 0.5rem;
+}
+
+.timeline-content p {
+    color: var(--text-secondary);
+}
+
+.hotel-info-card {
+    padding: 2rem;
+    margin: 2rem 0;
+}
+
+.hotel-info-card h3 {
+    font-size: 1.25rem;
+    color: var(--heading-color);
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.hotel-info-card h3 i {
+    color: var(--50);
+}
+
+.hotel-details h4 {
+    font-size: 1.125rem;
+    color: var(--heading-color);
+    margin-bottom: 0.5rem;
+}
+
+.hotel-address, .hotel-phone {
+    color: var(--text-secondary);
+    margin: 0.25rem 0;
+}
+
+.hotel-details .button-secondary {
+    margin-top: 1rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.need-help-section {
+    background: var(--95);
+    padding: 2rem;
+    border-radius: var(--b-radius-20);
+    text-align: center;
+    margin: 2rem 0;
+}
+
+.need-help-content h3 {
+    color: var(--heading-color);
+    margin-bottom: 1.5rem;
+}
+
+.help-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.help-buttons a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* Print Styles */
+@media print {
+    .navbar, .footer, .action-buttons, .need-help-section {
+        display: none !important;
+    }
+
+    body {
+        background: white;
+    }
+
+    .booking-details-card {
+        box-shadow: none;
+        border: 1px solid #000;
+    }
+
+    .success-section {
+        background: white;
+    }
+}
+
+/* Responsive */
+@media (max-width: 1023px) {
+    .details-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 767px) {
+    .confirmation-number-box {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .confirmation-number {
+        font-size: 1.125rem;
+    }
+
+    .action-buttons {
+        flex-direction: column;
+    }
+
+    .action-buttons button {
+        width: 100%;
+    }
+
+    .help-buttons {
+        flex-direction: column;
+    }
+
+    .help-buttons a {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .timeline-item {
+        flex-direction: column;
+        text-align: center;
+        padding-bottom: 2rem;
+    }
+
+    .timeline-item::after {
+        display: none;
+    }
+
+    .timeline-icon {
+        margin: 0 auto;
+    }
+
+    .hotel-info-card {
+        text-align: center;
+    }
+
+    .hotel-details .button-secondary {
+        width: 100%;
+        justify-content: center;
+    }
+}
+</style>
+
+<!-- Page JavaScript -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Load booking data
+    loadBookingData();
+
+    // Copy confirmation number
+    document.getElementById('copy-confirmation').addEventListener('click', function() {
+        const confirmationNumber = document.getElementById('confirmation-number').textContent;
+        LuxeStay.copyToClipboard(confirmationNumber);
+        LuxeStay.showToast('Confirmation number copied!', 'success');
+    });
+
+    // Download receipt
+    document.getElementById('download-receipt').addEventListener('click', generatePDFReceipt);
+
+    // Add to calendar
+    document.getElementById('add-to-calendar').addEventListener('click', generateICSFile);
+
+    // Print confirmation
+    document.getElementById('print-confirmation').addEventListener('click', function() {
+        window.print();
+    });
+
+    // Get directions
+    document.getElementById('get-directions').addEventListener('click', function(e) {
+        e.preventDefault();
+        const address = document.getElementById('hotel-address').textContent;
+        const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`;
+        window.open(mapsUrl, '_blank');
+    });
+});
+
+function loadBookingData() {
+    // Try to get booking ID from URL
+    const params = new URLSearchParams(window.location.search);
+    const bookingId = params.get('booking_id');
+
+    if (bookingId) {
+        // Fetch booking data from API
+        fetchBookingData(bookingId);
+    } else {
+        // Try to load from sessionStorage
+        const bookingData = sessionStorage.getItem('booking_data');
+        if (bookingData) {
+            const data = JSON.parse(bookingData);
+            populateBookingDetails(data);
+        }
+    }
+}
+
+async function fetchBookingData(bookingId) {
+    try {
+        const response = await LuxeStay.apiRequest(`/api/bookings/${bookingId}`, 'GET');
+        if (response.success) {
+            populateBookingDetails(response.booking, response.hotel);
+        }
+    } catch (error) {
+        console.error('Error fetching booking data:', error);
+        LuxeStay.showToast('Could not load booking details', 'error');
+    }
+}
+
+function populateBookingDetails(booking, hotel) {
+    // Confirmation number
+    if (booking.confirmation_number) {
+        document.getElementById('confirmation-number').textContent = booking.confirmation_number;
+    }
+
+    // Room details
+    if (booking.room) {
+        if (booking.room.image_url) document.getElementById('room-image').src = booking.room.image_url;
+        if (booking.room.room_type) document.getElementById('room-type').textContent = booking.room.room_type;
+        if (booking.room.room_number) document.getElementById('room-number').textContent = booking.room.room_number;
+
+        const features = [];
+        if (booking.room.bed_type) features.push(booking.room.bed_type);
+        if (booking.room.max_occupancy) features.push(`${booking.room.max_occupancy} Guests`);
+        if (booking.room.room_size) features.push(`${booking.room.room_size} sqm`);
+        document.getElementById('room-features').textContent = features.join(' • ');
+    }
+
+    // Stay details
+    if (booking.check_in) {
+        document.getElementById('check-in-display').textContent =
+            LuxeStay.formatDate(booking.check_in) + ' at 3:00 PM';
+    }
+    if (booking.check_out) {
+        document.getElementById('check-out-display').textContent =
+            LuxeStay.formatDate(booking.check_out) + ' at 12:00 PM';
+    }
+    if (booking.nights) {
+        document.getElementById('duration').textContent = `${booking.nights} night${booking.nights > 1 ? 's' : ''}`;
+    }
+    if (booking.guests) {
+        document.getElementById('guests').textContent = `${booking.guests} guest${booking.guests > 1 ? 's' : ''}`;
+    }
+
+    // Guest details
+    if (booking.primary_guest) {
+        document.getElementById('guest-name').textContent = booking.primary_guest.full_name;
+        document.getElementById('guest-email').textContent = booking.primary_guest.email;
+        document.getElementById('guest-phone').textContent = booking.primary_guest.phone;
+    }
+
+    if (booking.special_requests) {
+        document.getElementById('special-requests-display').style.display = 'block';
+        document.getElementById('special-requests-text').textContent = booking.special_requests;
+    }
+
+    // Price breakdown
+    if (booking.price_breakdown) {
+        const pb = booking.price_breakdown;
+        document.getElementById('price-detail').textContent =
+            `$${pb.room_rate} × ${booking.nights} nights`;
+        document.getElementById('subtotal').textContent = `$${pb.subtotal.toFixed(2)}`;
+        document.getElementById('service-fee').textContent = `$${pb.service_fee.toFixed(2)}`;
+        document.getElementById('taxes').textContent = `$${pb.tax.toFixed(2)}`;
+
+        if (pb.discount && pb.discount > 0) {
+            document.getElementById('discount-row').style.display = 'flex';
+            document.getElementById('discount').textContent = `-$${pb.discount.toFixed(2)}`;
+        }
+
+        document.getElementById('total-paid').textContent = `$${pb.total.toFixed(2)}`;
+    }
+
+    if (booking.payment_method) {
+        document.getElementById('payment-method').textContent = booking.payment_method;
+    }
+
+    // Hotel information
+    if (hotel) {
+        if (hotel.name) document.getElementById('hotel-name').textContent = hotel.name;
+        if (hotel.address) document.getElementById('hotel-address').textContent = hotel.address;
+        if (hotel.phone) document.getElementById('hotel-phone').textContent = hotel.phone;
+    }
+}
+
+function generatePDFReceipt() {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+
+    // Get booking details
+    const confirmationNumber = document.getElementById('confirmation-number').textContent;
+    const roomType = document.getElementById('room-type').textContent;
+    const checkIn = document.getElementById('check-in-display').textContent;
+    const checkOut = document.getElementById('check-out-display').textContent;
+    const guestName = document.getElementById('guest-name').textContent;
+    const total = document.getElementById('total-paid').textContent;
+
+    // Add content to PDF
+    doc.setFontSize(20);
+    doc.text('LuxeStay Hotel', 105, 20, { align: 'center' });
+
+    doc.setFontSize(16);
+    doc.text('Booking Receipt', 105, 35, { align: 'center' });
+
+    doc.setFontSize(12);
+    doc.text(`Confirmation Number: ${confirmationNumber}`, 20, 50);
+
+    doc.setFontSize(11);
+    doc.text(`Guest: ${guestName}`, 20, 65);
+    doc.text(`Room: ${roomType}`, 20, 75);
+    doc.text(`Check-in: ${checkIn}`, 20, 85);
+    doc.text(`Check-out: ${checkOut}`, 20, 95);
+    doc.text(`Total Paid: ${total}`, 20, 110);
+
+    doc.setFontSize(10);
+    doc.text('Thank you for choosing LuxeStay Hotel!', 105, 130, { align: 'center' });
+
+    // Save PDF
+    doc.save(`LuxeStay-Receipt-${confirmationNumber}.pdf`);
+
+    LuxeStay.showToast('Receipt downloaded successfully!', 'success');
+}
+
+function generateICSFile() {
+    const confirmationNumber = document.getElementById('confirmation-number').textContent;
+    const roomType = document.getElementById('room-type').textContent;
+    const hotelName = document.getElementById('hotel-name').textContent;
+    const hotelAddress = document.getElementById('hotel-address').textContent;
+
+    // Get dates and format for ICS
+    const checkInText = document.getElementById('check-in-display').textContent;
+    const checkOutText = document.getElementById('check-out-display').textContent;
+
+    // Simple ICS file content
+    const icsContent = `BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//LuxeStay Hotel//Booking//EN
+BEGIN:VEVENT
+SUMMARY:Hotel Stay at ${hotelName}
+DESCRIPTION:Booking confirmation: ${confirmationNumber}\\nRoom: ${roomType}
+LOCATION:${hotelAddress}
+STATUS:CONFIRMED
+DTSTART:20250115T150000
+DTEND:20250118T120000
+END:VEVENT
+END:VCALENDAR`;
+
+    // Create blob and download
+    const blob = new Blob([icsContent], { type: 'text/calendar' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `LuxeStay-Booking-${confirmationNumber}.ics`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+
+    LuxeStay.showToast('Calendar event created!', 'success');
+}
+</script>
+
+<?php include '../includes/footer.php'; ?>

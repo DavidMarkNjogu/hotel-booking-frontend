@@ -1,0 +1,1565 @@
+<?php
+$pageTitle = "My Profile";
+$navbarClass = "scrolled"; // Solid navbar from start
+$currentPage = "profile";
+$additionalStyles = ['/assets/css/components.css'];
+include '../includes/header.php';
+?>
+
+<!-- Profile Page -->
+<section class="profile-page">
+    <!-- Page Header -->
+    <div class="profile-header">
+        <div class="container">
+            <h1>Welcome back, <span id="user-first-name">John</span>!</h1>
+            <p class="subheading">Manage your bookings and account settings</p>
+            <p class="last-login">Last login: <span id="last-login">Jan 10, 2025 at 2:30 PM</span></p>
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="container">
+        <div class="profile-wrapper">
+            <!-- Left Sidebar Navigation -->
+            <aside class="profile-sidebar">
+                <nav class="profile-nav">
+                    <a href="#" class="profile-nav-item active" data-view="dashboard">
+                        <i class="fas fa-th-large"></i>
+                        <span>Dashboard</span>
+                    </a>
+                    <a href="#" class="profile-nav-item" data-view="bookings">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span>My Bookings</span>
+                    </a>
+                    <a href="#" class="profile-nav-item" data-view="personal-info">
+                        <i class="fas fa-user"></i>
+                        <span>Personal Info</span>
+                    </a>
+                    <a href="#" class="profile-nav-item" data-view="payment-methods">
+                        <i class="fas fa-credit-card"></i>
+                        <span>Payment Methods</span>
+                    </a>
+                    <a href="#" class="profile-nav-item" data-view="security">
+                        <i class="fas fa-lock"></i>
+                        <span>Security</span>
+                    </a>
+                    <a href="#" class="profile-nav-item logout-item" id="logout-nav">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Logout</span>
+                    </a>
+                </nav>
+            </aside>
+
+            <!-- Right Content Area -->
+            <main class="profile-content">
+                <!-- View 1: Dashboard -->
+                <div class="profile-view active" id="view-dashboard">
+                    <!-- Stats Cards -->
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-calendar"></i>
+                            </div>
+                            <div class="stat-content">
+                                <div class="stat-number" id="total-bookings">5</div>
+                                <div class="stat-label">Total Bookings</div>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-calendar-check"></i>
+                            </div>
+                            <div class="stat-content">
+                                <div class="stat-number" id="upcoming-bookings">2</div>
+                                <div class="stat-label">Upcoming</div>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <div class="stat-content">
+                                <div class="stat-number" id="loyalty-points">1,250</div>
+                                <div class="stat-label">Points</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Upcoming Bookings -->
+                    <section class="dashboard-section">
+                        <h2>Upcoming Stays</h2>
+                        <div id="upcoming-bookings-list" class="bookings-list">
+                            <!-- Booking cards will be inserted here -->
+                        </div>
+                    </section>
+
+                    <!-- Past Bookings -->
+                    <section class="dashboard-section">
+                        <h2>Past Stays</h2>
+                        <div id="past-bookings-list" class="bookings-list">
+                            <!-- Booking cards will be inserted here -->
+                        </div>
+                    </section>
+                </div>
+
+                <!-- View 2: My Bookings -->
+                <div class="profile-view" id="view-bookings">
+                    <h2>My Bookings</h2>
+
+                    <!-- Filter Tabs -->
+                    <div class="filter-tabs">
+                        <button class="filter-tab active" data-filter="all">All</button>
+                        <button class="filter-tab" data-filter="upcoming">Upcoming</button>
+                        <button class="filter-tab" data-filter="past">Past</button>
+                        <button class="filter-tab" data-filter="cancelled">Cancelled</button>
+                    </div>
+
+                    <!-- Bookings List -->
+                    <div id="all-bookings-list" class="bookings-list">
+                        <!-- Booking cards will be inserted here -->
+                    </div>
+
+                    <!-- Pagination -->
+                    <div class="pagination" id="bookings-pagination" style="display: none;">
+                        <!-- Pagination will be inserted here -->
+                    </div>
+                </div>
+
+                <!-- View 3: Personal Info -->
+                <div class="profile-view" id="view-personal-info">
+                    <h2>Personal Information</h2>
+
+                    <!-- Profile Photo -->
+                    <div class="profile-photo-section">
+                        <div class="profile-photo-wrapper">
+                            <img src="/assets/images/default-avatar.png" alt="Profile" class="profile-photo" id="profile-photo">
+                            <div class="photo-overlay">
+                                <button class="change-photo-btn" id="change-photo-btn">
+                                    <i class="fas fa-camera"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <input type="file" id="photo-upload" accept="image/jpeg,image/png" style="display: none;">
+                        <p class="photo-help">JPG or PNG. Max 2MB.</p>
+                    </div>
+
+                    <!-- Personal Info Form -->
+                    <form id="personal-info-form" class="profile-form">
+                        <!-- Basic Information -->
+                        <div class="form-section">
+                            <h3>Basic Information</h3>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="first-name">First Name</label>
+                                    <input type="text" id="first-name" name="first_name" class="form-input" value="John" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="last-name">Last Name</label>
+                                    <input type="text" id="last-name" name="last_name" class="form-input" value="Doe" required>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="dob">Date of Birth</label>
+                                    <input type="date" id="dob" name="dob" class="form-input">
+                                </div>
+                                <div class="form-group">
+                                    <label for="gender">Gender</label>
+                                    <select id="gender" name="gender" class="form-input">
+                                        <option value="">Prefer not to say</option>
+                                        <option value="male">Male</option>
+                                        <option value="female">Female</option>
+                                        <option value="other">Other</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Contact Information -->
+                        <div class="form-section">
+                            <h3>Contact Information</h3>
+                            <div class="form-group">
+                                <label for="email">Email Address</label>
+                                <div class="input-with-badge">
+                                    <input type="email" id="email" name="email" class="form-input" value="john@example.com" required>
+                                    <span class="verified-badge" id="email-verified">
+                                        <i class="fas fa-check-circle"></i> Verified
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">Phone Number</label>
+                                <div class="input-with-badge">
+                                    <input type="tel" id="phone" name="phone" class="form-input" value="+1234567890" required>
+                                    <span class="unverified-badge" id="phone-verified">
+                                        <a href="#" id="verify-phone">Verify Phone</a>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="alt-phone">Alternate Phone (Optional)</label>
+                                <input type="tel" id="alt-phone" name="alt_phone" class="form-input">
+                            </div>
+                        </div>
+
+                        <!-- Address -->
+                        <div class="form-section">
+                            <h3>Address</h3>
+                            <div class="form-group">
+                                <label for="address1">Address Line 1</label>
+                                <input type="text" id="address1" name="address1" class="form-input">
+                            </div>
+                            <div class="form-group">
+                                <label for="address2">Address Line 2 (Optional)</label>
+                                <input type="text" id="address2" name="address2" class="form-input">
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="city">City</label>
+                                    <input type="text" id="city" name="city" class="form-input">
+                                </div>
+                                <div class="form-group">
+                                    <label for="state">State/Province</label>
+                                    <input type="text" id="state" name="state" class="form-input">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="zip">ZIP/Postal Code</label>
+                                    <input type="text" id="zip" name="zip" class="form-input">
+                                </div>
+                                <div class="form-group">
+                                    <label for="country">Country</label>
+                                    <select id="country" name="country" class="form-input">
+                                        <option value="US">United States</option>
+                                        <option value="CA">Canada</option>
+                                        <option value="GB">United Kingdom</option>
+                                        <option value="AU">Australia</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Preferences -->
+                        <div class="form-section">
+                            <h3>Preferences</h3>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="language">Preferred Language</label>
+                                    <select id="language" name="language" class="form-input">
+                                        <option value="en">English</option>
+                                        <option value="es">Spanish</option>
+                                        <option value="fr">French</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="currency">Currency</label>
+                                    <select id="currency" name="currency" class="form-input">
+                                        <option value="USD">USD ($)</option>
+                                        <option value="EUR">EUR (€)</option>
+                                        <option value="GBP">GBP (£)</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group checkbox-group">
+                                <label>
+                                    <input type="checkbox" id="newsletter" name="newsletter">
+                                    <span>Subscribe to newsletter</span>
+                                </label>
+                            </div>
+                            <div class="form-group checkbox-group">
+                                <label>
+                                    <input type="checkbox" id="sms-notifications" name="sms_notifications">
+                                    <span>Receive SMS notifications</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="button-primary">Save Changes</button>
+                    </form>
+                </div>
+
+                <!-- View 4: Payment Methods -->
+                <div class="profile-view" id="view-payment-methods">
+                    <h2>Payment Methods</h2>
+
+                    <div id="saved-cards-list" class="saved-cards-list">
+                        <!-- Saved cards will be inserted here -->
+                    </div>
+
+                    <button class="button-secondary add-payment-btn" id="add-payment-btn">
+                        <i class="fas fa-plus"></i> Add Payment Method
+                    </button>
+                </div>
+
+                <!-- View 5: Security -->
+                <div class="profile-view" id="view-security">
+                    <h2>Security Settings</h2>
+
+                    <!-- Change Password -->
+                    <div class="security-section">
+                        <h3>Change Password</h3>
+                        <form id="change-password-form" class="profile-form">
+                            <div class="form-group">
+                                <label for="current-password">Current Password</label>
+                                <input type="password" id="current-password" name="current_password" class="form-input" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="new-password">New Password</label>
+                                <input type="password" id="new-password" name="new_password" class="form-input password-strength-check" required minlength="8">
+                                <div class="password-strength-indicator">
+                                    <div class="password-strength-fill"></div>
+                                </div>
+                                <small class="password-strength-text"></small>
+                            </div>
+                            <div class="form-group">
+                                <label for="confirm-password">Confirm New Password</label>
+                                <input type="password" id="confirm-password" name="confirm_password" class="form-input" required data-match="new_password">
+                            </div>
+                            <button type="submit" class="button-primary">Change Password</button>
+                        </form>
+                    </div>
+
+                    <!-- Two-Factor Authentication -->
+                    <div class="security-section">
+                        <h3>Two-Factor Authentication</h3>
+                        <div class="2fa-section">
+                            <div class="2fa-status">
+                                <p>Add an extra layer of security to your account</p>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="2fa-toggle">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                                <span id="2fa-status-text">Disabled</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Active Sessions -->
+                    <div class="security-section">
+                        <h3>Active Sessions</h3>
+                        <div id="active-sessions-list" class="sessions-list">
+                            <!-- Sessions will be inserted here -->
+                        </div>
+                    </div>
+
+                    <!-- Delete Account -->
+                    <div class="security-section danger-zone">
+                        <h3>Delete Account</h3>
+                        <p class="danger-text">Once you delete your account, there is no going back. This action cannot be undone.</p>
+                        <button class="button-danger" id="delete-account-btn">
+                            <i class="fas fa-exclamation-triangle"></i> Delete My Account
+                        </button>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+</section>
+
+<!-- Modals -->
+
+<!-- Booking Details Modal -->
+<div class="modal-overlay" id="booking-details-modal">
+    <div class="modal">
+        <button class="modal-close"><i class="fas fa-times"></i></button>
+        <div class="modal-header">
+            <h3>Booking Details</h3>
+        </div>
+        <div class="modal-body" id="booking-modal-content">
+            <!-- Content will be populated dynamically -->
+        </div>
+    </div>
+</div>
+
+<!-- Add Payment Method Modal -->
+<div class="modal-overlay" id="add-payment-modal">
+    <div class="modal">
+        <button class="modal-close"><i class="fas fa-times"></i></button>
+        <div class="modal-header">
+            <h3>Add Payment Method</h3>
+        </div>
+        <div class="modal-body">
+            <form id="add-card-form">
+                <div class="form-group">
+                    <label for="modal-card-number">Card Number</label>
+                    <input type="text" id="modal-card-number" class="form-input" maxlength="19" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="modal-expiry">Expiry Date</label>
+                        <input type="text" id="modal-expiry" class="form-input" placeholder="MM/YY" maxlength="5" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="modal-cvv">CVV</label>
+                        <input type="text" id="modal-cvv" class="form-input" maxlength="4" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="modal-cardholder">Cardholder Name</label>
+                    <input type="text" id="modal-cardholder" class="form-input" required>
+                </div>
+                <div class="form-group checkbox-group">
+                    <label>
+                        <input type="checkbox" id="modal-set-default">
+                        <span>Set as default payment method</span>
+                    </label>
+                </div>
+                <button type="submit" class="button-primary">Save Card</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Confirmation Modal -->
+<div class="modal-overlay" id="confirmation-modal">
+    <div class="modal modal-sm">
+        <div class="modal-body text-center">
+            <h3 id="confirm-title">Are you sure?</h3>
+            <p id="confirm-message">This action cannot be undone.</p>
+            <div class="modal-actions">
+                <button class="button-tertiary" id="confirm-cancel">Cancel</button>
+                <button class="button-danger" id="confirm-action">Confirm</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+/* Profile Page Styles */
+.profile-page {
+    min-height: calc(100vh - 80px - 200px);
+}
+
+.profile-header {
+    background: var(--95);
+    padding: 2rem 0;
+}
+
+.profile-header h1 {
+    color: var(--heading-color);
+    margin-bottom: 0.5rem;
+}
+
+.profile-header .subheading {
+    color: var(--text-secondary);
+}
+
+.profile-header .last-login {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    margin-top: 0.5rem;
+}
+
+.profile-wrapper {
+    display: grid;
+    grid-template-columns: 25% 75%;
+    gap: 2rem;
+    padding: 2rem 0;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+/* Sidebar */
+.profile-sidebar {
+    position: sticky;
+    top: 100px;
+    height: fit-content;
+}
+
+.profile-nav {
+    background: white;
+    border: 1px solid var(--border-color);
+    border-radius: var(--b-radius-20);
+    box-shadow: var(--shadow-light);
+    padding: 1rem 0;
+}
+
+.profile-nav-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.5rem;
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border-left: 4px solid transparent;
+}
+
+.profile-nav-item:hover {
+    background: var(--95);
+    color: var(--heading-color);
+}
+
+.profile-nav-item.active {
+    background: var(--65);
+    color: var(--10);
+    font-weight: 600;
+    border-left-color: var(--50);
+}
+
+.profile-nav-item.logout-item {
+    margin-top: 1rem;
+    border-top: 1px solid var(--border-color);
+    color: var(--danger-color);
+}
+
+.profile-nav-item i {
+    width: 20px;
+    text-align: center;
+}
+
+/* Content Area */
+.profile-content {
+    background: white;
+    border: 1px solid var(--border-color);
+    border-radius: var(--b-radius-20);
+    padding: 2rem;
+    box-shadow: var(--shadow-light);
+}
+
+.profile-view {
+    display: none;
+}
+
+.profile-view.active {
+    display: block;
+}
+
+.profile-content h2 {
+    color: var(--heading-color);
+    margin-bottom: 2rem;
+}
+
+/* Stats Grid */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.stat-card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: var(--97);
+    border: 1px solid var(--border-color);
+    border-radius: var(--b-radius-15);
+    padding: 1.5rem;
+}
+
+.stat-icon {
+    width: 60px;
+    height: 60px;
+    background: var(--50);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+}
+
+.stat-number {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--heading-color);
+}
+
+.stat-label {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+}
+
+/* Dashboard Sections */
+.dashboard-section {
+    margin-bottom: 2rem;
+}
+
+.dashboard-section h2 {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+}
+
+/* Bookings List */
+.bookings-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.booking-card {
+    display: flex;
+    gap: 1rem;
+    background: white;
+    border: 1px solid var(--border-color);
+    border-radius: var(--b-radius-15);
+    padding: 1rem;
+    box-shadow: var(--shadow-light);
+    transition: all 0.3s ease;
+}
+
+.booking-card:hover {
+    box-shadow: var(--shadow-medium);
+}
+
+.booking-image {
+    width: 150px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: var(--b-radius-10);
+    flex-shrink: 0;
+}
+
+.booking-details {
+    flex: 1;
+}
+
+.booking-details h4 {
+    color: var(--heading-color);
+    margin-bottom: 0.5rem;
+}
+
+.booking-details p {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    margin: 0.25rem 0;
+}
+
+.booking-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    justify-content: center;
+}
+
+/* Filter Tabs */
+.filter-tabs {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    border-bottom: 2px solid var(--border-color);
+}
+
+.filter-tab {
+    background: none;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    color: var(--text-secondary);
+    font-size: 1rem;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.filter-tab.active {
+    color: var(--50);
+    font-weight: 600;
+}
+
+.filter-tab.active::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--50);
+}
+
+/* Profile Photo Section */
+.profile-photo-section {
+    text-align: center;
+    margin-bottom: 2rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.profile-photo-wrapper {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    margin: 0 auto 1rem;
+}
+
+.profile-photo {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid var(--border-color);
+}
+
+.photo-overlay {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+}
+
+.change-photo-btn {
+    width: 40px;
+    height: 40px;
+    background: var(--50);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.photo-help {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+}
+
+/* Form Sections */
+.form-section {
+    margin-bottom: 2rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.form-section:last-of-type {
+    border-bottom: none;
+}
+
+.form-section h3 {
+    font-size: 1.125rem;
+    color: var(--heading-color);
+    margin-bottom: 1rem;
+}
+
+.profile-form .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.input-with-badge {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.input-with-badge .form-input {
+    flex: 1;
+}
+
+.verified-badge {
+    color: var(--success-color);
+    font-size: 0.875rem;
+    white-space: nowrap;
+}
+
+.unverified-badge a {
+    color: var(--36);
+    font-size: 0.875rem;
+    text-decoration: underline;
+}
+
+/* Saved Cards */
+.saved-cards-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.saved-card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: var(--b-radius-15);
+}
+
+.card-brand-icon {
+    font-size: 2rem;
+    width: 40px;
+}
+
+.saved-card-details {
+    flex: 1;
+}
+
+.saved-card-details h4 {
+    color: var(--heading-color);
+    margin-bottom: 0.25rem;
+}
+
+.saved-card-details p {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+}
+
+.saved-card-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+/* Security Section */
+.security-section {
+    margin-bottom: 2rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.security-section:last-child {
+    border-bottom: none;
+}
+
+.security-section h3 {
+    font-size: 1.125rem;
+    color: var(--heading-color);
+    margin-bottom: 1rem;
+}
+
+.password-strength-indicator {
+    height: 4px;
+    background: var(--border-color);
+    border-radius: 2px;
+    margin-top: 0.5rem;
+    overflow: hidden;
+}
+
+.password-strength-fill {
+    height: 100%;
+    width: 0;
+    transition: all 0.3s ease;
+}
+
+.password-strength-fill.weak {
+    width: 33%;
+    background: var(--danger-color);
+}
+
+.password-strength-fill.medium {
+    width: 66%;
+    background: #ffa500;
+}
+
+.password-strength-fill.strong {
+    width: 100%;
+    background: var(--success-color);
+}
+
+.password-strength-text {
+    display: block;
+    margin-top: 0.25rem;
+    font-size: 0.875rem;
+}
+
+.password-strength-text.weak {
+    color: var(--danger-color);
+}
+
+.password-strength-text.medium {
+    color: #ffa500;
+}
+
+.password-strength-text.strong {
+    color: var(--success-color);
+}
+
+/* Toggle Switch */
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 24px;
+}
+
+.toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.toggle-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--border-color);
+    transition: 0.4s;
+    border-radius: 24px;
+}
+
+.toggle-slider::before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 3px;
+    bottom: 3px;
+    background: white;
+    transition: 0.4s;
+    border-radius: 50%;
+}
+
+.toggle-switch input:checked + .toggle-slider {
+    background: var(--50);
+}
+
+.toggle-switch input:checked + .toggle-slider::before {
+    transform: translateX(26px);
+}
+
+.2fa-status {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+/* Active Sessions */
+.sessions-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.session-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: var(--b-radius-10);
+}
+
+.session-info h4 {
+    color: var(--heading-color);
+    margin-bottom: 0.25rem;
+}
+
+.session-info p {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+}
+
+/* Danger Zone */
+.danger-zone {
+    background: #fff5f5;
+    border: 2px solid #fc8181;
+    border-radius: var(--b-radius-15);
+    padding: 1.5rem;
+}
+
+.danger-text {
+    color: var(--danger-color);
+    margin-bottom: 1rem;
+}
+
+.button-danger {
+    background: var(--danger-color);
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--b-radius-10);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.button-danger:hover {
+    background: #c53030;
+}
+
+/* Responsive */
+@media (max-width: 1023px) {
+    .profile-wrapper {
+        grid-template-columns: 30% 70%;
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 767px) {
+    .profile-wrapper {
+        grid-template-columns: 1fr;
+    }
+
+    .profile-sidebar {
+        position: static;
+    }
+
+    .profile-nav {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.5rem;
+        padding: 0.5rem;
+    }
+
+    .profile-nav-item {
+        flex-direction: column;
+        text-align: center;
+        padding: 0.75rem 0.5rem;
+        font-size: 0.875rem;
+        border-left: none;
+        border-bottom: 3px solid transparent;
+    }
+
+    .profile-nav-item.active {
+        border-left: none;
+        border-bottom-color: var(--50);
+    }
+
+    .profile-nav-item span {
+        display: none;
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .booking-card {
+        flex-direction: column;
+    }
+
+    .booking-image {
+        width: 100%;
+        height: 200px;
+    }
+
+    .profile-form .form-row {
+        grid-template-columns: 1fr;
+    }
+
+    .filter-tabs {
+        overflow-x: auto;
+        flex-wrap: nowrap;
+    }
+}
+</style>
+
+<script>
+// Global variables
+let currentView = 'dashboard';
+let currentBookingsFilter = 'all';
+let confirmCallback = null;
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Load user profile data
+    loadUserProfile();
+
+    // Initialize view switching
+    initViewSwitching();
+
+    // Initialize personal info form
+    initPersonalInfoForm();
+
+    // Initialize payment methods
+    initPaymentMethods();
+
+    // Initialize security settings
+    initSecuritySettings();
+
+    // Initialize bookings
+    loadBookings();
+
+    // Initialize modals
+    initModals();
+});
+
+function initViewSwitching() {
+    const navItems = document.querySelectorAll('.profile-nav-item:not(.logout-item)');
+
+    navItems.forEach(item => {
+        item.addEventListener('click', function(e) {
+            e.preventDefault();
+
+            const view = this.getAttribute('data-view');
+            switchView(view);
+
+            // Update URL
+            const url = new URL(window.location);
+            url.searchParams.set('view', view);
+            window.history.pushState({}, '', url);
+        });
+    });
+
+    // Check URL for initial view
+    const params = new URLSearchParams(window.location.search);
+    const initialView = params.get('view');
+    if (initialView) {
+        switchView(initialView);
+    }
+
+    // Logout handler
+    document.getElementById('logout-nav').addEventListener('click', function(e) {
+        e.preventDefault();
+        LuxeStay.logout();
+    });
+}
+
+function switchView(view) {
+    // Hide all views
+    document.querySelectorAll('.profile-view').forEach(v => v.classList.remove('active'));
+
+    // Show selected view
+    document.getElementById(`view-${view}`).classList.add('active');
+
+    // Update nav active state
+    document.querySelectorAll('.profile-nav-item').forEach(item => {
+        item.classList.remove('active');
+    });
+    document.querySelector(`[data-view="${view}"]`).classList.add('active');
+
+    currentView = view;
+
+    // Scroll to top
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+async function loadUserProfile() {
+    try {
+        const response = await LuxeStay.apiRequest('/api/profile', 'GET');
+        if (response.success) {
+            populateUserProfile(response.user);
+        }
+    } catch (error) {
+        console.error('Error loading profile:', error);
+    }
+}
+
+function populateUserProfile(user) {
+    // Header
+    if (user.full_name) {
+        const firstName = user.full_name.split(' ')[0];
+        document.getElementById('user-first-name').textContent = firstName;
+    }
+
+    // Personal info form
+    if (user.full_name) {
+        const [firstName, ...lastNameParts] = user.full_name.split(' ');
+        document.getElementById('first-name').value = firstName;
+        document.getElementById('last-name').value = lastNameParts.join(' ');
+    }
+
+    if (user.email) document.getElementById('email').value = user.email;
+    if (user.phone) document.getElementById('phone').value = user.phone;
+    if (user.avatar_url) document.getElementById('profile-photo').src = user.avatar_url;
+
+    // Stats
+    if (user.loyalty_points) {
+        document.getElementById('loyalty-points').textContent = user.loyalty_points.toLocaleString();
+    }
+}
+
+function initPersonalInfoForm() {
+    const form = document.getElementById('personal-info-form');
+
+    form.addEventListener('submit', async function(e) {
+        e.preventDefault();
+
+        if (!LuxeStay.validateForm(form)) {
+            return;
+        }
+
+        const formData = new FormData(form);
+        const data = Object.fromEntries(formData);
+
+        try {
+            const response = await LuxeStay.apiRequest('/api/profile', 'PUT', data);
+            if (response.success) {
+                LuxeStay.showToast('Profile updated successfully!', 'success');
+            }
+        } catch (error) {
+            LuxeStay.showToast(error.message || 'Failed to update profile', 'error');
+        }
+    });
+
+    // Profile photo upload
+    document.getElementById('change-photo-btn').addEventListener('click', function() {
+        document.getElementById('photo-upload').click();
+    });
+
+    document.getElementById('photo-upload').addEventListener('change', async function(e) {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        // Validate file
+        if (!file.type.match('image/(jpeg|png)')) {
+            LuxeStay.showToast('Please select a JPG or PNG image', 'error');
+            return;
+        }
+
+        if (file.size > 2 * 1024 * 1024) {
+            LuxeStay.showToast('Image must be less than 2MB', 'error');
+            return;
+        }
+
+        // Preview image
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            document.getElementById('profile-photo').src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+
+        // Upload to server
+        const formData = new FormData();
+        formData.append('photo', file);
+
+        try {
+            const response = await fetch('/api/profile/photo', {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('auth_token')}`
+                },
+                body: formData
+            });
+
+            const result = await response.json();
+            if (result.success) {
+                LuxeStay.showToast('Profile photo updated!', 'success');
+            }
+        } catch (error) {
+            LuxeStay.showToast('Failed to upload photo', 'error');
+        }
+    });
+}
+
+function initPaymentMethods() {
+    loadPaymentMethods();
+
+    // Add payment method
+    document.getElementById('add-payment-btn').addEventListener('click', function() {
+        LuxeStay.openModal('add-payment-modal');
+    });
+
+    // Add card form
+    document.getElementById('add-card-form').addEventListener('submit', async function(e) {
+        e.preventDefault();
+
+        // In real implementation, tokenize with Stripe first
+        const cardData = {
+            card_token: 'tok_test_123',
+            cardholder_name: document.getElementById('modal-cardholder').value,
+            set_default: document.getElementById('modal-set-default').checked
+        };
+
+        try {
+            const response = await LuxeStay.apiRequest('/api/payment-methods', 'POST', cardData);
+            if (response.success) {
+                LuxeStay.showToast('Payment method added!', 'success');
+                LuxeStay.closeModal('add-payment-modal');
+                loadPaymentMethods();
+            }
+        } catch (error) {
+            LuxeStay.showToast(error.message || 'Failed to add payment method', 'error');
+        }
+    });
+}
+
+async function loadPaymentMethods() {
+    try {
+        const response = await LuxeStay.apiRequest('/api/payment-methods', 'GET');
+        if (response.success) {
+            renderPaymentMethods(response.cards);
+        }
+    } catch (error) {
+        console.error('Error loading payment methods:', error);
+    }
+}
+
+function renderPaymentMethods(cards) {
+    const container = document.getElementById('saved-cards-list');
+
+    if (!cards || cards.length === 0) {
+        container.innerHTML = '<p class="text-muted">No saved payment methods</p>';
+        return;
+    }
+
+    container.innerHTML = cards.map(card => `
+        <div class="saved-card">
+            <div class="card-brand-icon">
+                <i class="fab fa-cc-${card.brand}"></i>
+            </div>
+            <div class="saved-card-details">
+                <h4>•••• •••• •••• ${card.last_four}</h4>
+                <p>${card.cardholder_name}</p>
+                <p>Expires ${card.expiry_month}/${card.expiry_year}</p>
+                ${card.is_default ? '<span class="badge badge-primary">Default</span>' : ''}
+            </div>
+            <div class="saved-card-actions">
+                ${!card.is_default ? `<button class="button-tertiary" onclick="setDefaultCard(${card.id})">Set Default</button>` : ''}
+                <button class="button-tertiary" onclick="removeCard(${card.id})">
+                    <i class="fas fa-trash"></i>
+                </button>
+            </div>
+        </div>
+    `).join('');
+}
+
+async function setDefaultCard(cardId) {
+    try {
+        const response = await LuxeStay.apiRequest(`/api/payment-methods/${cardId}/set-default`, 'POST');
+        if (response.success) {
+            LuxeStay.showToast('Default payment method updated', 'success');
+            loadPaymentMethods();
+        }
+    } catch (error) {
+        LuxeStay.showToast(error.message, 'error');
+    }
+}
+
+function removeCard(cardId) {
+    showConfirmation(
+        'Remove Payment Method',
+        'Are you sure you want to remove this card?',
+        async () => {
+            try {
+                const response = await LuxeStay.apiRequest(`/api/payment-methods/${cardId}`, 'DELETE');
+                if (response.success) {
+                    LuxeStay.showToast('Payment method removed', 'success');
+                    loadPaymentMethods();
+                }
+            } catch (error) {
+                LuxeStay.showToast(error.message, 'error');
+            }
+        }
+    );
+}
+
+function initSecuritySettings() {
+    // Change password form
+    const passwordForm = document.getElementById('change-password-form');
+    const newPasswordInput = document.getElementById('new-password');
+
+    // Password strength indicator
+    newPasswordInput.addEventListener('input', function() {
+        const password = this.value;
+        const strength = LuxeStay.Validation.passwordStrength(password);
+        const fill = document.querySelector('.password-strength-fill');
+        const text = document.querySelector('.password-strength-text');
+
+        fill.className = `password-strength-fill ${strength}`;
+        text.className = `password-strength-text ${strength}`;
+        text.textContent = strength.charAt(0).toUpperCase() + strength.slice(1);
+    });
+
+    passwordForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+
+        if (!LuxeStay.validateForm(passwordForm)) {
+            return;
+        }
+
+        const data = {
+            current_password: document.getElementById('current-password').value,
+            new_password: newPasswordInput.value
+        };
+
+        try {
+            const response = await LuxeStay.apiRequest('/api/auth/change-password', 'POST', data);
+            if (response.success) {
+                LuxeStay.showToast('Password changed successfully!', 'success');
+                passwordForm.reset();
+            }
+        } catch (error) {
+            LuxeStay.showToast(error.message || 'Failed to change password', 'error');
+        }
+    });
+
+    // 2FA toggle
+    document.getElementById('2fa-toggle').addEventListener('change', function() {
+        const statusText = document.getElementById('2fa-status-text');
+        statusText.textContent = this.checked ? 'Enabled' : 'Disabled';
+        LuxeStay.showToast(`2FA ${this.checked ? 'enabled' : 'disabled'}`, 'success');
+    });
+
+    // Load active sessions
+    loadActiveSessions();
+
+    // Delete account
+    document.getElementById('delete-account-btn').addEventListener('click', function() {
+        showConfirmation(
+            'Delete Account',
+            'Are you absolutely sure? This action cannot be undone and all your data will be permanently deleted.',
+            async () => {
+                try {
+                    const response = await LuxeStay.apiRequest('/api/profile', 'DELETE');
+                    if (response.success) {
+                        LuxeStay.showToast('Account deleted', 'success');
+                        localStorage.clear();
+                        window.location.href = '/public/login.html';
+                    }
+                } catch (error) {
+                    LuxeStay.showToast(error.message, 'error');
+                }
+            }
+        );
+    });
+}
+
+async function loadActiveSessions() {
+    // Mock data for now
+    const sessions = [
+        {
+            device: 'Chrome on Windows',
+            location: 'New York, US',
+            last_active: '2 minutes ago',
+            current: true
+        },
+        {
+            device: 'Safari on iPhone',
+            location: 'New York, US',
+            last_active: '1 day ago',
+            current: false
+        }
+    ];
+
+    const container = document.getElementById('active-sessions-list');
+    container.innerHTML = sessions.map((session, index) => `
+        <div class="session-item">
+            <div class="session-info">
+                <h4>${session.device} ${session.current ? '<span class="badge badge-success">Current</span>' : ''}</h4>
+                <p>${session.location} • ${session.last_active}</p>
+            </div>
+            ${!session.current ? `<button class="button-tertiary" onclick="revokeSession(${index})">Revoke</button>` : ''}
+        </div>
+    `).join('');
+}
+
+function revokeSession(sessionId) {
+    showConfirmation(
+        'Revoke Session',
+        'This will log out this device.',
+        () => {
+            LuxeStay.showToast('Session revoked', 'success');
+            loadActiveSessions();
+        }
+    );
+}
+
+async function loadBookings() {
+    try {
+        const response = await LuxeStay.apiRequest('/api/bookings', 'GET');
+        if (response.success) {
+            renderBookings(response.bookings);
+        }
+    } catch (error) {
+        console.error('Error loading bookings:', error);
+    }
+
+    // Filter tabs
+    document.querySelectorAll('.filter-tab').forEach(tab => {
+        tab.addEventListener('click', function() {
+            document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+            this.classList.add('active');
+            currentBookingsFilter = this.getAttribute('data-filter');
+            // Filter and re-render bookings
+        });
+    });
+}
+
+function renderBookings(bookings) {
+    // Mock data for demonstration
+    const mockBookings = [
+        {
+            id: 1,
+            room_type: 'Deluxe Suite',
+            image_url: '/assets/images/rooms/room-placeholder.jpg',
+            dates: 'Jan 15 - Jan 18, 2025',
+            status: 'confirmed',
+            confirmation_number: 'LX-2025-0123456',
+            total: 689.70
+        }
+    ];
+
+    // Render in dashboard upcoming section
+    const upcomingList = document.getElementById('upcoming-bookings-list');
+    if (upcomingList) {
+        upcomingList.innerHTML = mockBookings.map(booking => createBookingCard(booking, true)).join('');
+    }
+
+    // Render in bookings view
+    const allBookingsList = document.getElementById('all-bookings-list');
+    if (allBookingsList) {
+        allBookingsList.innerHTML = mockBookings.map(booking => createBookingCard(booking, false)).join('');
+    }
+}
+
+function createBookingCard(booking, isUpcoming) {
+    return `
+        <div class="booking-card">
+            <img src="${booking.image_url}" alt="${booking.room_type}" class="booking-image">
+            <div class="booking-details">
+                <h4>${booking.room_type}</h4>
+                <p>${booking.dates}</p>
+                <p><span class="badge badge-success">${booking.status}</span></p>
+                <p><small>Confirmation: ${booking.confirmation_number}</small></p>
+            </div>
+            <div class="booking-actions">
+                <button class="button-secondary" onclick="viewBookingDetails(${booking.id})">View Details</button>
+                ${isUpcoming ? '<button class="button-tertiary" onclick="cancelBooking(' + booking.id + ')">Cancel</button>' : ''}
+            </div>
+        </div>
+    `;
+}
+
+function viewBookingDetails(bookingId) {
+    LuxeStay.openModal('booking-details-modal');
+    // Load and display booking details in modal
+}
+
+function cancelBooking(bookingId) {
+    showConfirmation(
+        'Cancel Booking',
+        'Are you sure you want to cancel this booking? Check our cancellation policy for refund details.',
+        async () => {
+            try {
+                const response = await LuxeStay.apiRequest(`/api/bookings/${bookingId}/cancel`, 'POST');
+                if (response.success) {
+                    LuxeStay.showToast(`Booking cancelled. Refund: $${response.refund_amount}`, 'success');
+                    loadBookings();
+                }
+            } catch (error) {
+                LuxeStay.showToast(error.message, 'error');
+            }
+        }
+    );
+}
+
+function initModals() {
+    // Modal close buttons
+    document.querySelectorAll('.modal-close').forEach(btn => {
+        btn.addEventListener('click', function() {
+            this.closest('.modal-overlay').classList.remove('active');
+        });
+    });
+
+    // Confirmation modal
+    document.getElementById('confirm-cancel').addEventListener('click', function() {
+        LuxeStay.closeModal('confirmation-modal');
+    });
+
+    document.getElementById('confirm-action').addEventListener('click', function() {
+        if (confirmCallback) {
+            confirmCallback();
+            confirmCallback = null;
+        }
+        LuxeStay.closeModal('confirmation-modal');
+    });
+}
+
+function showConfirmation(title, message, callback) {
+    document.getElementById('confirm-title').textContent = title;
+    document.getElementById('confirm-message').textContent = message;
+    confirmCallback = callback;
+    LuxeStay.openModal('confirmation-modal');
+}
+</script>
+
+<?php include '../includes/footer.php'; ?>
