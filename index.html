@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LuxeStay Hotel - Luxury Accommodations</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/components.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar" id="navbar">
+        <div class="container">
+            <div class="navbar-content">
+                <div class="navbar-brand">
+                    <a href="/index.html">LuxeStay Hotel</a>
+                </div>
+                <div class="navbar-menu" id="navbar-menu">
+                    <a href="/index.html" class="navbar-link active">Home</a>
+                    <a href="/public/rooms.html" class="navbar-link">Rooms</a>
+                    <a href="#about" class="navbar-link">About</a>
+                    <a href="#contact" class="navbar-link">Contact</a>
+                    <a href="/public/login.html" class="navbar-link">Login</a>
+                </div>
+                <div class="navbar-toggle" id="navbar-toggle">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-overlay"></div>
+        <div class="content-wrapper">
+            <div class="centrepiece">
+                <h1 class="hero-heading">Experience Luxury Living</h1>
+                <p class="hero-p">Discover comfort and elegance in every stay</p>
+                <a href="/public/rooms.html" class="button button-primary button-big">Explore Rooms</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about" id="about">
+        <div class="container">
+            <div class="about-grid">
+                <div class="about-image">
+                    <img src="assets/images/about-hotel.jpg" alt="LuxeStay Hotel">
+                </div>
+                <div class="about-content">
+                    <h2>Welcome to LuxeStay Hotel</h2>
+                    <p>At LuxeStay Hotel, we are committed to providing an unparalleled luxury experience. Our dedication to excellence ensures that every guest enjoys world-class comfort, impeccable service, and unforgettable memories.</p>
+                    <p>From our elegantly designed rooms to our state-of-the-art amenities, every detail has been carefully crafted to exceed your expectations. Whether you're here for business or pleasure, LuxeStay Hotel offers the perfect sanctuary.</p>
+                    <div class="features-list">
+                        <div class="feature-item">
+                            <i class="fas fa-wifi"></i>
+                            <span>High-Speed WiFi</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-car"></i>
+                            <span>Free Parking</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-utensils"></i>
+                            <span>Fine Dining</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-spa"></i>
+                            <span>Luxury Spa</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Rooms Section -->
+    <section class="properties">
+        <div class="container">
+            <div class="heading">
+                <h2>Featured Rooms</h2>
+            </div>
+            <div class="properties-wrapper">
+                <!-- Room Card 1 -->
+                <div class="room-card fadeInFromLeft">
+                    <div class="room-card-image">
+                        <img src="assets/images/room-1.jpg" alt="Deluxe Suite">
+                        <span class="room-card-badge">Available</span>
+                    </div>
+                    <div class="room-card-content">
+                        <h3 class="room-card-title">Deluxe Suite</h3>
+                        <div class="room-card-details">
+                            <span><i class="fas fa-bed"></i> King Bed</span>
+                            <span><i class="fas fa-user"></i> 2 Guests</span>
+                            <span><i class="fas fa-ruler-combined"></i> 45m²</span>
+                        </div>
+                        <div class="room-card-footer">
+                            <div class="room-card-price">
+                                <span class="price">$299</span>
+                                <span class="per-night">/ night</span>
+                            </div>
+                            <a href="/public/room-detail.html?id=1" class="button button-primary">View Details</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Room Card 2 -->
+                <div class="room-card fadeInFromLeft" style="animation-delay: 0.1s;">
+                    <div class="room-card-image">
+                        <img src="assets/images/room-2.jpg" alt="Executive Room">
+                        <span class="room-card-badge">Available</span>
+                    </div>
+                    <div class="room-card-content">
+                        <h3 class="room-card-title">Executive Room</h3>
+                        <div class="room-card-details">
+                            <span><i class="fas fa-bed"></i> Queen Bed</span>
+                            <span><i class="fas fa-user"></i> 2 Guests</span>
+                            <span><i class="fas fa-ruler-combined"></i> 35m²</span>
+                        </div>
+                        <div class="room-card-footer">
+                            <div class="room-card-price">
+                                <span class="price">$199</span>
+                                <span class="per-night">/ night</span>
+                            </div>
+                            <a href="/public/room-detail.html?id=2" class="button button-primary">View Details</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Room Card 3 -->
+                <div class="room-card fadeInFromLeft" style="animation-delay: 0.2s;">
+                    <div class="room-card-image">
+                        <img src="assets/images/room-3.jpg" alt="Presidential Suite">
+                        <span class="room-card-badge badge-premium">Premium</span>
+                    </div>
+                    <div class="room-card-content">
+                        <h3 class="room-card-title">Presidential Suite</h3>
+                        <div class="room-card-details">
+                            <span><i class="fas fa-bed"></i> King Bed</span>
+                            <span><i class="fas fa-user"></i> 4 Guests</span>
+                            <span><i class="fas fa-ruler-combined"></i> 75m²</span>
+                        </div>
+                        <div class="room-card-footer">
+                            <div class="room-card-price">
+                                <span class="price">$599</span>
+                                <span class="per-night">/ night</span>
+                            </div>
+                            <a href="/public/room-detail.html?id=3" class="button button-primary">View Details</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq">
+        <div class="container">
+            <div class="heading">
+                <h2>Frequently Asked Questions</h2>
+            </div>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>What are the check-in and check-out times?</h3>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Check-in time is 3:00 PM and check-out time is 11:00 AM. Early check-in and late check-out may be available upon request, subject to availability.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Do you offer airport shuttle service?</h3>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Yes, we provide complimentary airport shuttle service for all our guests. Please inform us of your arrival time at least 24 hours in advance.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Is parking available?</h3>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Yes, we offer free parking for all guests. We have both covered and open parking spaces available on a first-come, first-served basis.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Are pets allowed?</h3>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Yes, we are pet-friendly! Pet-friendly rooms are available for an additional fee of $50 per night. Please inform us in advance when booking.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>What is your cancellation policy?</h3>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>We offer free cancellation up to 48 hours before your scheduled check-in date. Cancellations made within 48 hours will be charged one night's stay.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta">
+        <div class="container">
+            <div class="cta-content">
+                <h2>Ready to Book Your Stay?</h2>
+                <p>Experience luxury and comfort at LuxeStay Hotel</p>
+                <a href="/public/rooms.html" class="button button-cta">Book Now</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <?php include 'includes/footer.php'; ?>
+
+    <!-- JavaScript -->
+    <script src="assets/js/main.js"></script>
+    <script>
+        // FAQ Accordion Functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const faqQuestions = document.querySelectorAll('.faq-question');
+
+            faqQuestions.forEach(question => {
+                question.addEventListener('click', function() {
+                    const faqItem = this.parentElement;
+                    const isActive = faqItem.classList.contains('active');
+
+                    // Close all FAQ items
+                    document.querySelectorAll('.faq-item').forEach(item => {
+                        item.classList.remove('active');
+                    });
+
+                    // Open clicked item if it wasn't active
+                    if (!isActive) {
+                        faqItem.classList.add('active');
+                    }
+                });
+            });
+
+            // Navbar Scroll Behavior
+            const navbar = document.getElementById('navbar');
+
+            window.addEventListener('scroll', function() {
+                if (window.scrollY > 100) {
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.remove('scrolled');
+                }
+            });
+
+            // Mobile Menu Toggle
+            const navbarToggle = document.getElementById('navbar-toggle');
+            const navbarMenu = document.getElementById('navbar-menu');
+
+            if (navbarToggle) {
+                navbarToggle.addEventListener('click', function() {
+                    navbarMenu.classList.toggle('active');
+                });
+            }
+
+            // Smooth scroll for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    const href = this.getAttribute('href');
+                    if (href !== '#' && href.length > 1) {
+                        e.preventDefault();
+                        const target = document.querySelector(href);
+                        if (target) {
+                            target.scrollIntoView({
+                                behavior: 'smooth',
+                                block: 'start'
+                            });
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
