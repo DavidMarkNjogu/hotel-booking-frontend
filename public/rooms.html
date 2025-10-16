@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rooms - LuxeStay Hotel</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/components.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar scrolled">
+        <div class="container">
+            <div class="navbar-content">
+                <div class="navbar-brand">
+                    <a href="/index.html">LuxeStay Hotel</a>
+                </div>
+                <div class="navbar-menu" id="navbar-menu">
+                    <a href="/index.html" class="navbar-link">Home</a>
+                    <a href="/public/rooms.html" class="navbar-link active">Rooms</a>
+                    <a href="/index.html#about" class="navbar-link">About</a>
+                    <a href="/index.html#contact" class="navbar-link">Contact</a>
+                    <a href="/public/login.html" class="navbar-link">Login</a>
+                </div>
+                <div class="navbar-toggle" id="navbar-toggle">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section with Filter -->
+    <section class="hero">
+        <div class="hero-overlay"></div>
+        <div class="content-wrapper">
+            <div class="centrepiece">
+                <h1 class="hero-heading">Find Your Perfect Room</h1>
+                <p class="hero-p">Discover luxury accommodations tailored to your needs</p>
+
+                <!-- Filter Form -->
+                <div class="regal-filter filterFadeUp">
+                    <form class="filter-choices" id="room-filter-form">
+                        <div class="form-group">
+                            <label for="filter-checkin" class="form-label">Check-in Date</label>
+                            <input type="date" id="filter-checkin" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="filter-checkout" class="form-label">Check-out Date</label>
+                            <input type="date" id="filter-checkout" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="filter-guests" class="form-label">Guests</label>
+                            <select id="filter-guests" class="form-select">
+                                <option value="1">1 Guest</option>
+                                <option value="2" selected>2 Guests</option>
+                                <option value="3">3 Guests</option>
+                                <option value="4">4+ Guests</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="button button-primary filter-btn">Search Rooms</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Rooms Grid Section -->
+    <section class="container" style="padding-top: 50px;">
+        <div class="heading">
+            <h2>Available Rooms</h2>
+            <p>Choose from our selection of premium accommodations</p>
+        </div>
+
+        <div class="properties-wrapper" id="rooms-grid">
+            <!-- Room Card 1 -->
+            <div class="room-card fadeInFromLeft" data-guests="2" data-status="available" style="animation-delay: 0.1s;">
+                <div class="room-card-image">
+                    <img src="../assets/images/room-1.jpg" alt="Deluxe Suite">
+                    <span class="room-card-badge badge-success">Available</span>
+                </div>
+                <div class="room-card-content">
+                    <h3 class="room-card-title">Deluxe Suite</h3>
+                    <div class="room-card-details">
+                        <span><i class="fas fa-bed"></i> King Bed</span>
+                        <span><i class="fas fa-user"></i> 2 Guests</span>
+                        <span><i class="fas fa-ruler-combined"></i> 45m²</span>
+                    </div>
+                    <div class="room-card-footer">
+                        <div class="room-card-price">
+                            <span class="price">$299</span>
+                            <span class="per-night">/ night</span>
+                        </div>
+                        <a href="/public/room-detail.html?id=1" class="button button-primary">View Details</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Room Card 2 -->
+            <div class="room-card fadeInFromLeft" data-guests="2" data-status="available" style="animation-delay: 0.2s;">
+                <div class="room-card-image">
+                    <img src="../assets/images/room-2.jpg" alt="Executive Room">
+                    <span class="room-card-badge badge-success">Available</span>
+                </div>
+                <div class="room-card-content">
+                    <h3 class="room-card-title">Executive Room</h3>
+                    <div class="room-card-details">
+                        <span><i class="fas fa-bed"></i> Queen Bed</span>
+                        <span><i class="fas fa-user"></i> 2 Guests</span>
+                        <span><i class="fas fa-ruler-combined"></i> 35m²</span>
+                    </div>
+                    <div class="room-card-footer">
+                        <div class="room-card-price">
+                            <span class="price">$199</span>
+                            <span class="per-night">/ night</span>
+                        </div>
+                        <a href="/public/room-detail.html?id=2" class="button button-primary">View Details</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Room Card 3 -->
+            <div class="room-card fadeInFromLeft" data-guests="4" data-status="available" style="animation-delay: 0.3s;">
+                <div class="room-card-image">
+                    <img src="../assets/images/room-3.jpg" alt="Presidential Suite">
+                    <span class="room-card-badge badge-premium">Premium</span>
+                </div>
+                <div class="room-card-content">
+                    <h3 class="room-card-title">Presidential Suite</h3>
+                    <div class="room-card-details">
+                        <span><i class="fas fa-bed"></i> King Bed</span>
+                        <span><i class="fas fa-user"></i> 4 Guests</span>
+                        <span><i class="fas fa-ruler-combined"></i> 75m²</span>
+                    </div>
+                    <div class="room-card-footer">
+                        <div class="room-card-price">
+                            <span class="price">$599</span>
+                            <span class="per-night">/ night</span>
+                        </div>
+                        <a href="/public/room-detail.html?id=3" class="button button-primary">View Details</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Room Card 4 -->
+            <div class="room-card fadeInFromLeft" data-guests="2" data-status="available" style="animation-delay: 0.1s;">
+                <div class="room-card-image">
+                    <img src="../assets/images/room-4.jpg" alt="Standard Room">
+                    <span class="room-card-badge badge-success">Available</span>
+                </div>
+                <div class="room-card-content">
+                    <h3 class="room-card-title">Standard Room</h3>
+                    <div class="room-card-details">
+                        <span><i class="fas fa-bed"></i> Double Bed</span>
+                        <span><i class="fas fa-user"></i> 2 Guests</span>
+                        <span><i class="fas fa-ruler-combined"></i> 25m²</span>
+                    </div>
+                    <div class="room-card-footer">
+                        <div class="room-card-price">
+                            <span class="price">$149</span>
+                            <span class="per-night">/ night</span>
+                        </div>
+                        <a href="/public/room-detail.html?id=4" class="button button-primary">View Details</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Room Card 5 -->
+            <div class="room-card fadeInFromLeft" data-guests="4" data-status="available" style="animation-delay: 0.2s;">
+                <div class="room-card-image">
+                    <img src="../assets/images/room-5.jpg" alt="Family Suite">
+                    <span class="room-card-badge badge-success">Available</span>
+                </div>
+                <div class="room-card-content">
+                    <h3 class="room-card-title">Family Suite</h3>
+                    <div class="room-card-details">
+                        <span><i class="fas fa-bed"></i> 2 Queen Beds</span>
+                        <span><i class="fas fa-user"></i> 4 Guests</span>
+                        <span><i class="fas fa-ruler-combined"></i> 55m²</span>
+                    </div>
+                    <div class="room-card-footer">
+                        <div class="room-card-price">
+                            <span class="price">$399</span>
+                            <span class="per-night">/ night</span>
+                        </div>
+                        <a href="/public/room-detail.html?id=5" class="button button-primary">View Details</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Room Card 6 -->
+            <div class="room-card fadeInFromLeft" data-guests="2" data-status="booked" style="animation-delay: 0.3s;">
+                <div class="room-card-image">
+                    <img src="../assets/images/room-6.jpg" alt="Honeymoon Suite">
+                    <span class="room-card-badge badge-danger">Booked</span>
+                </div>
+                <div class="room-card-content">
+                    <h3 class="room-card-title">Honeymoon Suite</h3>
+                    <div class="room-card-details">
+                        <span><i class="fas fa-bed"></i> King Bed</span>
+                        <span><i class="fas fa-user"></i> 2 Guests</span>
+                        <span><i class="fas fa-ruler-combined"></i> 50m²</span>
+                    </div>
+                    <div class="room-card-footer">
+                        <div class="room-card-price">
+                            <span class="price">$449</span>
+                            <span class="per-night">/ night</span>
+                        </div>
+                        <button class="button button-primary" disabled>Booked</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- No Results Message -->
+        <div id="no-results" style="display: none; text-align: center; padding: 50px;">
+            <i class="fas fa-search" style="font-size: 48px; color: #ccc; margin-bottom: 20px;"></i>
+            <h3>No rooms match your criteria</h3>
+            <p>Try adjusting your filters to see more results</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <?php include '../includes/footer.php'; ?>
+
+    <!-- JavaScript -->
+    <script src="../assets/js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const checkinInput = document.getElementById('filter-checkin');
+            const checkoutInput = document.getElementById('filter-checkout');
+            const guestsSelect = document.getElementById('filter-guests');
+            const filterForm = document.getElementById('room-filter-form');
+            const roomsGrid = document.getElementById('rooms-grid');
+            const noResults = document.getElementById('no-results');
+
+            // Set minimum date for check-in to today
+            const today = new Date().toISOString().split('T')[0];
+            checkinInput.setAttribute('min', today);
+
+            // Update checkout min date when checkin changes
+            checkinInput.addEventListener('change', function() {
+                const checkinDate = new Date(this.value);
+                checkinDate.setDate(checkinDate.getDate() + 1);
+                const minCheckout = checkinDate.toISOString().split('T')[0];
+                checkoutInput.setAttribute('min', minCheckout);
+
+                // If checkout is before new minimum, reset it
+                if (checkoutInput.value && checkoutInput.value < minCheckout) {
+                    checkoutInput.value = minCheckout;
+                }
+            });
+
+            // Load saved filters from sessionStorage
+            function loadSavedFilters() {
+                const savedFilters = sessionStorage.getItem('roomFilters');
+                if (savedFilters) {
+                    const filters = JSON.parse(savedFilters);
+                    if (filters.checkin) checkinInput.value = filters.checkin;
+                    if (filters.checkout) checkoutInput.value = filters.checkout;
+                    if (filters.guests) guestsSelect.value = filters.guests;
+                }
+            }
+
+            // Save filters to sessionStorage
+            function saveFilters() {
+                const filters = {
+                    checkin: checkinInput.value,
+                    checkout: checkoutInput.value,
+                    guests: guestsSelect.value
+                };
+                sessionStorage.setItem('roomFilters', JSON.stringify(filters));
+            }
+
+            // Filter rooms
+            function filterRooms() {
+                const checkin = checkinInput.value;
+                const checkout = checkoutInput.value;
+                const guests = parseInt(guestsSelect.value);
+
+                // Validate dates
+                if (checkin && checkout) {
+                    if (new Date(checkout) <= new Date(checkin)) {
+                        if (typeof showToast === 'function') {
+                            showToast('Check-out must be after check-in', 'error');
+                        } else {
+                            alert('Check-out must be after check-in');
+                        }
+                        return;
+                    }
+                }
+
+                // Check if check-in is in the past
+                if (checkin && new Date(checkin) < new Date(today)) {
+                    checkinInput.value = today;
+                    if (typeof showToast === 'function') {
+                        showToast('Check-in date cannot be in the past', 'error');
+                    }
+                    return;
+                }
+
+                const roomCards = document.querySelectorAll('.room-card');
+                let visibleCount = 0;
+
+                roomCards.forEach(card => {
+                    const roomGuests = parseInt(card.getAttribute('data-guests'));
+                    const roomStatus = card.getAttribute('data-status');
+
+                    let shouldShow = true;
+
+                    // Filter by guests
+                    if (guests && roomGuests < guests) {
+                        shouldShow = false;
+                    }
+
+                    // Filter by availability (hide booked rooms)
+                    if (roomStatus === 'booked') {
+                        shouldShow = false;
+                    }
+
+                    // Show/hide room
+                    if (shouldShow) {
+                        card.style.display = '';
+                        visibleCount++;
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+
+                // Show/hide no results message
+                if (visibleCount === 0) {
+                    roomsGrid.style.display = 'none';
+                    noResults.style.display = 'block';
+                } else {
+                    roomsGrid.style.display = '';
+                    noResults.style.display = 'none';
+                }
+
+                // Save filters
+                saveFilters();
+            }
+
+            // Form submit handler
+            filterForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                filterRooms();
+            });
+
+            // Load saved filters on page load
+            loadSavedFilters();
+
+            // Mobile menu toggle
+            const navbarToggle = document.getElementById('navbar-toggle');
+            const navbarMenu = document.getElementById('navbar-menu');
+
+            if (navbarToggle) {
+                navbarToggle.addEventListener('click', function() {
+                    navbarMenu.classList.toggle('active');
+                });
+            }
+        });
+    </script>
+</body>
+</html>
