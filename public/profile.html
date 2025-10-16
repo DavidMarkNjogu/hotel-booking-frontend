@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile - LuxeStay Hotel</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/components.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar scrolled">
+        <div class="container">
+            <div class="navbar-content">
+                <div class="navbar-brand">
+                    <a href="/index.html">LuxeStay Hotel</a>
+                </div>
+                <div class="navbar-menu" id="navbar-menu">
+                    <a href="/index.html" class="navbar-link">Home</a>
+                    <a href="/public/rooms.html" class="navbar-link">Rooms</a>
+                    <a href="/index.html#about" class="navbar-link">About</a>
+                    <a href="/index.html#contact" class="navbar-link">Contact</a>
+                    <a href="/public/profile.html" class="navbar-link active">Profile</a>
+                </div>
+                <div class="navbar-toggle" id="navbar-toggle">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Profile Container -->
+    <div class="container" style="padding-top: 100px;">
+        <div class="profile-layout">
+            <!-- Left Column - Sidebar Navigation -->
+            <div class="profile-sidebar">
+                <!-- User Info Header -->
+                <div class="profile-user-info">
+                    <div class="profile-avatar">
+                        <span id="user-initials">JD</span>
+                    </div>
+                    <h3 id="sidebar-user-name">John Doe</h3>
+                    <p id="sidebar-user-email">john@example.com</p>
+                </div>
+
+                <!-- Sidebar Nav Menu -->
+                <nav class="sidebar-nav">
+                    <a href="#dashboard" class="sidebar-nav-link active" data-view="dashboard">
+                        <i class="fas fa-th-large"></i>
+                        <span>Dashboard</span>
+                    </a>
+                    <a href="#bookings" class="sidebar-nav-link" data-view="bookings">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span>My Bookings</span>
+                    </a>
+                    <a href="#profile" class="sidebar-nav-link" data-view="profile">
+                        <i class="fas fa-user"></i>
+                        <span>Personal Info</span>
+                    </a>
+                    <a href="#security" class="sidebar-nav-link" data-view="security">
+                        <i class="fas fa-shield-alt"></i>
+                        <span>Security</span>
+                    </a>
+                    <a href="/public/login.html" class="sidebar-nav-link">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Logout</span>
+                    </a>
+                </nav>
+            </div>
+
+            <!-- Right Column - Content Area -->
+            <div class="profile-content">
+                <!-- View 1: Dashboard -->
+                <div id="dashboard-view" class="profile-view active">
+                    <h2>Welcome Back, <span id="dashboard-user-name">John</span>!</h2>
+                    <p>Here's an overview of your bookings</p>
+
+                    <!-- Stats Grid -->
+                    <div class="dashboard-grid">
+                        <div class="stat-card">
+                            <div class="stat-card-header">
+                                <i class="fas fa-calendar-check" style="color: var(--50);"></i>
+                                <span>Upcoming</span>
+                            </div>
+                            <div class="stat-card-value" id="stat-upcoming">0</div>
+                            <div class="stat-card-footer">Reservations</div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-card-header">
+                                <i class="fas fa-clock" style="color: #3498db;"></i>
+                                <span>Past</span>
+                            </div>
+                            <div class="stat-card-value" id="stat-past">0</div>
+                            <div class="stat-card-footer">Completed stays</div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-card-header">
+                                <i class="fas fa-chart-line" style="color: #e67e22;"></i>
+                                <span>Total</span>
+                            </div>
+                            <div class="stat-card-value" id="stat-total">0</div>
+                            <div class="stat-card-footer">All time bookings</div>
+                        </div>
+                    </div>
+
+                    <!-- Upcoming Reservations -->
+                    <div style="margin-top: 30px;">
+                        <h3>Upcoming Reservations</h3>
+                        <div id="upcoming-bookings-list"></div>
+
+                        <!-- No Bookings State -->
+                        <div id="no-bookings-state" style="display: none; text-align: center; padding: 50px;">
+                            <i class="fas fa-calendar-times" style="font-size: 48px; color: #ccc; margin-bottom: 20px;"></i>
+                            <h3>No upcoming reservations</h3>
+                            <p>Start planning your next stay!</p>
+                            <a href="/public/rooms.html" class="button button-primary">Browse Rooms</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- View 2: My Bookings -->
+                <div id="bookings-view" class="profile-view">
+                    <h2>My Bookings</h2>
+
+                    <!-- Tabs -->
+                    <div class="tabs">
+                        <button class="tab-btn active" data-tab="upcoming">Upcoming</button>
+                        <button class="tab-btn" data-tab="past">Past</button>
+                        <button class="tab-btn" data-tab="cancelled">Cancelled</button>
+                    </div>
+
+                    <!-- Search and Sort -->
+                    <div class="bookings-controls">
+                        <div class="search-box">
+                            <i class="fas fa-search"></i>
+                            <input type="text" id="bookings-search" placeholder="Search by confirmation number or room..." class="form-input">
+                        </div>
+                        <select id="bookings-sort" class="form-select">
+                            <option value="newest">Newest First</option>
+                            <option value="oldest">Oldest First</option>
+                            <option value="highest">Highest Price</option>
+                            <option value="lowest">Lowest Price</option>
+                        </select>
+                    </div>
+
+                    <!-- Bookings List -->
+                    <div id="bookings-list-container"></div>
+                </div>
+
+                <!-- View 3: Personal Info -->
+                <div id="profile-view" class="profile-view">
+                    <h2>Personal Information</h2>
+
+                    <form id="profile-form" onsubmit="handleProfileSubmit(event)">
+                        <div class="form-section">
+                            <h3>Personal Details</h3>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="first-name" class="form-label">First Name *</label>
+                                    <input type="text" id="first-name" class="form-input" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="last-name" class="form-label">Last Name *</label>
+                                    <input type="text" id="last-name" class="form-input" required>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="email" class="form-label">Email *</label>
+                                    <input type="email" id="email" class="form-input" disabled>
+                                    <small class="form-hint">Contact support to change email</small>
+                                </div>
+                                <div class="form-group">
+                                    <label for="phone" class="form-label">Phone *</label>
+                                    <input type="tel" id="phone" class="form-input" required>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="dob" class="form-label">Date of Birth</label>
+                                    <input type="date" id="dob" class="form-input">
+                                </div>
+                                <div class="form-group">
+                                    <label for="gender" class="form-label">Gender</label>
+                                    <select id="gender" class="form-select">
+                                        <option value="">Prefer not to say</option>
+                                        <option value="male">Male</option>
+                                        <option value="female">Female</option>
+                                        <option value="other">Other</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-section">
+                            <h3>Address</h3>
+                            <div class="form-group">
+                                <label for="address-line-1" class="form-label">Address Line 1</label>
+                                <input type="text" id="address-line-1" class="form-input">
+                            </div>
+                            <div class="form-group">
+                                <label for="address-line-2" class="form-label">Address Line 2</label>
+                                <input type="text" id="address-line-2" class="form-input">
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="city" class="form-label">City</label>
+                                    <input type="text" id="city" class="form-input">
+                                </div>
+                                <div class="form-group">
+                                    <label for="state" class="form-label">State/Province</label>
+                                    <input type="text" id="state" class="form-input">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="postal-code" class="form-label">Postal Code</label>
+                                    <input type="text" id="postal-code" class="form-input">
+                                </div>
+                                <div class="form-group">
+                                    <label for="country" class="form-label">Country</label>
+                                    <select id="country" class="form-select">
+                                        <option value="">Select Country</option>
+                                        <option value="US">United States</option>
+                                        <option value="CA">Canada</option>
+                                        <option value="UK">United Kingdom</option>
+                                        <option value="AU">Australia</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-section">
+                            <h3>Preferences</h3>
+                            <div class="form-check">
+                                <input type="checkbox" id="promo-emails">
+                                <label for="promo-emails">Subscribe to promotional emails</label>
+                            </div>
+                            <div class="form-check">
+                                <input type="checkbox" id="sms-reminders">
+                                <label for="sms-reminders">Send booking reminders via SMS</label>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="button button-primary">Save Changes</button>
+                    </form>
+                </div>
+
+                <!-- View 4: Security -->
+                <div id="security-view" class="profile-view">
+                    <h2>Security</h2>
+
+                    <!-- Change Password -->
+                    <div class="form-section">
+                        <h3>Change Password</h3>
+                        <form id="password-form" onsubmit="handlePasswordSubmit(event)">
+                            <div class="form-group">
+                                <label for="current-password" class="form-label">Current Password *</label>
+                                <input type="password" id="current-password" class="form-input" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="new-password" class="form-label">New Password *</label>
+                                <input type="password" id="new-password" class="form-input" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="confirm-password" class="form-label">Confirm New Password *</label>
+                                <input type="password" id="confirm-password" class="form-input" required>
+                            </div>
+
+                            <!-- Password Requirements -->
+                            <div class="password-requirements">
+                                <p>Password must contain:</p>
+                                <ul id="password-requirements-list">
+                                    <li id="req-length"><i class="fas fa-times"></i> At least 8 characters</li>
+                                    <li id="req-uppercase"><i class="fas fa-times"></i> One uppercase letter</li>
+                                    <li id="req-lowercase"><i class="fas fa-times"></i> One lowercase letter</li>
+                                    <li id="req-number"><i class="fas fa-times"></i> One number</li>
+                                    <li id="req-special"><i class="fas fa-times"></i> One special character</li>
+                                </ul>
+                            </div>
+
+                            <button type="submit" class="button button-primary">Update Password</button>
+                        </form>
+                    </div>
+
+                    <!-- Two-Factor Authentication -->
+                    <div class="form-section">
+                        <h3>Two-Factor Authentication</h3>
+                        <div class="tfa-status">
+                            <span class="badge badge-warning">Not Enabled</span>
+                            <p>Add an extra layer of security to your account</p>
+                            <button class="button button-secondary">Enable 2FA</button>
+                        </div>
+                    </div>
+
+                    <!-- Account Actions -->
+                    <div class="form-section">
+                        <h3>Account Actions</h3>
+                        <button class="button button-secondary" onclick="downloadMyData()">
+                            <i class="fas fa-download"></i> Download My Data
+                        </button>
+                        <button class="button button-danger" onclick="deleteAccount()" style="margin-left: 10px;">
+                            <i class="fas fa-trash"></i> Delete Account
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <?php include '../includes/footer.php'; ?>
+
+    <!-- JavaScript -->
+    <script src="../assets/js/main.js"></script>
+    <script>
+        // Demo data
+        const demoBookings = [
+            {
+                id: 'LX-2025-1234567',
+                roomName: 'Deluxe Suite',
+                checkIn: '2025-11-20',
+                checkOut: '2025-11-23',
+                guests: 2,
+                total: 1011.70,
+                status: 'confirmed'
+            },
+            {
+                id: 'LX-2025-7654321',
+                roomName: 'Executive Room',
+                checkIn: '2025-12-15',
+                checkOut: '2025-12-18',
+                guests: 2,
+                total: 656.70,
+                status: 'confirmed'
+            }
+        ];
+
+        let userData = {
+            firstName: 'John',
+            lastName: 'Doe',
+            email: 'john@example.com',
+            phone: '+1 234 567 8900'
+        };
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load user data
+            loadUserData();
+
+            // Load bookings
+            loadBookings();
+
+            // View switching
+            setupViewSwitching();
+
+            // Handle URL hash
+            if (window.location.hash) {
+                const hash = window.location.hash.substring(1);
+                switchView(hash);
+            }
+
+            // Password validation
+            setupPasswordValidation();
+
+            // Mobile menu
+            const navbarToggle = document.getElementById('navbar-toggle');
+            const navbarMenu = document.getElementById('navbar-menu');
+            if (navbarToggle) {
+                navbarToggle.addEventListener('click', function() {
+                    navbarMenu.classList.toggle('active');
+                });
+            }
+        });
+
+        function loadUserData() {
+            const saved = localStorage.getItem('userData');
+            if (saved) {
+                userData = JSON.parse(saved);
+            }
+
+            document.getElementById('sidebar-user-name').textContent = userData.firstName + ' ' + userData.lastName;
+            document.getElementById('sidebar-user-email').textContent = userData.email;
+            document.getElementById('dashboard-user-name').textContent = userData.firstName;
+
+            // Set initials
+            const initials = (userData.firstName.charAt(0) + userData.lastName.charAt(0)).toUpperCase();
+            document.getElementById('user-initials').textContent = initials;
+
+            // Populate form
+            document.getElementById('first-name').value = userData.firstName || '';
+            document.getElementById('last-name').value = userData.lastName || '';
+            document.getElementById('email').value = userData.email || '';
+            document.getElementById('phone').value = userData.phone || '';
+        }
+
+        function loadBookings() {
+            const saved = localStorage.getItem('userBookings');
+            let bookings = saved ? JSON.parse(saved) : demoBookings;
+
+            // Calculate stats
+            const today = new Date();
+            const upcoming = bookings.filter(b => new Date(b.checkIn) >= today && b.status === 'confirmed');
+            const past = bookings.filter(b => new Date(b.checkOut) < today && b.status === 'confirmed');
+
+            document.getElementById('stat-upcoming').textContent = upcoming.length;
+            document.getElementById('stat-past').textContent = past.length;
+            document.getElementById('stat-total').textContent = bookings.length;
+
+            // Display upcoming bookings
+            const upcomingList = document.getElementById('upcoming-bookings-list');
+            if (upcoming.length === 0) {
+                document.getElementById('no-bookings-state').style.display = 'block';
+                upcomingList.style.display = 'none';
+            } else {
+                upcomingList.innerHTML = upcoming.map(booking => createBookingCard(booking)).join('');
+            }
+        }
+
+        function createBookingCard(booking) {
+            return `
+                <div class="booking-card" style="margin-bottom: 15px;">
+                    <div class="booking-card-header">
+                        <span class="booking-id">#${booking.id}</span>
+                        <span class="badge badge-success">Confirmed</span>
+                    </div>
+                    <div class="booking-card-body">
+                        <p><strong>Room:</strong> ${booking.roomName}</p>
+                        <p><strong>Check-in:</strong> ${booking.checkIn}</p>
+                        <p><strong>Check-out:</strong> ${booking.checkOut}</p>
+                        <p><strong>Guests:</strong> ${booking.guests} Adult(s)</p>
+                        <p><strong>Total:</strong> $${booking.total.toFixed(2)}</p>
+                    </div>
+                    <div class="booking-card-footer">
+                        <button class="button button-secondary button-sm">View Details</button>
+                        <button class="button button-danger button-sm" onclick="cancelBooking('${booking.id}')">Cancel Booking</button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function setupViewSwitching() {
+            document.querySelectorAll('.sidebar-nav-link[data-view]').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const view = this.getAttribute('data-view');
+                    switchView(view);
+                    window.location.hash = view;
+                });
+            });
+        }
+
+        function switchView(view) {
+            // Hide all views
+            document.querySelectorAll('.profile-view').forEach(v => v.classList.remove('active'));
+
+            // Show selected view
+            const viewElement = document.getElementById(view + '-view');
+            if (viewElement) {
+                viewElement.classList.add('active');
+            }
+
+            // Update sidebar
+            document.querySelectorAll('.sidebar-nav-link').forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('data-view') === view) {
+                    link.classList.add('active');
+                }
+            });
+        }
+
+        function setupPasswordValidation() {
+            const newPasswordInput = document.getElementById('new-password');
+            if (!newPasswordInput) return;
+
+            newPasswordInput.addEventListener('input', function() {
+                const password = this.value;
+
+                // Check requirements
+                updateRequirement('req-length', password.length >= 8);
+                updateRequirement('req-uppercase', /[A-Z]/.test(password));
+                updateRequirement('req-lowercase', /[a-z]/.test(password));
+                updateRequirement('req-number', /[0-9]/.test(password));
+                updateRequirement('req-special', /[!@#$%^&*]/.test(password));
+            });
+        }
+
+        function updateRequirement(id, met) {
+            const element = document.getElementById(id);
+            const icon = element.querySelector('i');
+
+            if (met) {
+                element.style.color = 'var(--50)';
+                icon.className = 'fas fa-check';
+            } else {
+                element.style.color = '#999';
+                icon.className = 'fas fa-times';
+            }
+        }
+
+        function handleProfileSubmit(event) {
+            event.preventDefault();
+
+            userData.firstName = document.getElementById('first-name').value;
+            userData.lastName = document.getElementById('last-name').value;
+            userData.phone = document.getElementById('phone').value;
+
+            localStorage.setItem('userData', JSON.stringify(userData));
+
+            // Update sidebar
+            document.getElementById('sidebar-user-name').textContent = userData.firstName + ' ' + userData.lastName;
+            document.getElementById('dashboard-user-name').textContent = userData.firstName;
+
+            if (typeof showToast === 'function') {
+                showToast('Profile updated successfully', 'success');
+            } else {
+                alert('Profile updated successfully');
+            }
+        }
+
+        function handlePasswordSubmit(event) {
+            event.preventDefault();
+
+            const current = document.getElementById('current-password').value;
+            const newPass = document.getElementById('new-password').value;
+            const confirm = document.getElementById('confirm-password').value;
+
+            if (newPass !== confirm) {
+                alert('Passwords don\'t match');
+                return;
+            }
+
+            // Password requirements check
+            if (newPass.length < 8 || !/[A-Z]/.test(newPass) || !/[a-z]/.test(newPass) || !/[0-9]/.test(newPass) || !/[!@#$%^&*]/.test(newPass)) {
+                alert('Password does not meet requirements');
+                return;
+            }
+
+            // Simulate update
+            setTimeout(() => {
+                document.getElementById('password-form').reset();
+                if (typeof showToast === 'function') {
+                    showToast('Password updated successfully', 'success');
+                } else {
+                    alert('Password updated successfully');
+                }
+            }, 1000);
+        }
+
+        function cancelBooking(bookingId) {
+            if (confirm('Are you sure you want to cancel this booking? This action cannot be undone.')) {
+                if (typeof showToast === 'function') {
+                    showToast('Booking cancelled successfully', 'success');
+                } else {
+                    alert('Booking cancelled successfully');
+                }
+                // Reload bookings
+                setTimeout(() => loadBookings(), 1000);
+            }
+        }
+
+        function downloadMyData() {
+            const data = {
+                user: userData,
+                bookings: demoBookings
+            };
+
+            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'LuxeStay-MyData.json';
+            link.click();
+
+            if (typeof showToast === 'function') {
+                showToast('Data downloaded', 'success');
+            }
+        }
+
+        function deleteAccount() {
+            const confirmation = prompt('Type DELETE to confirm account deletion:');
+            if (confirmation === 'DELETE') {
+                localStorage.clear();
+                sessionStorage.clear();
+                if (typeof showToast === 'function') {
+                    showToast('Account deleted', 'success');
+                }
+                setTimeout(() => {
+                    window.location.href = '/public/login.html';
+                }, 2000);
+            }
+        }
+    </script>
+</body>
+</html>
